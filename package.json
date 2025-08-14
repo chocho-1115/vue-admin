@@ -5,7 +5,7 @@
   "type": "module",
   "author": "chocho-1115 <849890769@qq.com>",
   "scripts": {
-    "dev": "vite",
+    "dev": "vite --host",
     "build:stage": "vite build --mode staging",
     "build:prod": "vite build",
     "preview": "vite preview",
