@@ -98,3 +98,23 @@ defineExpose({
   }
 }
 </style>
+<!-- 
+
+<div class="right-menu-item hover-effect" @click="rightPanelRef.toggleVisibility">
+  <el-icon>
+    <i-ep-Bell />
+  </el-icon>
+</div>
+
+<Teleport to="body">
+  <right-panel ref="rightPanelRef">
+    <div style="padding:20px;color:#666;">
+      Under development
+    </div>
+  </right-panel>
+</Teleport>
+
+import RightPanel from '@/components/RightPanel.vue'
+const rightPanelRef = ref(null)
+
+-->

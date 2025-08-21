@@ -10,7 +10,7 @@
           </el-icon>
         </div>
       </el-tooltip>
-      <div class="right-menu-item hover-effect" @click="rightPanelRef.toggleVisibility">
+      <div class="right-menu-item hover-effect" @click="drawer = true">
         <el-icon>
           <i-ep-Bell />
         </el-icon>
@@ -37,12 +37,12 @@
   </div>
 
   <Teleport to="body">
-    <right-panel ref="rightPanelRef">
+    <el-drawer v-model="drawer" title="I am the title" :with-header="true">
       <!-- 历史记录、文档类 -->
-      <div style="padding:20px;color:#666;">
+      <div style="color:#666;">
         Under development
       </div>
-    </right-panel>
+    </el-drawer>
   </Teleport>
 
 </template>
@@ -53,14 +53,13 @@ import { useRouter, useRoute } from 'vue-router'
 
 import Breadcrumb from '@/components/Breadcrumb.vue'
 import Hamburger from '@/components/Hamburger.vue'
-import RightPanel from '@/components/RightPanel.vue'
 
 import { logout } from '@/api/user'
 import { dispatch } from '@/store'
 import variables from '@/styles/variables.module.scss'
 
 const ctx = inject('context')
-const rightPanelRef = ref(null)
+const drawer = ref(false)
 
 const router = useRouter()
 const route = useRoute()
