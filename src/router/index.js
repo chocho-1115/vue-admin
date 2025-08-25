@@ -145,7 +145,7 @@ const router = createRouter({
 })
 
 export const resetRouter = () => {
-  console.log(router)
+  // console.log(router)
 }
 
 export default router

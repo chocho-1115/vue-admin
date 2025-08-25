@@ -5,7 +5,7 @@ from './AppMain.vue'
 export {
   default as Navbar
 }
-from './Navbar.vue'
+from './Navbar/index.vue'
 export {
   default as Sidebar
 }
