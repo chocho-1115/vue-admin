@@ -14,9 +14,9 @@ import {
 import './permission'
 
 async function enableMocking() {
-  if (import.meta.env.MODE !== 'development') {
-    return
-  }
+  // if (import.meta.env.MODE !== 'development') {
+  //   return
+  // }
 
   const {
     worker
