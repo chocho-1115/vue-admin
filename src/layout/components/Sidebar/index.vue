@@ -30,7 +30,7 @@ import { useRouter, useRoute } from 'vue-router'
 
 import { sctx } from '@/store'
 import variables from '@/styles/variables.module.scss'
-import Logo from './Logo.vue'
+import Logo from '../common/Logo.vue'
 import SidebarItem from './SidebarItem.vue'
 
 const ctx = inject('context')

@@ -1,7 +1,7 @@
 <template>
   <div class="navbar">
     <hamburger :is-active="ctx.sidebar.opened" @toggleClick="toggleSidebar" class="hamburger-container" />
-    <breadcrumb class="breadcrumb-container" />
+    <breadcrumb class="breadcrumb-container" v-if="ctx.device!=='mobile'" />
     <div class="right-menu">
       <el-tooltip content="Under development" effect="dark" placement="bottom">
         <div class="right-menu-item hover-effect">
