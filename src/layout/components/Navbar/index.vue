@@ -1,5 +1,6 @@
 <template>
   <div class="navbar">
+    <!-- <logo :collapse="isCollapse" v-if="ctx.device==='mobile'" /> -->
     <hamburger :is-active="ctx.sidebar.opened" @toggleClick="toggleSidebar" class="hamburger-container" />
     <breadcrumb class="breadcrumb-container" v-if="ctx.device!=='mobile'" />
     <div class="right-menu">
@@ -20,7 +21,7 @@
   </div>
 
   <Teleport to="body">
-    <el-drawer v-model="drawer" title="I am the title" :with-header="true">
+    <el-drawer v-model="drawer" title="I am the title" :with-header="true" size="min(400px, max(30%, 200px))">
       <!-- 历史记录、文档类 -->
       <div style="color:#666;">
         Under development
@@ -33,6 +34,7 @@
 <script setup>
 import { inject, ref } from 'vue'
 
+import Logo from '../common/Logo.vue'
 import Breadcrumb from './Breadcrumb.vue'
 import Hamburger from './Hamburger.vue'
 import UserCenter from '../common/UserCenter.vue'
