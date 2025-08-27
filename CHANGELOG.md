@@ -8,11 +8,11 @@ title: 变更记录
 * 增加标签视图的滚轮控制
 * svgo
 * 访问历史记录功能
-* 移动端layout优化
 
 ### 更新记录
 
 * ...
+* (2025-08-27): 移动端layout优化: 导航栏右侧显示、隐藏hamburger组件等
 * (2025-07-31): 新增ImgLoad组件
 * (2025-06-26): 新增icon页面，展示所有自定义icon与element plus icon
 * (2025-05-30): 新增mackdown转vue组件的功能
