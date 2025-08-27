@@ -1,6 +1,9 @@
 <template>
   <el-dropdown trigger="click">
-    <div class="avatar-container">
+    <div class="avatar-container" :style="{
+        width: size,
+        height: size
+    }">
       <img-load :src="ctx.userInfo.avatar" defaultName="user" backgroundColor="rgba(0, 0, 0, .05)" :defaultColor="variables.menuActiveText" defaultWidth="50%" defaultHeight="50%" />
     </div>
     <template v-slot:dropdown>
@@ -27,11 +30,17 @@ import { logout } from '@/api/user'
 import { dispatch } from '@/store'
 import variables from '@/styles/variables.module.scss'
 
-const ctx = inject('context')
-
 const router = useRouter()
 const route = useRoute()
 
+const props = defineProps({
+  size: {
+    type: String,
+    default: '32px',
+  },
+})
+
+const ctx = inject('context')
 const redirect = route.fullPath || '/'
 
 const onLogout = async () => {
@@ -45,9 +54,7 @@ const onLogout = async () => {
 <style lang="scss" scoped>
 .avatar-container {
   cursor: pointer;
-  display: block;
-  width: 40px;
-  height: 40px;
+  display: inline-block;
   border-radius: 10px;
   overflow: hidden;
 }
