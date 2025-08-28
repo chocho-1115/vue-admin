@@ -4,22 +4,24 @@
     <hamburger class="hamburger-container" v-if="ctx.device!=='mobile'" :is-active="ctx.sidebar.opened" @toggleClick="toggleSidebar" />
     <breadcrumb class="breadcrumb-container" v-if="ctx.device!=='mobile'" />
     <div class="right-menu">
+      
       <el-tooltip content="Under development" effect="dark" placement="bottom" v-if="ctx.device!=='mobile'">
-        <div class="right-menu-item hover-effect">
+        <div class="icon-button hover-effect">
           <el-icon>
             <i-ep-Search />
           </el-icon>
         </div>
       </el-tooltip>
-      <div class="right-menu-item hover-effect" @click="drawerMessage = true" v-if="ctx.device!=='mobile'">
+      <div class="icon-button hover-effect" @click="drawerMessage = true" v-if="ctx.device!=='mobile'">
         <el-icon>
           <i-ep-Bell />
         </el-icon>
       </div>
-      <div class="right-menu-item hover-effect" @click="drawerMenu = true" v-if="ctx.device==='mobile'">
+      <div class="icon-button hover-effect" @click="drawerMenu = true">
         <svg-icon icon="menu" />
       </div>
-      <UserCenter v-if="ctx.device!=='mobile'" />
+      
+      <UserCenter size="32px" v-if="ctx.device!=='mobile'" />
     </div>
   </div>
 
@@ -29,7 +31,12 @@
       <el-drawer v-model="drawerMenu" size="min(400px, max(30%, 240px))" :show-close="false">
         <template #header>
           <div class="menu-header">
-            <UserCenter size="40px" />
+            <div class="main">
+              <UserCenter size="40px" />
+            </div>
+            <div class="tool">
+              a
+            </div>
           </div>
         </template>
         <menu-list />
@@ -49,6 +56,14 @@
 </template>
 
 <script setup>
+import {
+  Check,
+  Delete,
+  Edit,
+  Message,
+  Search,
+  Star,
+} from '@element-plus/icons-vue'
 import { inject, ref } from 'vue'
 
 import MenuList from '../common/Menu/index.vue'
@@ -58,6 +73,7 @@ import Hamburger from './Hamburger.vue'
 import UserCenter from '../common/UserCenter.vue'
 
 import { dispatch } from '@/store'
+import { translate } from 'element-plus'
 
 const ctx = inject('context')
 const drawerMenu = ref(false)
@@ -77,14 +93,13 @@ const toggleSidebar = () => {
   position: relative;
   background: #fff;
   box-shadow: 0 1px 4px rgba(0, 21, 41, 0.08);
+  display:flex;
   .logo-container{
-    float: left;
     margin-left: 15px;
   }
   .hamburger-container {
     line-height: 46px;
     height: 100%;
-    float: left;
     cursor: pointer;
     transition: background 0.3s;
     -webkit-tap-highlight-color: transparent;
@@ -94,51 +109,56 @@ const toggleSidebar = () => {
     }
   }
 
-  .breadcrumb-container {
-    float: left;
-  }
-
   .right-menu {
-    float: right;
     height: 100%;
     display: flex;
     align-items: center;
-
     line-height: 50px;
     margin-right: 15px;
-
+    margin-left: auto;
+    
     &:focus {
       outline: none;
     }
 
-    .right-menu-item {
-      display: inline-flex;
-      padding: 0 8px;
-      height: 100%;
-      font-size: 18px;
-      color: #888;
-      // vertical-align: text-bottom;
-      align-items: center;
+    
 
-      &.hover-effect {
-        cursor: pointer;
-        transition: background 0.3s;
-
-        &:hover {
-          background: rgba(0, 0, 0, 0.08);
-        }
-      }
-    }
-
-    .right-menu-item:nth-last-child(2) {
+    .icon-button:nth-last-child(2) {
       margin-right: 8px;
     }
   }
 }
 .menu-header{
-  height:80px;
-  display: flex;
+  .main{
+    height:80px;
+    display: flex;
+    align-items: center;
+  }
+  .tool{
+
+  }
+  
+}
+
+.icon-button {
+  display: inline-flex;
+  padding: 0 8px;
+  height: 32px;
+  width: 32px;
+  border-radius: 10px;
+  font-size: 18px;
+  color: #888;
+  // vertical-align: text-bottom;
   align-items: center;
+
+  &.hover-effect {
+    cursor: pointer;
+    transition: background-color 0.3s;
+
+    &:hover {
+      background: rgba(0, 0, 0, 0.08);
+    }
+  }
 }
 
 .drawer-menu-container :deep(.el-drawer__header) {margin-bottom:0;padding-top:0;background:rgba(0,0,0,.05);border-bottom:solid 1px rgba(0,0,0,.05)}
