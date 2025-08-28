@@ -8,15 +8,15 @@
     </div>
     <template v-slot:dropdown>
       <el-dropdown-menu>
-        <router-link to="/">
-          <el-dropdown-item>Home</el-dropdown-item>
-        </router-link>
-        <a href="https://github.com/chocho-1115/vue-admin" target="_blank">
-          <el-dropdown-item>Github</el-dropdown-item>
-        </a>
-        <el-dropdown-item @click.native="onLogout" divided>
-          <span style="display:block;">Log Out</span>
+        <el-dropdown-item>Personal Center</el-dropdown-item>
+        <el-dropdown-item>Notification</el-dropdown-item>
+        
+        <el-dropdown-item divided><router-link to="/">Home</router-link></el-dropdown-item>
+        <el-dropdown-item>
+          <a href="https://github.com/chocho-1115/vue-admin" target="_blank">Github</a>
         </el-dropdown-item>
+        
+        <el-dropdown-item @click.native="onLogout" divided>Log Out</el-dropdown-item>
       </el-dropdown-menu>
     </template>
   </el-dropdown>

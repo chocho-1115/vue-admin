@@ -32,10 +32,27 @@
         <template #header>
           <div class="menu-header">
             <div class="main">
-              <UserCenter size="40px" />
+              <UserCenter size="40px" style="margin-right:auto;" />
+              <div class="icon-button hover-effect" @click="drawerMenu = true">
+                <svg-icon icon="sign-out" />
+              </div>
+
+              <el-tooltip content="Under development" effect="dark" placement="bottom">
+                <div class="icon-button hover-effect">
+                  <el-icon>
+                    <i-ep-Search />
+                  </el-icon>
+                </div>
+              </el-tooltip>
+              <div class="icon-button hover-effect" @click="drawerMessage = true">
+                <el-icon>
+                  <i-ep-Bell />
+                </el-icon>
+              </div>
             </div>
             <div class="tool">
-              a
+              <div>Personal Center</div>
+              <div>Notification</div>
             </div>
           </div>
         </template>
@@ -56,14 +73,6 @@
 </template>
 
 <script setup>
-import {
-  Check,
-  Delete,
-  Edit,
-  Message,
-  Search,
-  Star,
-} from '@element-plus/icons-vue'
 import { inject, ref } from 'vue'
 
 import MenuList from '../common/Menu/index.vue'
@@ -73,7 +82,6 @@ import Hamburger from './Hamburger.vue'
 import UserCenter from '../common/UserCenter.vue'
 
 import { dispatch } from '@/store'
-import { translate } from 'element-plus'
 
 const ctx = inject('context')
 const drawerMenu = ref(false)
@@ -101,11 +109,11 @@ const toggleSidebar = () => {
     line-height: 46px;
     height: 100%;
     cursor: pointer;
-    transition: background 0.3s;
+    transition: background-color 0.3s;
     -webkit-tap-highlight-color: transparent;
 
     &:hover {
-      background: rgba(0, 0, 0, 0.025);
+      background-color: rgba(0, 0, 0, 0.025);
     }
   }
 
@@ -120,9 +128,6 @@ const toggleSidebar = () => {
     &:focus {
       outline: none;
     }
-
-    
-
     .icon-button:nth-last-child(2) {
       margin-right: 8px;
     }
@@ -133,6 +138,7 @@ const toggleSidebar = () => {
     height:80px;
     display: flex;
     align-items: center;
+    .icon-button{margin-left: auto;}
   }
   .tool{
 
