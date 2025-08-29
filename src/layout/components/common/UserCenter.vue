@@ -1,5 +1,5 @@
 <template>
-  <el-dropdown trigger="click">
+  <el-dropdown trigger="click" @command="handleCommand">
     <div class="avatar-container" :style="{
         width: size,
         height: size
@@ -8,15 +8,14 @@
     </div>
     <template v-slot:dropdown>
       <el-dropdown-menu>
-        <el-dropdown-item>Personal Center</el-dropdown-item>
-        <el-dropdown-item>Notification</el-dropdown-item>
+        <el-dropdown-item command="PersonalCenter">Personal Center</el-dropdown-item>
+        <el-dropdown-item command="Notification">Notification</el-dropdown-item>
         
-        <el-dropdown-item divided><router-link to="/">Home</router-link></el-dropdown-item>
-        <el-dropdown-item>
-          <a href="https://github.com/chocho-1115/vue-admin" target="_blank">Github</a>
-        </el-dropdown-item>
+        <el-dropdown-item command="Home" divided>Home</el-dropdown-item>
+        <el-dropdown-item command="Github">Github</el-dropdown-item>
         
-        <el-dropdown-item @click.native="onLogout" divided>Log Out</el-dropdown-item>
+        <el-dropdown-item  command="LogOut" divided>Log Out</el-dropdown-item>
+        <!--  @click.native="onLogout" -->
       </el-dropdown-menu>
     </template>
   </el-dropdown>
@@ -49,6 +48,20 @@ const onLogout = async () => {
     router.push(`/account/login?redirect=${redirect}`)
   })
 }
+
+const handleCommand = (command) => {
+  if(command == 'Home'){
+    router.push('/')
+  }else if(command == 'Github'){
+    window.open('https://github.com/chocho-1115/vue-admin', '_blank')
+  }else if(command == 'LogOut'){
+    onLogout()
+  }else{
+    ElMessage(`click on item ${command}`)
+  }
+  
+}
+
 </script>
 
 <style lang="scss" scoped>
