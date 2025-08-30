@@ -21,7 +21,7 @@
         <svg-icon icon="menu" />
       </div>
       
-      <UserCenter size="32px" v-if="ctx.device!=='mobile'" />
+      <UserCenter size="32px" />
     </div>
   </div>
 
@@ -33,10 +33,6 @@
           <div class="menu-header">
             <div class="main">
               <UserCenter size="40px" style="margin-right:auto;" />
-              <div class="icon-button hover-effect" @click="drawerMenu = true">
-                <svg-icon icon="sign-out" />
-              </div>
-
               <el-tooltip content="Under development" effect="dark" placement="bottom">
                 <div class="icon-button hover-effect">
                   <el-icon>
@@ -49,10 +45,6 @@
                   <i-ep-Bell />
                 </el-icon>
               </div>
-            </div>
-            <div class="tool">
-              <div>Personal Center</div>
-              <div>Notification</div>
             </div>
           </div>
         </template>
@@ -138,12 +130,10 @@ const toggleSidebar = () => {
     height:80px;
     display: flex;
     align-items: center;
-    .icon-button{margin-left: auto;}
+    .icon-button{
+      
+    }
   }
-  .tool{
-
-  }
-  
 }
 
 .icon-button {
