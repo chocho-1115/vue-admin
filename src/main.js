@@ -1,6 +1,10 @@
 import 'normalize.css/normalize.css' // CSS resets
 import '@/styles/main.scss' // global css
-// import 'element-plus/theme-chalk/dark/css-vars.css'
+
+// import 'element-plus/theme-chalk/dark/css-vars.css' // dark theme
+// dark theme 动态的dark模式样式文件 // theme/index.scss 也将起效 
+// 参见 https://juejin.cn/post/7442573821444390949
+import 'element-plus/theme-chalk/src/dark/css-vars.scss' 
 
 import {
   createApp

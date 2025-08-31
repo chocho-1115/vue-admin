@@ -1,0 +1,20 @@
+/* just override what you need */
+@forward 'element-plus/theme-chalk/src/common/var.scss' with (
+  $colors: (
+    'primary': (
+      'base': red,
+    ),
+  )
+);
+
+// @forward 'element-plus/theme-chalk/src/dark/var.scss' with (
+//   $bg-color: (
+//     'page': #0a0a0a,
+//     // '': #626aef,
+//     'overlay': #1d1e1f,
+//   )
+// );
+
+// If you just import on demand, you can ignore the following content.
+// 如果你想导入所有样式:
+// @use "element-plus/theme-chalk/src/index.scss" as *;

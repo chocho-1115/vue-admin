@@ -12,6 +12,14 @@
           </el-icon>
         </div>
       </el-tooltip>
+
+      <div class="icon-button hover-effect" @click="toggleTheme" v-if="ctx.device!=='mobile'">
+        <el-icon>
+          <i-ep-Sunny v-if="!themeDark" />
+          <i-ep-Moon v-else="themeDark" />
+        </el-icon>
+      </div>
+
       <div class="icon-button hover-effect" @click="drawerMessage = true" v-if="ctx.device!=='mobile'">
         <el-icon>
           <i-ep-Bell />
@@ -76,12 +84,21 @@ import UserCenter from '../common/UserCenter.vue'
 import { dispatch } from '@/store'
 
 const ctx = inject('context')
+
+const themeDark = ref(false)
 const drawerMenu = ref(false)
 const drawerMessage = ref(false)
 
 const toggleSidebar = () => {
   dispatch.sidebar.toggle()
 }
+
+const toggleTheme = () => {
+  themeDark.value = !themeDark.value
+  document.documentElement.classList.toggle('dark')
+}
+
+
 
 </script>
 
