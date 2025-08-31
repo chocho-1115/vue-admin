@@ -182,9 +182,7 @@ const moveToCurrentTag = async () => {
 .tags-view-container {
     height: 34px;
     width: 100%;
-    background: #fff;
-    border-bottom: 1px solid #d8dce5;
-    box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.12), 0 0 3px 0 rgba(0, 0, 0, 0.04);
+    border-top: 1px solid var(--el-color-info-light-9);
     .tags-view-wrapper {
         .tags-view-item {
             display: inline-flex;
@@ -193,9 +191,10 @@ const moveToCurrentTag = async () => {
             cursor: pointer;
             height: 26px;
             line-height: 26px;
-            border: 1px solid #d8dce5;
+            // border: 1px solid var(--el-color-info-light-9);
+            border-radius: 2px;
             color: #495060;
-            background: #fff;
+            
             padding: 0 8px;
             font-size: 12px;
             margin-left: 5px;
@@ -207,9 +206,9 @@ const moveToCurrentTag = async () => {
                 margin-right: 15px;
             }
             &.active {
-                background-color: #42b983;
+                background-color: var(--el-color-primary);
+                // border-color: #42b983;
                 color: #fff;
-                border-color: #42b983;
             }
             .el-icon-close {
                 margin-left: 2px;
@@ -219,8 +218,8 @@ const moveToCurrentTag = async () => {
                 text-align: center;
                 transition: all 0.3s cubic-bezier(0.645, 0.045, 0.355, 1);
                 &:hover {
-                    background-color: #b4bccc;
-                    color: #fff;
+                    background-color: var(--el-color-info-light-9);
+                    color: var(--el-color-primary);
                 }
             }
         }

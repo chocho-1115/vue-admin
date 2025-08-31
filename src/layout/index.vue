@@ -5,15 +5,17 @@
       class="drawer-bg"
       v-if="ctx.device==='mobile'&&ctx.sidebar.opened"
     />
-    <Sidebar class="sidebar-container" />
-    <div :class="{hasTagsView: needTagsView}" class="main-container">
-      <div :class="{'fixed-header': fixedHeader}">
+		<div class="sidebar">
+			<Sidebar />
+		</div>
+    <div :class="{hasTagsView: needTagsView}" class="container">
+      <header :class="{'fixed-header': fixedHeader}">
         <Navbar />
         <TagsView v-if="needTagsView" />
-      </div>
-			<div class="app-main">
+      </header>
+			<main>
 					<AppMain v-if="isRouterActive" />
-			</div>
+			</main>
     </div>
   </div>
 </template>
@@ -91,7 +93,7 @@ const handleClickOutside = () => {
 		top: 0;
 	}
 }
-.main-container{
+.container{
 	min-height: 100%;
 	transition: margin-left .28s;
 	margin-left: v.$sideBarWidth;
@@ -107,7 +109,7 @@ const handleClickOutside = () => {
 	position: absolute;
 	z-index: 2;
 }
-.sidebar-container {
+.sidebar {
 	transition: width 0.28s;
 	width: v.$sideBarWidth !important;
 	background-color: v.$menuBg;
@@ -122,27 +124,27 @@ const handleClickOutside = () => {
 }
 
 .hideSidebar {
-	.sidebar-container {
+	.sidebar {
 		width: 54px !important;
 	}
-	.main-container {
+	.container {
 		margin-left: 54px;
 	}
 }
 
 // mobile responsive
 .mobile {
-	.main-container {
+	.container {
 		margin-left: 0px;
 	}
 
-	.sidebar-container {
+	.sidebar {
 		transition: transform .28s;
 		width: v.$sideBarWidth !important;
 	}
 
 	&.hideSidebar {
-		.sidebar-container {
+		.sidebar {
 			pointer-events: none;
 			// transition-duration: 0.3s;
 			transform: translate3d(- v.$sideBarWidth, 0, 0);
@@ -151,12 +153,20 @@ const handleClickOutside = () => {
 }
 
 .withoutAnimation {
-	.main-container,
-	.sidebar-container {
+	.container,
+	.sidebar {
 		transition: none;
 	}
 }
 
+/* ########## header ########## */
+header{
+	background: var(--el-bg-color);
+	// border-bottom: 1px solid var(--el-color-info-light-9);
+	box-shadow: var(--el-box-shadow-lighter);
+	// box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.12), 0 0 3px 0 rgba(0, 0, 0, 0.04);
+  
+}
 .fixed-header {
 	position: fixed;
 	top: 0;
@@ -173,24 +183,26 @@ const handleClickOutside = () => {
     width: 100%;
 }
 
-.app-main {
-    /* 50= navbar  50  */
-    min-height: calc(100vh - 50px);
-    width: 100%;
-    position: relative;
-    overflow: hidden;
-    box-sizing: content-box;
-	z-index:1
+/* ########## main ########## */
+main {
+	/* 50= navbar  50  */
+	min-height: calc(100vh - 50px);
+	width: 100%;
+	position: relative;
+	overflow: hidden;
+	box-sizing: content-box;
+	z-index:1;
+	// background: var(--el-bg-color-page);
 }
-.fixed-header + .app-main {
+.fixed-header + main {
     padding-top: 50px;
 }
 .hasTagsView {
-    .app-main {
+    main {
         /* 84 = navbar + tags-view = 50 + 34 */
         min-height: calc(100vh - 84px);
     }
-    .fixed-header + .app-main {
+    .fixed-header + main {
         padding-top: 84px;
     }
 }

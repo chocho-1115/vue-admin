@@ -108,8 +108,6 @@ const toggleTheme = () => {
   height: 50px;
   overflow: hidden;
   position: relative;
-  background: #fff;
-  box-shadow: 0 1px 4px rgba(0, 21, 41, 0.08);
   display:flex;
   .logo-container{
     margin-left: 15px;
@@ -169,7 +167,7 @@ const toggleTheme = () => {
     transition: background-color 0.3s;
 
     &:hover {
-      background: rgba(0, 0, 0, 0.08);
+      background: var(--el-color-info-light-9);
     }
   }
 }

@@ -1,8 +1,7 @@
 <template>
-  <div @click="toggleClick" style="padding: 0 15px;">
+  <div @click="toggleClick" class="hamburger">
     <svg
       :class="{'is-active': props.isActive}"
-      class="hamburger"
       height="64"
       viewBox="0 0 1024 1024"
       width="64"
@@ -29,12 +28,17 @@ const toggleClick = () => {
 }
 </script>
 
-<style scoped>
+<style scoped lang="scss">
 .hamburger {
+  padding: 0 15px;
+  svg{
     display: inline-block;
     vertical-align: middle;
     width: 20px;
     height: 20px;
+    fill: currentColor;
+    // var(--el-text-color-primary)
+  }
 }
 
 .hamburger.is-active {
