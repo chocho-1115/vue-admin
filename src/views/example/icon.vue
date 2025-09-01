@@ -75,7 +75,7 @@ const handleClipboard = (text) => {
 // @use '@/styles/variables.module.scss' as v;
 
 aside {
-  background: var(--el-color-info-light-9);
+  background: var(--el-fill-color-lighter);
   padding: 8px 24px;
   margin-bottom: 20px;
   border-radius: 2px;

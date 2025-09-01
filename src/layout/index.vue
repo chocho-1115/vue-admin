@@ -162,7 +162,6 @@ const handleClickOutside = () => {
 /* ########## header ########## */
 header{
 	background: var(--el-bg-color);
-	// border-bottom: 1px solid var(--el-color-info-light-9);
 	box-shadow: var(--el-box-shadow-lighter);
 	// box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.12), 0 0 3px 0 rgba(0, 0, 0, 0.04);
   

@@ -167,7 +167,7 @@ const toggleTheme = () => {
     transition: background-color 0.3s;
 
     &:hover {
-      background: var(--el-color-info-light-9);
+      background: var(--el-fill-color-lighter);
     }
   }
 }

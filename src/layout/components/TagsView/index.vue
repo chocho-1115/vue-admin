@@ -182,7 +182,7 @@ const moveToCurrentTag = async () => {
 .tags-view-container {
     height: 34px;
     width: 100%;
-    border-top: 1px solid var(--el-color-info-light-9);
+    border-top: 1px solid var(--el-border-color-extra-light);
     .tags-view-wrapper {
         .tags-view-item {
             display: inline-flex;
@@ -191,7 +191,6 @@ const moveToCurrentTag = async () => {
             cursor: pointer;
             height: 26px;
             line-height: 26px;
-            // border: 1px solid var(--el-color-info-light-9);
             border-radius: 2px;
             color: #495060;
             
@@ -218,7 +217,7 @@ const moveToCurrentTag = async () => {
                 text-align: center;
                 transition: all 0.3s cubic-bezier(0.645, 0.045, 0.355, 1);
                 &:hover {
-                    background-color: var(--el-color-info-light-9);
+                    background-color: var(--el-fill-color-light);
                     color: var(--el-color-primary);
                 }
             }
