@@ -12,7 +12,8 @@ title: 变更记录
 ### 更新记录
 
 * ...
-* (2025-09-01): 支持dark/light主题
+* (2025-09-01): 新增color页面
+* (2025-08-31): 支持dark/light主题
 * (2025-08-27): 移动端layout优化: 导航栏右侧显示、隐藏hamburger组件等
 * (2025-07-31): 新增ImgLoad组件
 * (2025-06-26): 新增icon页面，展示所有自定义icon与element plus icon

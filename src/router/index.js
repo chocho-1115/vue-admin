@@ -81,6 +81,15 @@ const router = createRouter({
           }
         },
         {
+          path: 'color',
+          name: 'Color',
+          component: () => import('@/views/example/color.vue'),
+          meta: {
+            title: 'Color',
+            icon: 'color',
+          }
+        },
+        {
           path: 'table',
           name: 'Table',
           component: () => import('@/views/example/table.vue'),
