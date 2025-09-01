@@ -1,15 +1,19 @@
 <template>
-  <el-scrollbar :height="props.height" id="router-menu">
+  <el-scrollbar :height="props.height" class="router-menu">
     <!-- 必须添加background-color属性，因为收起菜单时 悬浮二级菜单默认为白色背景 需要重置 -->
+    <!-- :text-color="variables.menuText" -->
+    <!--  -->
+    <!-- background-color="var(--el-fill-color-extra-light)" -->
     <el-menu
-      :active-text-color="variables.menuActiveText"
-      :background-color="variables.menuBg"
+      active-text-color="var(--el-color-primary)"
+      text-color="var(--el-text-color-regular)"
       :collapse="isCollapse"
       :collapse-transition="false"
       :default-active="activeMenu"
-      :text-color="variables.menuText"
+      
       :unique-opened="false"
       mode="vertical"
+
     >
       <item
         :base-path="route.path"
@@ -26,7 +30,6 @@ import { computed, inject } from 'vue'
 import { useRouter, useRoute } from 'vue-router'
 // import { onBeforeRouteUpdate } from 'vue-router'
 
-import variables from '@/styles/variables.module.scss'
 import Item from './Item.vue'
 
 const props = defineProps({
@@ -52,67 +55,43 @@ const activeMenu = computed(() => {
     return path
 })
 </script>
+<style lang="scss" scoped>
+.router-menu {
+  :deep(.svg-icon) {
+    flex-shrink: 0;
+    margin-right: 16px;
+  }
+  :deep(.el-menu-icon) {
+    font-size: inherit; // el-menu-icon 的字体大小被element主题css设置为了18px 这里改为集成父元素字体大小 与svg-icon自定义svg保持一致
+    width: 1em;
+    height: 1em;
+    margin-right: 16px;
+    transform: scale(1.2);// 由于element的icon其viewBox没有顶边，而自定义的svg都顶边了 so通过缩放来保持大小一致
+  }
+  :deep(.el-menu) {
+    border: none;
+  }
+}
+</style>
+
 <style lang="scss">
-@use '@/styles/variables.module.scss' as v;
-
-  #router-menu {
-    .svg-icon {
-      flex-shrink: 0;
-      margin-right: 16px;
-    }
-    
-    .el-menu-icon {
-      font-size: inherit; // el-menu-icon 的字体大小被element主题css设置为了18px 这里改为集成父元素字体大小 与svg-icon自定义svg保持一致
-      width: 1em;
-      height: 1em;
-      margin-right: 16px;
-      transform: scale(1.2);// 由于element的icon其viewBox没有顶边，而自定义的svg都顶边了 so通过缩放来保持大小一致
-    }
-
-    .el-menu {
-      border: none;
-    }
-
-    // menu hover
-    .sub-menu-title-noDropdown,
+.hideSidebar {
+  .el-sub-menu__icon-arrow {
+        display: none;
+  }
+  .el-menu--collapse {
+    width: auto;
+  }
+  .el-menu--collapse {
     .el-sub-menu__title {
-      &:hover {
-        background-color: v.$menuHover !important;
-      }
-    }
-
-    .is-active>.el-sub-menu__title {
-      color: v.$subMenuActiveText !important;
-    }
-
-    .nest-menu .el-sub-menu>.el-sub-menu__title,
-    .el-sub-menu .el-menu-item {
-      background-color: v.$subMenuBg !important;
-      &:hover {
-        background-color: v.$subMenuHover !important;
-      }
+        &>span {
+          display:none
+        }
     }
   }
+}
 
-  .hideSidebar {
-    .el-sub-menu__icon-arrow {
-          display: none;
-    }
-    .el-menu--collapse {
-      width: auto;
-    }
-    .el-menu--collapse {
-      .el-sub-menu__title {
-          &>span {
-            display:none
-          }
-      }
-    }
-  }
-
-
-// when menu collapsed
-.el-menu--vertical {
+.el-menu--popup-container {
   .el-menu {
     .svg-icon {
       margin-right: 5px;
@@ -124,5 +103,4 @@ const activeMenu = computed(() => {
     }
   }
 }
-
 </style>

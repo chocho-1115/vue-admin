@@ -14,7 +14,7 @@
         <TagsView v-if="needTagsView" />
       </header>
 			<main>
-					<AppMain v-if="isRouterActive" />
+				<AppMain v-if="isRouterActive" />
 			</main>
     </div>
   </div>
@@ -36,46 +36,46 @@ const fixedHeader = sctx.fixedHeader
 const isRouterActive = ref(true)
 
 provide('reloadAppMain', () => {
-    isRouterActive.value = false
-    nextTick(() => {
-        setTimeout(() => {
-            isRouterActive.value = true
-        }, 100)
-    })
+	isRouterActive.value = false
+	nextTick(() => {
+		setTimeout(() => {
+				isRouterActive.value = true
+		}, 100)
+	})
 })
 
 const classObj = computed(() => {
-    return {
-        hideSidebar: !ctx.sidebar.opened,
-        openSidebar: ctx.sidebar.opened,
-        withoutAnimation: ctx.sidebar.withoutAnimation,
-        mobile: ctx.device === 'mobile',
-    }
+	return {
+		hideSidebar: !ctx.sidebar.opened,
+		openSidebar: ctx.sidebar.opened,
+		withoutAnimation: ctx.sidebar.withoutAnimation,
+		mobile: ctx.device === 'mobile',
+	}
 })
 
 watch(
-    () => route.path,
-    () => {
-        if (ctx.device === 'mobile' && ctx.sidebar.opened) {
-            dispatch.sidebar.close({ withoutAnimation: false })
-        }
-    }
+	() => route.path,
+	() => {
+		if (ctx.device === 'mobile' && ctx.sidebar.opened) {
+				dispatch.sidebar.close({ withoutAnimation: false })
+		}
+	}
 )
 
 onMounted(() => {
-    window.addEventListener('resize', resizeHandler)
-    if (isMobile()) {
-        ctx.device = 'mobile'
-        dispatch.sidebar.close({ withoutAnimation: true })
-    }
+	window.addEventListener('resize', resizeHandler)
+	if (isMobile()) {
+		ctx.device = 'mobile'
+		dispatch.sidebar.close({ withoutAnimation: true })
+	}
 })
 
 onUnmounted(() => {
-    window.removeEventListener('resize', resizeHandler)
+	window.removeEventListener('resize', resizeHandler)
 })
 
 const handleClickOutside = () => {
-    dispatch.sidebar.close({ withoutAnimation: false })
+	dispatch.sidebar.close({ withoutAnimation: false })
 }
 </script>
 
@@ -112,7 +112,8 @@ const handleClickOutside = () => {
 .sidebar {
 	transition: width 0.28s;
 	width: v.$sideBarWidth !important;
-	background-color: v.$menuBg;
+	border-right: 1px solid var(--el-color-info-light-9);
+	background: var(--el-fill-color-extra-light);
 	height: 100%;
 	position: fixed;
 	font-size: 0px;

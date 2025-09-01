@@ -4,7 +4,7 @@
         width: size,
         height: size
     }">
-      <img-load :src="ctx.userInfo.avatar" defaultName="user" backgroundColor="rgba(0, 0, 0, .05)" :defaultColor="variables.menuActiveText" defaultWidth="50%" defaultHeight="50%" />
+      <img-load :src="ctx.userInfo.avatar" defaultName="user" backgroundColor="rgba(0, 0, 0, .05)" defaultColor="var(--el-color-primary)" defaultWidth="50%" defaultHeight="50%" />
     </div>
     <template v-slot:dropdown>
       <el-dropdown-menu>
@@ -27,7 +27,6 @@ import { useRouter, useRoute } from 'vue-router'
 
 import { logout } from '@/api/user'
 import { dispatch } from '@/store'
-import variables from '@/styles/variables.module.scss'
 
 const router = useRouter()
 const route = useRoute()

@@ -34,7 +34,7 @@
 	
 </template>
 
-<script lang="ts" setup>
+<script setup>
 import { ref } from 'vue'
 import {
   copyText
@@ -72,8 +72,6 @@ const handleClipboard = (text) => {
 
 
 <style lang="scss" scoped>
-// @use '@/styles/variables.module.scss' as v;
-
 aside {
   background: var(--el-fill-color-lighter);
   padding: 8px 24px;

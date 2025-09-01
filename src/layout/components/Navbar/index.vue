@@ -103,7 +103,6 @@ const toggleTheme = () => {
 </script>
 
 <style lang="scss" scoped>
-@use '@/styles/variables.module.scss' as v;
 .navbar {
   height: 50px;
   overflow: hidden;
@@ -174,5 +173,4 @@ const toggleTheme = () => {
 
 .drawer-menu-container :deep(.el-drawer__header) {margin-bottom:0;padding-top:0;background:rgba(0,0,0,.05);border-bottom:solid 1px rgba(0,0,0,.05)}
 .drawer-menu-container :deep(.el-drawer__body) {padding: 0 !important}
-.drawer-menu-container :deep(.el-drawer) {background-color: v.$menuBg;}
 </style>

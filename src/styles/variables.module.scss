@@ -1,70 +1,8 @@
 // sidebar
-$menuText:#bfcbd9;
-$menuActiveText:#409EFF;
-$subMenuActiveText:#f4f4f5; //https://github.com/ElemeFE/element/issues/12951
-
-$menuBg:#304156;
-$menuHover:#263445;
-
-$subMenuBg:#1f2d3d;
-$subMenuHover:#001528;
-
 $sideBarWidth: 240px;
 
 // the :export directive is the magic sauce for webpack
 // https://www.bluematador.com/blog/how-to-share-variables-between-js-and-sass
 :export {
-  menuText: $menuText;
-  menuActiveText: $menuActiveText;
-  subMenuActiveText: $subMenuActiveText;
-  menuBg: $menuBg;
-  menuHover: $menuHover;
-  subMenuBg: $subMenuBg;
-  subMenuHover: $subMenuHover;
   sideBarWidth: $sideBarWidth;
 }
-
-
-
-////
-/// 
-/// 
-/// 
-/// 
-// $sat: env(safe-area-inset-top);
-// $sar: env(safe-area-inset-right);
-// $sab: env(safe-area-inset-bottom);
-// $sal: env(safe-area-inset-left);
-
-// // sidebar
-// $yellow:#face03;
-// $lakeBlue:#00acee;
-
-// $darkBg: #2d3a4b;
-// $darkGray: #889aa4;
-// $darkWhite: #eee;
-
-// $lightBg: #fff;
-// $lightGray: #606266;
-// $lightBlack: #2d3a4b;
-
-// // the :export directive is the magic sauce for webpack
-// // https://www.bluematador.com/blog/how-to-share-variables-between-js-and-sass
-// :export {
-//   sat: $sat;
-//   sar: $sar;
-//   sab: $sab;
-//   sal: $sal;
-
-//   yellow: $yellow;
-//   lakeBlue: $lakeBlue;
-
-//   darkBg: $darkBg;
-//   darkGray: $darkGray;
-//   darkWhite: $darkWhite;
-
-//   lightBg: $lightBg;
-//   lightGray: $lightGray;
-//   lightBlack: $lightBlack;
-  
-// }

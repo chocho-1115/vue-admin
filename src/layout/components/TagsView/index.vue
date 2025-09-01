@@ -182,7 +182,7 @@ const moveToCurrentTag = async () => {
 .tags-view-container {
     height: 34px;
     width: 100%;
-    border-top: 1px solid var(--el-border-color-extra-light);
+    border-top: 1px solid var(--el-color-info-light-9);
     .tags-view-wrapper {
         .tags-view-item {
             display: inline-flex;

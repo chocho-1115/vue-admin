@@ -21,6 +21,6 @@ const isCollapse = computed(() => {
 </script>
 <style lang="scss" scoped>
 .logo-container{
-  background: #2b2f3a;
+  
 }
 </style>
