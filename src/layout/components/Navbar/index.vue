@@ -53,6 +53,12 @@
                   <i-ep-Bell />
                 </el-icon>
               </div>
+              <div class="icon-button hover-effect" @click="toggleTheme">
+                <el-icon>
+                  <i-ep-Sunny v-if="!themeDark" />
+                  <i-ep-Moon v-else="themeDark" />
+                </el-icon>
+              </div>
             </div>
           </div>
         </template>
