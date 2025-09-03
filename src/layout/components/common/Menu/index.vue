@@ -5,6 +5,7 @@
     <!--  -->
     <!-- background-color="var(--el-fill-color-extra-light)" -->
     <el-menu
+      background-color="transparent"
       active-text-color="var(--el-color-primary)"
       text-color="var(--el-text-color-regular)"
       :collapse="isCollapse"

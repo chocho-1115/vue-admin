@@ -6,7 +6,7 @@ import {
 const {
   body
 } = document
-const WIDTH = 992 // refer to Bootstrap's responsive design
+const WIDTH = 768 // refer to Bootstrap's responsive design
 
 export const isMobile = () => {
   const rect = body.getBoundingClientRect()

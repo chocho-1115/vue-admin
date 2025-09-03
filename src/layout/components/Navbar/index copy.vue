@@ -17,13 +17,7 @@
           <i-ep-Bell />
         </el-icon>
       </div>
-      <div class="icon-button hover-effect" @click="toggleTheme" v-if="ctx.device!=='mobile'">
-        <el-icon>
-          <i-ep-Sunny v-if="!themeDark" />
-          <i-ep-Moon v-else="themeDark" />
-        </el-icon>
-      </div>
-      <div class="icon-button hover-effect" @click="drawerMenu = true" v-if="ctx.device==='mobile'">
+      <div class="icon-button hover-effect" @click="drawerMenu = true">
         <svg-icon icon="menu" />
       </div>
       
@@ -37,9 +31,25 @@
       <el-drawer v-model="drawerMenu" size="min(400px, max(30%, 240px))" :show-close="false">
         <template #header>
           <div class="menu-header">
+            <el-menu
+              
+              mode="horizontal"
+            >
+              <el-sub-menu index="2">
+                <template #title>
+                  <UserCenter size="40px" style="margin-right:auto;" />
+
+                </template>
+                <el-menu-item index="2-1">item one</el-menu-item>
+                <el-menu-item index="2-2">item two</el-menu-item>
+                <el-menu-item index="2-3">item three</el-menu-item>
+                
+              </el-sub-menu>
+            </el-menu>
             <div class="main">
-              <UserCenter size="40px" style="margin-right:auto;" />
-              <el-tooltip content="Under development" effect="dark" placement="bottom">
+              
+              
+              <!-- <el-tooltip content="Under development" effect="dark" placement="bottom">
                 <div class="icon-button hover-effect">
                   <el-icon>
                     <i-ep-Search />
@@ -50,14 +60,11 @@
                 <el-icon>
                   <i-ep-Bell />
                 </el-icon>
-              </div>
-              <div class="icon-button hover-effect" @click="toggleTheme">
-                <el-icon>
-                  <i-ep-Sunny v-if="!themeDark" />
-                  <i-ep-Moon v-else="themeDark" />
-                </el-icon>
-              </div>
+              </div> -->
             </div>
+
+            
+
           </div>
         </template>
         <menu-list />
@@ -88,8 +95,6 @@ import UserCenter from '../common/UserCenter.vue'
 import { dispatch } from '@/store'
 
 const ctx = inject('context')
-
-const themeDark = ref(false)
 const drawerMenu = ref(false)
 const drawerMessage = ref(false)
 
@@ -97,20 +102,16 @@ const toggleSidebar = () => {
   dispatch.sidebar.toggle()
 }
 
-const toggleTheme = () => {
-  themeDark.value = !themeDark.value
-  document.documentElement.classList.toggle('dark')
-}
-
-
-
 </script>
 
 <style lang="scss" scoped>
+@use '@/styles/variables.module.scss' as v;
 .navbar {
   height: 50px;
   overflow: hidden;
   position: relative;
+  background: #fff;
+  box-shadow: 0 1px 4px rgba(0, 21, 41, 0.08);
   display:flex;
   .logo-container{
     margin-left: 15px;
@@ -144,14 +145,14 @@ const toggleTheme = () => {
   }
 }
 .menu-header{
-  .main{
-    height:80px;
-    display: flex;
-    align-items: center;
-    .icon-button{
+  // .main{
+  //   height:80px;
+  //   display: flex;
+  //   align-items: center;
+  //   .icon-button{
       
-    }
-  }
+  //   }
+  // }
 }
 
 .icon-button {
@@ -170,11 +171,12 @@ const toggleTheme = () => {
     transition: background-color 0.3s;
 
     &:hover {
-      background: var(--el-fill-color-lighter);
+      background: rgba(0, 0, 0, 0.08);
     }
   }
 }
 
-.drawer-menu-container :deep(.el-drawer__header) {margin-bottom:0;padding-top:0;background:rgba(0,0,0,.05);border-bottom:solid 1px rgba(0,0,0,.05)}
+.drawer-menu-container :deep(.el-drawer__header) {margin-bottom:0;padding:0;background:rgba(0,0,0,.05);border-bottom:solid 1px rgba(0,0,0,.05)}
 .drawer-menu-container :deep(.el-drawer__body) {padding: 0 !important}
+.drawer-menu-container :deep(.el-drawer) {background-color: v.$menuBg;}
 </style>
