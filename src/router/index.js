@@ -10,7 +10,8 @@ import Layout from '@/layout/index.vue'
 import {
   HelpFilled,
   Menu,
-  Odometer
+  Odometer,
+  Orange
 } from '@element-plus/icons-vue'
 
 const router = createRouter({
@@ -78,6 +79,15 @@ const router = createRouter({
           meta: {
             title: 'Icons',
             icon: 'icon',
+          }
+        },
+        {
+          path: 'color',
+          name: 'Color',
+          component: () => import('@/views/example/color.vue'),
+          meta: {
+            title: 'Color',
+            icon: Orange,
           }
         },
         {

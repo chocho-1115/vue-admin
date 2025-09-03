@@ -6,16 +6,14 @@
 					<a class="link" href="https://icon-sets.iconify.design/ep/" target="_blank">@iconify-json/ep</a>
 				</aside>
 				<div class="grid">
-					<div v-for="item of elementIcons" :key="item" @click="handleClipboard(generateElementIconCode(item.name))">
-						<el-tooltip placement="top" :content="generateElementIconCode(item.name)" :disabled="disabled">
-							<div class="icon-item">
-								<el-icon class="el-menu-icon">
-									<component :is="item" />
-								</el-icon>
-								<span>{{ item.__name }}</span>
-							</div>
-						</el-tooltip>
-					</div>
+					<el-tooltip placement="top" :content="generateElementIconCode(item.name)" :disabled="disabled" v-for="item of elementIcons" :key="item">
+						<div class="icon-item" @click="handleClipboard(generateElementIconCode(item.name))">
+							<el-icon class="el-menu-icon">
+								<component :is="item" />
+							</el-icon>
+							<span>{{ item.__name }}</span>
+						</div>
+					</el-tooltip>
 				</div>
 			</el-tab-pane>
 			<el-tab-pane label="Custom Icons">
@@ -23,14 +21,12 @@
 					<a class="link" href="https://spiriitlabs.github.io/vite-plugin-svg-spritemap/" target="_blank">@spiriit/vite-plugin-svg-spritemap</a>
 				</aside>
 				<div class="grid">
-					<div v-for="item of iconNameList" :key="item" @click="handleClipboard(generateIconCode(item))">
-						<el-tooltip placement="top" :content="generateIconCode(item)" :disabled="disabled">
-							<div class="icon-item">
-								<svg-icon :icon="item" />
-								<span>{{ item }}</span>
-							</div>
-						</el-tooltip>
-					</div>
+					<el-tooltip placement="top" :content="generateIconCode(item)" :disabled="disabled" v-for="item of iconNameList" :key="item">
+						<div class="icon-item" @click="handleClipboard(generateIconCode(item))">
+							<svg-icon :icon="item" />
+							<span>{{ item }}</span>
+						</div>
+					</el-tooltip>
 				</div>
 			</el-tab-pane>
 		</el-tabs>
@@ -38,7 +34,7 @@
 	
 </template>
 
-<script lang="ts" setup>
+<script setup>
 import { ref } from 'vue'
 import {
   copyText
@@ -76,7 +72,28 @@ const handleClipboard = (text) => {
 
 
 <style lang="scss" scoped>
-@use '@/styles/variables.module.scss' as v;
+aside {
+  background: var(--el-fill-color-lighter);
+  padding: 8px 24px;
+  margin-bottom: 20px;
+  border-radius: 2px;
+  display: block;
+  line-height: 32px;
+  font-size: 16px;
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen, Ubuntu, Cantarell, "Fira Sans", "Droid Sans", "Helvetica Neue", sans-serif;
+  color: #2c3e50;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+
+  a {
+    color: var(--el-color-primary);
+    cursor: pointer;
+
+    // &:hover {
+    //   color: rgb(32, 160, 255);
+    // }
+  }
+}
 
 .demo-tabs > .el-tabs__content {
   padding: 32px;
@@ -85,7 +102,7 @@ const handleClipboard = (text) => {
 
 .link{
 	text-decoration: underline;
-	color: v.$menuActiveText;
+	color: var(--el-color-primary);
 }
 
 .grid {

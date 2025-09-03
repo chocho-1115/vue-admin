@@ -32,6 +32,19 @@ export default defineConfig(({
 
   const config = {
     base: env.VITE_BASE_URL,
+    resolve: {
+      alias: {
+        '@': fileURLToPath(new URL('./src', import.meta.url))
+      },
+    },
+    css: {
+      // Customizing themes with unplugin-vue-components
+      preprocessorOptions: {
+        scss: {
+          additionalData: `@use "@/theme/index.scss";`,
+        },
+      },
+    },
     plugins: [
       mdPlugin.plugin({
         mode: [mdPlugin.Mode.VUE]
@@ -45,7 +58,9 @@ export default defineConfig(({
       AutoImport({
         resolvers: [
           // 自动导入 element plus 相关函数 如ElMessage
-          ElementPlusResolver(),
+          ElementPlusResolver({
+            importStyle: "sass", // Custom theme
+          }),
           // Auto import icon components
           // 自动导入图标组件
           IconsResolver({
@@ -57,7 +72,9 @@ export default defineConfig(({
       Components({
         resolvers: [
           // 自动导入 element plus 组件
-          ElementPlusResolver(),
+          ElementPlusResolver({
+            importStyle: "sass", // Custom theme
+          }),
           // 自动注册图标组件@iconify-json/ep
           IconsResolver({
             // prefix: 'i', // 默认：'i' 使用： {prefix}-{collection}-{icon}
@@ -71,11 +88,7 @@ export default defineConfig(({
         autoInstall: true, // 自动安装了 enabledCollections 指定的图标 如@iconify-json/ep
       }),
     ],
-    resolve: {
-      alias: {
-        '@': fileURLToPath(new URL('./src', import.meta.url))
-      },
-    },
+    
   }
 
   return defineConfig(config)

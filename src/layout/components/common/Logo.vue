@@ -44,21 +44,13 @@ const title = ref('Vue Admin')
   line-height: 50px;
   text-align: center;
   overflow: hidden;
-
-  &[theme="dark"] {
-    color: var(--el-color-black);
-  }
-  &[theme="light"] {
-    color: #fff;
-  }
-  
+  color: var(--el-text-color-primary);
   .logo {
     width: 32px;
     height: 32px;
     vertical-align: middle;
     
   }
-
   .title {
     display: inline-block;
     margin: 0;
@@ -69,6 +61,5 @@ const title = ref('Vue Admin')
     font-family: Avenir, Helvetica Neue, Arial, Helvetica, sans-serif;
     vertical-align: middle;
   }
-  
 }
 </style>

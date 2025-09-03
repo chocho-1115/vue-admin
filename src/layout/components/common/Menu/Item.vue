@@ -2,7 +2,7 @@
   <div v-if="!info.hidden">
     <template v-if="!alwaysShow && theOnlyOneChild && !theOnlyOneChild.children">
       <app-link :to="resolvePath(theOnlyOneChild.path)" v-if="theOnlyOneChild.meta">
-        <el-menu-item :index="resolvePath(theOnlyOneChild.path)" class="submenu-title-noDropdown">
+        <el-menu-item :index="resolvePath(theOnlyOneChild.path)">
           <template v-if="theOnlyOneChild.meta.icon">
             <svg-icon :icon="theOnlyOneChild.meta.icon" v-if="typeof theOnlyOneChild.meta.icon === 'string'" />
             <el-icon class="el-menu-icon" v-else>

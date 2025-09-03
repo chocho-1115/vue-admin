@@ -17,8 +17,6 @@ const props = defineProps({
 </script>
 
 <style lang="scss" scoped>
-@use '@/styles/variables.module.scss' as v;
-
 .container {
     margin: 30px;
 }
@@ -32,7 +30,7 @@ const props = defineProps({
         margin-bottom: 8px;
     }
     :deep(a) {
-        color: v.$menuActiveText;
+        color: var(--el-color-primary);
         margin: auto 2px;
     }
 }
