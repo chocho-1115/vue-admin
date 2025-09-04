@@ -74,26 +74,32 @@ const activeMenu = computed(() => {
   :deep(.el-menu) {
     border: none;
   }
+  // 触屏设备上去掉hover效果
+  @media (any-hover: none) {
+    :deep(.el-menu-item:hover) {
+      background-color: transparent !important;
+    }
+  }
 }
 </style>
 
 <style lang="scss">
 .hideSidebar {
   .el-sub-menu__icon-arrow {
-        display: none;
+    display: none;
   }
   .el-menu--collapse {
     width: auto;
   }
   .el-menu--collapse {
     .el-sub-menu__title {
-        &>span {
-          display:none
-        }
+      &>span {
+        display:none
+      }
     }
   }
 }
-
+// 收起后鼠标经过时的悬浮子级菜单
 .el-menu--popup-container {
   .el-menu {
     .svg-icon {
