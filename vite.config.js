@@ -41,7 +41,7 @@ export default defineConfig(({
       // Customizing themes with unplugin-vue-components
       preprocessorOptions: {
         scss: {
-          additionalData: `@use "@/theme/index.scss";`,
+          additionalData: `@use "@/styles/theme/index.scss";`,
         },
       },
     },

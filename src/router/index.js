@@ -8,10 +8,9 @@ import nestedRouter from './modules/nested'
 
 import Layout from '@/layout/index.vue'
 import {
-  HelpFilled,
-  Menu,
-  Odometer,
-  Orange
+  Brush,
+  Discount,
+  House
 } from '@element-plus/icons-vue'
 
 const router = createRouter({
@@ -32,7 +31,7 @@ const router = createRouter({
         component: () => import('@/views/dashboard.vue'),
         meta: {
           title: 'Dashboard',
-          icon: 'dashboard',
+          icon: House,
           keepAlive: true,
           affix: true
         }
@@ -45,7 +44,7 @@ const router = createRouter({
       meta: {
         alwaysShow: true,
         title: 'About',
-        icon: HelpFilled
+        icon: 'about'
       },
       children: [{
         path: 'readme',
@@ -70,15 +69,15 @@ const router = createRouter({
       meta: {
         alwaysShow: true,
         title: 'Example',
-        icon: Menu
+        icon: 'example'
       },
       children: [{
           path: 'icon',
           name: 'Icons',
           component: () => import('@/views/example/icon.vue'),
           meta: {
-            title: 'Icons',
-            icon: 'icon',
+            title: 'Icon',
+            icon: Discount,
           }
         },
         {
@@ -87,7 +86,7 @@ const router = createRouter({
           component: () => import('@/views/example/color.vue'),
           meta: {
             title: 'Color',
-            icon: Orange,
+            icon: Brush,
           }
         },
         {
@@ -123,7 +122,7 @@ const router = createRouter({
           component: () => import('@/views/example/test.vue'),
           meta: {
             title: 'Test',
-            icon: Odometer,
+            icon: 'test',
             keepAlive: true,
           }
         },

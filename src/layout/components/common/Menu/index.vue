@@ -16,12 +16,14 @@
       mode="vertical"
 
     >
-      <item
-        :base-path="route.path"
-        :info="route"
-        :key="route.path"
-        v-for="route in routes"
-      />
+      <template :key="route.path" v-for="route in routes">
+        <item
+          :base-path="route.path"
+          :info="route"
+          v-if="!route.hidden"
+        />
+      </template>
+      
     </el-menu>
   </el-scrollbar>
 </template>
@@ -58,49 +60,13 @@ const activeMenu = computed(() => {
 </script>
 <style lang="scss" scoped>
 .router-menu {
-  :deep(.svg-icon) {
-    flex-shrink: 0;
-    margin-right: 16px;
-  }
-  :deep(.el-menu-icon) {
-    font-size: inherit; // el-menu-icon 的字体大小被element主题css设置为了18px 这里改为集成父元素字体大小 与svg-icon自定义svg保持一致
-    width: 1em;
-    height: 1em;
-    margin-right: 16px;
-    transform: scale(1.2);// 由于element的icon其viewBox没有顶边，而自定义的svg都顶边了 so通过缩放来保持大小一致
-  }
   :deep(.el-menu) {
-    border: none;
+    border-right: none;
   }
-}
-</style>
-
-<style lang="scss">
-.hideSidebar {
-  .el-sub-menu__icon-arrow {
-        display: none;
-  }
-  .el-menu--collapse {
-    width: auto;
-  }
-  .el-menu--collapse {
-    .el-sub-menu__title {
-        &>span {
-          display:none
-        }
-    }
-  }
-}
-
-.el-menu--popup-container {
-  .el-menu {
-    .svg-icon {
-      margin-right: 5px;
-    }
-    .el-menu-icon {
-      font-size: inherit; // el-menu-icon 的字体大小被element主题css设置为了18px 这里改为集成父元素字体大小 与svg-icon自定义svg保持一致
-      width:1em;
-      transform: scale(1.2);// 由于element的icon其viewBox没有顶边，而自定义的svg都顶边了 so通过缩放来保持大小一致
+  // 触屏设备上去掉hover效果
+  @media (any-hover: none) {
+    :deep(.el-menu-item:hover) {
+      background-color: transparent !important;
     }
   }
 }

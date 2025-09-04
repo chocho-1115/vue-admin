@@ -1,23 +1,19 @@
 <template>
-  <div :class="classObj" class="app-wrapper">
-    <div
-      @click="handleClickOutside"
-      class="drawer-bg"
-      v-if="ctx.device==='mobile'&&ctx.sidebar.opened"
-    />
+	<div :class="classObj" class="app-wrapper">
+		<div @click="handleClickOutside" class="drawer-bg" v-if="ctx.device === 'mobile' && ctx.sidebar.opened" />
 		<div class="sidebar">
 			<Sidebar />
 		</div>
-    <div :class="{hasTagsView: needTagsView}" class="container">
-      <header :class="{'fixed-header': fixedHeader}">
-        <Navbar />
-        <TagsView v-if="needTagsView" />
-      </header>
+		<div :class="{ hasTagsView: needTagsView }" class="container">
+			<header :class="{ 'fixed-header': fixedHeader }">
+				<Navbar />
+				<TagsView v-if="needTagsView" />
+			</header>
 			<main>
 				<AppMain v-if="isRouterActive" />
 			</main>
-    </div>
-  </div>
+		</div>
+	</div>
 </template>
 
 <script setup>
@@ -39,7 +35,7 @@ provide('reloadAppMain', () => {
 	isRouterActive.value = false
 	nextTick(() => {
 		setTimeout(() => {
-				isRouterActive.value = true
+			isRouterActive.value = true
 		}, 100)
 	})
 })
@@ -57,7 +53,7 @@ watch(
 	() => route.path,
 	() => {
 		if (ctx.device === 'mobile' && ctx.sidebar.opened) {
-				dispatch.sidebar.close({ withoutAnimation: false })
+			dispatch.sidebar.close({ withoutAnimation: false })
 		}
 	}
 )
@@ -88,18 +84,21 @@ const handleClickOutside = () => {
 	position: relative;
 	height: 100%;
 	width: 100%;
+
 	&.mobile.openSidebar {
 		position: fixed;
 		top: 0;
 	}
 }
-.container{
+
+.container {
 	min-height: 100%;
 	transition: margin-left .28s;
 	margin-left: v.$sideBarWidth;
 	position: relative;
 	z-index: 1;
 }
+
 .drawer-bg {
 	background: #000;
 	opacity: 0.3;
@@ -109,10 +108,11 @@ const handleClickOutside = () => {
 	position: absolute;
 	z-index: 2;
 }
+
 .sidebar {
 	transition: width 0.28s;
 	width: v.$sideBarWidth !important;
-	border-right: 1px solid var(--el-color-info-light-9);
+	border-right: 1px solid var(--el-border-color-extra-light);
 	background: var(--el-fill-color-extra-light);
 	height: 100%;
 	position: fixed;
@@ -122,14 +122,22 @@ const handleClickOutside = () => {
 	left: 0;
 	z-index: 3;
 	overflow: hidden;
+	// &::before{
+	// 	content:'';
+	// 	width:1px;height:100%;
+	// 	background:#f00;
+	// 	position:absolute;
+	// 	left:50%;top:0;transform: translateX(-50%);
+	// }
 }
 
 .hideSidebar {
 	.sidebar {
-		width: 54px !important;
+		width: 64px !important;
 	}
+
 	.container {
-		margin-left: 54px;
+		margin-left: 64px;
 	}
 }
 
@@ -154,6 +162,7 @@ const handleClickOutside = () => {
 }
 
 .withoutAnimation {
+
 	.container,
 	.sidebar {
 		transition: none;
@@ -161,12 +170,13 @@ const handleClickOutside = () => {
 }
 
 /* ########## header ########## */
-header{
+header {
 	background: var(--el-bg-color);
 	box-shadow: var(--el-box-shadow-lighter);
 	// box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.12), 0 0 3px 0 rgba(0, 0, 0, 0.04);
-  
+
 }
+
 .fixed-header {
 	position: fixed;
 	top: 0;
@@ -175,12 +185,13 @@ header{
 	width: calc(100% - #{v.$sideBarWidth});
 	transition: width 0.28s;
 }
+
 .hideSidebar .fixed-header {
-    width: calc(100% - 54px);
+	width: calc(100% - 64px);
 }
 
 .mobile .fixed-header {
-    width: 100%;
+	width: 100%;
 }
 
 /* ########## main ########## */
@@ -191,20 +202,22 @@ main {
 	position: relative;
 	overflow: hidden;
 	box-sizing: content-box;
-	z-index:1;
+	z-index: 1;
 	// background: var(--el-bg-color-page);
 }
-.fixed-header + main {
-    padding-top: 50px;
-}
-.hasTagsView {
-    main {
-        /* 84 = navbar + tags-view = 50 + 34 */
-        min-height: calc(100vh - 84px);
-    }
-    .fixed-header + main {
-        padding-top: 84px;
-    }
+
+.fixed-header+main {
+	padding-top: 50px;
 }
 
+.hasTagsView {
+	main {
+		/* 84 = navbar + tags-view = 50 + 34 */
+		min-height: calc(100vh - 84px);
+	}
+
+	.fixed-header+main {
+		padding-top: 84px;
+	}
+}
 </style>
