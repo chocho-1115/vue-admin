@@ -16,12 +16,14 @@
       mode="vertical"
 
     >
-      <item
-        :base-path="route.path"
-        :info="route"
-        :key="route.path"
-        v-for="route in routes"
-      />
+      <template :key="route.path" v-for="route in routes">
+        <item
+          :base-path="route.path"
+          :info="route"
+          v-if="!route.hidden"
+        />
+      </template>
+      
     </el-menu>
   </el-scrollbar>
 </template>
