@@ -82,7 +82,7 @@ const props = defineProps({
 const setOssStr = () => {
 	var src = props.src;
 	// 远程图片 || 没有参数的
-	if (!src.includes('http') || src.lastIndexOf('?') !== -1) {
+	if (!src.startsWith('http') || src.lastIndexOf('?') !== -1) {
 		info.status = 1
 		return
 	}
