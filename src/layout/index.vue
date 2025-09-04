@@ -126,10 +126,10 @@ const handleClickOutside = () => {
 
 .hideSidebar {
 	.sidebar {
-		width: 54px !important;
+		width: 64px !important;
 	}
 	.container {
-		margin-left: 54px;
+		margin-left: 64px;
 	}
 }
 
@@ -176,7 +176,7 @@ header{
 	transition: width 0.28s;
 }
 .hideSidebar .fixed-header {
-    width: calc(100% - 54px);
+    width: calc(100% - 64px);
 }
 
 .mobile .fixed-header {
