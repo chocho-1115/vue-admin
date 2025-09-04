@@ -61,6 +61,7 @@ const activeMenu = computed(() => {
   :deep(.svg-icon) {
     flex-shrink: 0;
     margin-right: 16px;
+    // font-size:16px;
   }
   :deep(.el-menu-icon) {
     font-size: inherit; // el-menu-icon 的字体大小被element主题css设置为了18px 这里改为集成父元素字体大小 与svg-icon自定义svg保持一致
@@ -96,6 +97,7 @@ const activeMenu = computed(() => {
   .el-menu {
     .svg-icon {
       margin-right: 5px;
+      // font-size:16.8px;
     }
     .el-menu-icon {
       font-size: inherit; // el-menu-icon 的字体大小被element主题css设置为了18px 这里改为集成父元素字体大小 与svg-icon自定义svg保持一致

@@ -10,8 +10,8 @@ import Layout from '@/layout/index.vue'
 import {
   HelpFilled,
   Menu,
-  Odometer,
-  Orange
+  Brush,
+  Discount
 } from '@element-plus/icons-vue'
 
 const router = createRouter({
@@ -77,8 +77,8 @@ const router = createRouter({
           name: 'Icons',
           component: () => import('@/views/example/icon.vue'),
           meta: {
-            title: 'Icons',
-            icon: 'icon',
+            title: 'Icon',
+            icon: Discount,
           }
         },
         {
@@ -87,7 +87,7 @@ const router = createRouter({
           component: () => import('@/views/example/color.vue'),
           meta: {
             title: 'Color',
-            icon: Orange,
+            icon: Brush,
           }
         },
         {
@@ -123,7 +123,7 @@ const router = createRouter({
           component: () => import('@/views/example/test.vue'),
           meta: {
             title: 'Test',
-            icon: Odometer,
+            icon: 'test',
             keepAlive: true,
           }
         },

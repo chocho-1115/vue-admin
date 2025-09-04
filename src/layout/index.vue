@@ -112,7 +112,7 @@ const handleClickOutside = () => {
 .sidebar {
 	transition: width 0.28s;
 	width: v.$sideBarWidth !important;
-	border-right: 1px solid var(--el-color-info-light-9);
+	border-right: 1px solid var(--el-border-color-extra-light);
 	background: var(--el-fill-color-extra-light);
 	height: 100%;
 	position: fixed;
