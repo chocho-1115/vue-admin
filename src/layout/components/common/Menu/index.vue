@@ -60,57 +60,13 @@ const activeMenu = computed(() => {
 </script>
 <style lang="scss" scoped>
 .router-menu {
-  :deep(.svg-icon) {
-    flex-shrink: 0;
-    margin-right: 16px;
-    // font-size:16px;
-  }
-  :deep(.el-menu-icon) {
-    font-size: inherit; // el-menu-icon 的字体大小被element主题css设置为了18px 这里改为集成父元素字体大小 与svg-icon自定义svg保持一致
-    width: 1em;
-    height: 1em;
-    margin-right: 16px;
-    transform: scale(1.2);// 由于element的icon其viewBox没有顶边，而自定义的svg都顶边了 so通过缩放来保持大小一致
-  }
   :deep(.el-menu) {
-    border: none;
+    border-right: none;
   }
   // 触屏设备上去掉hover效果
   @media (any-hover: none) {
     :deep(.el-menu-item:hover) {
       background-color: transparent !important;
-    }
-  }
-}
-</style>
-
-<style lang="scss">
-.hideSidebar {
-  .el-sub-menu__icon-arrow {
-    // display: none;
-  }
-  // .el-menu--collapse {
-  //   width: auto;
-  // }
-  // .el-menu--collapse {
-  //   .el-sub-menu__title {
-  //     &>span {
-  //       display:none
-  //     }
-  //   }
-  // }
-}
-// 收起后鼠标经过时的悬浮子级菜单
-.el-menu--popup-container {
-  .el-menu {
-    .svg-icon {
-      margin-right: 5px;
-      // font-size:16.8px;
-    }
-    .el-menu-icon {
-      font-size: inherit; // el-menu-icon 的字体大小被element主题css设置为了18px 这里改为集成父元素字体大小 与svg-icon自定义svg保持一致
-      width:1em;
-      transform: scale(1.2);// 由于element的icon其viewBox没有顶边，而自定义的svg都顶边了 so通过缩放来保持大小一致
     }
   }
 }

@@ -2,9 +2,9 @@
   <template v-if="!alwaysShow && theOnlyOneChild && !theOnlyOneChild.children">
     <el-menu-item :index="resolvePath(theOnlyOneChild.path)" @click="onGotoPage(theOnlyOneChild)">
       <template v-if="theOnlyOneChild.meta.icon">
-        <svg-icon :icon="theOnlyOneChild.meta.icon" v-if="typeof theOnlyOneChild.meta.icon === 'string'" />
-        <el-icon class="el-menu-icon" v-else>
-          <component :is="theOnlyOneChild.meta.icon" />
+        <el-icon class="el-menu-icon">
+          <svg-icon :icon="theOnlyOneChild.meta.icon" v-if="typeof theOnlyOneChild.meta.icon === 'string'" />
+          <component :is="theOnlyOneChild.meta.icon" v-else />
         </el-icon>
       </template>
       <template #title v-if="theOnlyOneChild.meta.title">
@@ -18,9 +18,10 @@
   <el-sub-menu :index="resolvePath(info.path)" popper-append-to-body ref="subMenu" v-else>
     <template #title>
       <template v-if="info.meta.icon">
-        <svg-icon :icon="info.meta.icon" v-if="typeof info.meta.icon === 'string'" />
-        <el-icon class="el-menu-icon" v-else>
-          <component :is="info.meta.icon" />
+        
+        <el-icon class="el-menu-icon">
+          <svg-icon :icon="info.meta.icon" v-if="typeof info.meta.icon === 'string'" />
+          <component :is="info.meta.icon" v-else />
         </el-icon>
       </template>
       <template v-if="info.meta.title">

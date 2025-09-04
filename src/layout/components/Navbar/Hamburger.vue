@@ -38,10 +38,10 @@ const toggleClick = () => {
     height: 20px;
     fill: currentColor;
     // var(--el-text-color-primary)
+    &.is-active {
+      transform: rotate(180deg);
+    }
   }
 }
 
-.hamburger.is-active {
-    transform: rotate(180deg);
-}
 </style>
