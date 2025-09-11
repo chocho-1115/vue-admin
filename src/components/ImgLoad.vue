@@ -122,4 +122,8 @@ setOssStr();
 	align-items: center;
 
 }
+
+img{
+	transition:opacity .8s;
+}
 </style>
