@@ -201,7 +201,7 @@ main {
 	width: 100%;
 	position: relative;
 	overflow: hidden;
-	box-sizing: content-box;
+	// box-sizing: content-box;
 	z-index: 1;
 	// background: var(--el-bg-color-page);
 }

@@ -10,7 +10,6 @@ import Layout from '@/layout/index.vue'
 import {
   Brush,
   Discount,
-  House
 } from '@element-plus/icons-vue'
 
 const router = createRouter({
@@ -31,7 +30,7 @@ const router = createRouter({
         component: () => import('@/views/dashboard.vue'),
         meta: {
           title: 'Dashboard',
-          icon: House,
+          icon: 'home',
           keepAlive: true,
           affix: true
         }
