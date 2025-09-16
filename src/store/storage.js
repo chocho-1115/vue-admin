@@ -1,18 +1,17 @@
-import {
-  tokenKey,
-  sidebarOpenedCacheKey
-} from './config.js'
+const sidebarOpenedCacheKey = 'VA_sidebar_opened'
+const tokenCacheKey = 'VA_token'
+const themeCacheKey = 'VA_theme'
 
 export function getToken() {
-  return localStorage.getItem(tokenKey)
+  return localStorage.getItem(tokenCacheKey)
 }
 
 export function setToken(token) {
-  return localStorage.setItem(tokenKey, token)
+  return localStorage.setItem(tokenCacheKey, token)
 }
 
 export function removeToken() {
-  return localStorage.removeItem(tokenKey)
+  return localStorage.removeItem(tokenCacheKey)
 }
 
 export function getSidebarStatus() {
@@ -23,3 +22,12 @@ export function getSidebarStatus() {
 export function setSidebarStatus(status) {
   localStorage.setItem(sidebarOpenedCacheKey, status ? 1 : 0)
 }
+
+export function setTheme(tName) {
+  localStorage.setItem(themeCacheKey, tName)
+}
+
+export function getTheme() {
+  return localStorage.getItem(themeCacheKey) || ''
+}
+

@@ -86,10 +86,12 @@ import Hamburger from './Hamburger.vue'
 import UserCenter from '../common/UserCenter.vue'
 
 import { dispatch } from '@/store'
+import {setTheme, getTheme} from '@/store/storage'
 
 const ctx = inject('context')
 
-const themeDark = ref(false)
+
+const themeDark = ref(getTheme() === 'dark' ? true : false)
 const drawerMenu = ref(false)
 const drawerMessage = ref(false)
 
@@ -97,12 +99,15 @@ const toggleSidebar = () => {
   dispatch.sidebar.toggle()
 }
 
+if(themeDark.value){
+  document.documentElement.classList.add('dark')
+}
+
 const toggleTheme = () => {
   themeDark.value = !themeDark.value
   document.documentElement.classList.toggle('dark')
+  themeDark.value ? setTheme('dark') : setTheme('light')
 }
-
-
 
 </script>
 
