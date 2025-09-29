@@ -82,7 +82,7 @@ const handleClickOutside = () => {
 .app-wrapper {
 	@include clearfix;
 	position: relative;
-	height: 100%;
+	min-height: 100vh;
 	width: 100%;
 
 	&.mobile.openSidebar {

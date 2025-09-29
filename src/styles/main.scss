@@ -5,7 +5,7 @@
 // @use './sidebar.scss';
 
 body {
-  height: 100%;
+  min-height: 100vh;
   -moz-osx-font-smoothing: grayscale;
   -webkit-font-smoothing: antialiased;
   text-rendering: optimizeLegibility;
@@ -17,12 +17,10 @@ label {
 }
 
 html {
-  height: 100%;
   box-sizing: border-box;
 }
 
 #app {
-  min-height: 100%;
   position: relative;
   z-index: 1;
 }
