@@ -91,5 +91,5 @@ export default defineConfig(({
     
   }
 
-  return defineConfig(config)
+  return config
 })
