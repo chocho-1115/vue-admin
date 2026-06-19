@@ -8,6 +8,7 @@ import tagsView from './tagsView'
 
 export default reactive({
   device: 'desktop',
+  token: '',
   userInfo,
   sidebar,
   tagsView,

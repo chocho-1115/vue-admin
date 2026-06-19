@@ -41,7 +41,7 @@ import { reactive, ref, nextTick } from 'vue'
 import { useRouter, useRoute } from 'vue-router'
 
 import { validUsername } from '@/utils/validate'
-import { login } from '@/api/user'
+import { login } from '@/api/login'
 import { dispatch } from '@/store'
 
 const router = useRouter()
