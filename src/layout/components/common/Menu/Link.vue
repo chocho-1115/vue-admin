@@ -6,7 +6,7 @@
 
 <script setup>
 import { computed } from 'vue'
-import { isExternal } from '@/utils/validate'
+import { isExternal } from '@/common/validate'
 
 const props = defineProps({
     to: {

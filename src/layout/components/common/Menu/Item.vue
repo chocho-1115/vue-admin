@@ -40,7 +40,7 @@ import path from 'path-browserify-esm'
 import { inject, ref, onMounted } from 'vue'
 import { useRouter } from 'vue-router'
 
-import { isExternal } from '@/utils/validate'
+import { isExternal } from '@/common/validate'
 // import AppLink from './Link.vue'
 // import Item from './Item'
 
