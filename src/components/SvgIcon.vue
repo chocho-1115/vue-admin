@@ -8,7 +8,7 @@
 <script setup>
 // doc: https://panjiachen.github.io/vue-element-admin-site/feature/component/svg-icon.html#usage
 import { computed } from 'vue'
-import { isExternal as isExt } from '@/utils/validate'
+import { isExternal as isExt } from '@/common/validate'
 
 const props = defineProps({
     icon: {

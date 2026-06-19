@@ -10,7 +10,7 @@ import {
   users
 } from './config.js'
 import {
-  formatDate
+  formatTime
 } from '@/utils'
 
 function createRandomUser() {
@@ -25,7 +25,7 @@ function createRandomUser() {
       // }
     }),
     status: faker.helpers.arrayElement(['published', 'draft', 'deleted']),
-    display_time: formatDate('yyyy-MM-dd hh:mm:ss', faker.date.anytime({
+    display_time: formatTime('yyyy-MM-dd hh:mm:ss', faker.date.anytime({
       refDate: '2020-01-01T00:00:00.000Z'
     })), // '2020-12-13T22:45:10.252Z'
     pageviews: faker.number.int({

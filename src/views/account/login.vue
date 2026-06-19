@@ -40,7 +40,7 @@
 import { reactive, ref, nextTick } from 'vue'
 import { useRouter, useRoute } from 'vue-router'
 
-import { validUsername } from '@/utils/validate'
+import { validUsername } from '@/common/validate'
 import { login } from '@/api/login'
 import { dispatch } from '@/store'
 
