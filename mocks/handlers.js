@@ -1,10 +1,12 @@
 import {
   http
 } from 'msw'
+import login from './login'
 import user from './user'
 import table from './table'
 // // { request, params, cookies }
 const handlers = [
+  ...login,
   ...user,
   ...table,
 ];

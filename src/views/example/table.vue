@@ -44,8 +44,8 @@ onMounted(() => {
 })
 const fetchData = () => {
     table.listLoading = true
-    getList().then((response) => {
-        table.list = response.body.items
+    getList().then((res) => {
+        table.list = res.body.items
         table.listLoading = false
     })
 }

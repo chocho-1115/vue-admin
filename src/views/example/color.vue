@@ -19,7 +19,7 @@
 import { reactive, ref } from 'vue'
 import {
   copyText
-} from '@/utils'
+} from '@/core/utils'
 
 const disabled = ref(false)
 const elementColos = reactive([])

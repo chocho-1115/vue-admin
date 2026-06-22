@@ -1,36 +1,9 @@
 /*
- * @desc 日期格式化
- * @param {string} format 例如："yyyy/MM/dd"
- * @param {number} [timestamp] 时间戳，精确到毫秒
- * @returns {string}
- */
-export function formatDate(format, timestamp) {
-  let d = timestamp ? new Date(timestamp) : new Date()
-  let o = {
-    'M+': d.getMonth() + 1, // month   
-    'd+': d.getDate(), // day   
-    'h+': d.getHours(), // hour   
-    'm+': d.getMinutes(), // minute   
-    's+': d.getSeconds(), // second   
-    'q+': Math.floor((d.getMonth() + 3) / 3), // quarter   
-    'S': d.getMilliseconds() // millisecond   
-  }
-  if (/(y+)/.test(format)) format = format.replace(RegExp.$1,
-    (d.getFullYear() + '').substring(4 - RegExp.$1.length))
-  for (let k in o)
-    if (new RegExp('(' + k + ')').test(format))
-      format = format.replace(RegExp.$1,
-        RegExp.$1.length == 1 ? o[k] :
-        ('00' + o[k]).substring(('' + o[k]).length))
-  return format
-}
-
-/*
  * @desc 复制文本
  * @param {string} text 复制内容
  * @param {function} success 成功回调
  */
-export function copyText(text, success) {
+function copyText(text, success) {
     // 数字没有 .length 不能执行selectText 需要转化成字符串
     const textString = text.toString()
     let input = document.querySelector('#copy-input')
@@ -73,3 +46,5 @@ export function copyText(text, success) {
         }
     }
 }
+
+export default copyText

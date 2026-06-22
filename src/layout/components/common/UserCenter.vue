@@ -25,7 +25,7 @@
 import { inject } from 'vue'
 import { useRouter, useRoute } from 'vue-router'
 
-import { logout } from '@/api/user'
+import { logout } from '@/api/login'
 import { dispatch } from '@/store'
 
 const router = useRouter()
@@ -43,6 +43,7 @@ const redirect = route.fullPath || '/'
 
 const onLogout = async () => {
   logout().then(() => {
+    dispatch.login.removeToken()
     dispatch.user.removeInfo()
     router.push(`/account/login?redirect=${redirect}`)
   })

@@ -40,8 +40,8 @@
 import { reactive, ref, nextTick } from 'vue'
 import { useRouter, useRoute } from 'vue-router'
 
-import { validUsername } from '@/utils/validate'
-import { login } from '@/api/user'
+import { validUsername } from '@/common/validate'
+import { login } from '@/api/login'
 import { dispatch } from '@/store'
 
 const router = useRouter()
@@ -94,7 +94,7 @@ const handleLogin = () => {
 			loading.value = true
 			login(loginForm)
 				.then((res) => {
-					dispatch.user.setToken(res.body.token)
+					dispatch.login.saveToken(res.body.token)
 					router.push(redirect)
 					loading.value = false
 				})
@@ -158,7 +158,7 @@ $dark_gray: #889aa4;
 $light_gray: #eee;
 
 .login-container {
-	min-height: 100%;
+	min-height: 100vh;
 	width: 100%;
 	background-color: $bg;
 	overflow: hidden;

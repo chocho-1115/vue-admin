@@ -120,7 +120,12 @@ setOssStr();
 	display: flex;
 	justify-content: center;
 	align-items: center;
-
+	&::after{
+		content:'';
+		position:absolute;
+		inset: 0 0;
+		background: rgba(0,0,0,0.01);
+	}
 }
 
 img{

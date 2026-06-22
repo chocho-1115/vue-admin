@@ -1,32 +1,11 @@
 import {
-  tokens,
   users
 } from './config'
 import {
   response
 } from './response.js'
 
-export default [{
-    path: '/user/login',
-    type: 'post',
-    handler: async ({
-      request
-    }) => {
-      const {
-        username
-      } = await request.json()
-      const token = tokens[username]
-      if (!token) {
-        return response({
-          status: 0,
-          message: 'Account and password are incorrect.'
-        })
-      }
-      return response({
-        body: token
-      })
-    }
-  },
+export default [
   {
     path: '/user/info',
     type: 'get',
@@ -45,12 +24,4 @@ export default [{
       })
     }
   },
-  {
-    path: '/user/logout',
-    type: 'post',
-    handler: () => {
-      return response()
-    }
-  },
-
 ];

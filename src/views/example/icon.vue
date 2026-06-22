@@ -38,7 +38,7 @@
 import { ref } from 'vue'
 import {
   copyText
-} from '@/utils'
+} from '@/core/utils'
 import * as elementIcons from '@element-plus/icons-vue'
 import {
 	iconNameList
