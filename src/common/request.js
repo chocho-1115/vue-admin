@@ -1,5 +1,5 @@
 import axios from 'axios'
-
+import { EventBus } from '@/core/eventBus'
 import { initHttpSubscriber } from "@/common/httpSubscriber.js"
 import {
   dispatch
@@ -14,77 +14,71 @@ const service = axios.create({
   timeout: 5000 // request timeout
 })
 
-// request interceptor
-// service.interceptors.request.use(
-//   config => {
-//     // do something before request is sent
+// Add a request interceptor
+axios.interceptors.request.use(
+  function (config) {
+    // Do something before request is sent
+    return config;
+  },
+  function (error) {
+    // Do something with request error
+    return Promise.reject(error);
+  }
+);
 
-//     const token = dispatch.login.getTokenStorage()
-//     if (token) {
-//       // let each request carry token
-//       // ['X-Token'] is a custom headers key
-//       // please modify it according to the actual situation
-//       config.headers['token'] = token
-//     }
-//     return config
-//   },
-//   error => {
-//     // do something with request error
-//     console.log(error) // for debug
-//     return Promise.reject(error)
-//   }
-// )
-
-// response interceptor
+// Add a response interceptor
 service.interceptors.response.use(
-  /**
-   * If you want to get http information such as headers or status
-   * Please return  response => response
-   */
-
-  /**
-   * Determine the request status by custom code
-   * Here is just an example
-   * You can also judge the status by HTTP Status Code
-   */
+  // Any status code that lie within the range of 2xx cause this function to trigger
+  // Do something with response data
   response => {
     const res = response.data
-
+    const url = response.config.url
     // if the custom code is not 20000, it is judged as an error.
     if (res.code !== 20000) {
-      ElMessage({
-        message: res.message || 'Error',
-        type: 'error',
-        duration: 5 * 1000
-      })
-
       // 50008: Illegal token; 50012: Other clients logged in; 50014: Token expired;
-      if (res.code === 50008 || res.code === 50012 || res.code === 50014) {
-        // to re-login
-        ElMessageBox.confirm(
-          'You have been logged out, you can cancel to stay on this page, or log in again',
-          'Confirm logout', {
-            confirmButtonText: 'Re-Login',
-            cancelButtonText: 'Cancel',
-            type: 'warning'
-          }).then(() => {
-          dispatch.login.removeToken()
-          dispatch.user.removeInfo()
-          location.reload()
-        })
+      if (res.code === 50008) {
+        EventBus.emit('auth:unauthorized', { url, res })
+      }else if (res.code === 50012 || res.code === 50014) {
+        EventBus.emit('auth:expired', { url, res })
+      }else{
+        EventBus.emit('request:error', { url, res })
       }
-      return Promise.reject(new Error(res.message || 'Error'))
+      const error = new Error(res.msg || res.data?.message || 'Error', { cause: response })
+      error.response = response
+      return Promise.reject(error) // 没有catch时 会直接抛出错误 不会执行请求之后的代码
     } else {
       return res
     }
   },
+  // Any status codes that falls outside the range of 2xx cause this function to trigger
+  // Do something with response error
   error => {
-    console.log('err ' + error) // for debug
-    ElMessage({
-      message: error.message,
-      type: 'error',
-      duration: 5 * 1000
-    })
+
+    if (error.response) {
+      // The request was made and the server responded with a status code
+      // that falls out of the range of 2xx
+      // console.log(error.response.data);
+      // console.log(error.response.status);
+      // console.log(error.response.headers);
+    } else if (error.request) {
+      // The request was made but no response was received
+      // `error.request` is an instance of XMLHttpRequest in the browser and an instance of
+      // http.ClientRequest in node.js
+      // console.log(error.request);
+    } else {
+      // Something happened in setting up the request that triggered an Error
+      // console.log("Error", error.message);
+    }
+    // console.log(error.config);
+
+    const code = error.code // 自定义内容
+    const message = error.message // 自定义内容
+    const status = error.status // 请求状态码
+    const url = error.config?.url // 请求url
+
+    // 对响应错误做点什么
+    EventBus.emit('request:error', { code, message, status, url })
+
     return Promise.reject(error)
   }
 )
