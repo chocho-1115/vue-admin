@@ -48,5 +48,8 @@
     "workerDirectory": [
       ""
     ]
+  },
+  "overrides": {
+    "@vueuse/core": "14.2.1"
   }
 }
