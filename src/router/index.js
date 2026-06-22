@@ -3,14 +3,14 @@ import {
   createWebHistory
   // createWebHashHistory
 } from 'vue-router'
-
-import nestedRouter from './modules/nested'
-
-import Layout from '@/layout/index.vue'
 import {
   Brush,
   Discount,
 } from '@element-plus/icons-vue'
+
+import Layout from '@/layout/index.vue'
+import nestedRouter from './modules/nested'
+import whiteList from './whiteList'
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.VITE_BASE_URL),
@@ -154,6 +154,11 @@ const router = createRouter({
 
 export const resetRouter = () => {
   // console.log(router)
+}
+
+export const isWhitePage = (path) => {
+  const route = router.currentRoute.value
+  return !(whiteList.indexOf(path || route.path) === -1)
 }
 
 export default router

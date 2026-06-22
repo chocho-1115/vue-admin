@@ -1,8 +1,11 @@
 import axios from 'axios'
 
+import { initHttpSubscriber } from "@/common/httpSubscriber.js"
 import {
   dispatch
 } from '@/store'
+
+initHttpSubscriber()
 
 // create an axios instance
 const service = axios.create({
@@ -16,7 +19,7 @@ service.interceptors.request.use(
   config => {
     // do something before request is sent
 
-    const token = dispatch.user.getToken()
+    const token = dispatch.login.getTokenStorage()
     if (token) {
       // let each request carry token
       // ['X-Token'] is a custom headers key
@@ -65,7 +68,8 @@ service.interceptors.response.use(
             cancelButtonText: 'Cancel',
             type: 'warning'
           }).then(() => {
-          dispatch.user.removeToken()
+          dispatch.login.removeToken()
+          dispatch.user.removeInfo()
           location.reload()
         })
       }

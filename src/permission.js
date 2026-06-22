@@ -1,4 +1,4 @@
-import router from './router'
+import router, { isWhitePage } from './router'
 import {
   getInfo
 } from './api/user'
@@ -13,12 +13,6 @@ NProgress.configure({
   showSpinner: false,
 })
 
-// no redirect whitelist
-const whiteList = [
-  '/account/login',
-  '/404'
-]
-
 router.beforeEach(async (to, from) => {
   // start progress bar
   NProgress.start()
@@ -27,7 +21,7 @@ router.beforeEach(async (to, from) => {
   document.title = to.meta.title ? `${to.meta.title} - Vue Admin` : `Vue Admin`
 
   // determine whether the user has logged in
-  const hasToken = dispatch.user.getToken()
+  const hasToken = dispatch.login.getTokenStorage()
 
   if (hasToken) {
 
@@ -55,16 +49,17 @@ router.beforeEach(async (to, from) => {
           return
         } catch (error) {
           // remove token and go to login page to re-login
-          dispatch.user.removeToken()
+          dispatch.login.removeToken()
+          dispatch.user.removeInfo()
           ElMessage.error(error || 'Has Error')
-          if (whiteList.indexOf(to.path) === -1) {
+          if (isWhitePage(to.path)) {
+            return
+          }else{
             NProgress.done()
             return {
               path: '/account/login', 
               query: { redirect: to.fullPath || '/' } 
             }
-          }else{
-            return
           }
         }
       }
@@ -72,16 +67,16 @@ router.beforeEach(async (to, from) => {
   } else {
     /* has no token*/
 
-    if (whiteList.indexOf(to.path) === -1) {
+    if (isWhitePage(to.path)) {
+      // in the free login whitelist, go directly
+      return
+    } else {
       // other pages that do not have permission to access are redirected to the login page.
       NProgress.done()
       return {
         path: '/account/login', 
         query: { redirect: to.fullPath || '/' } 
       }
-    } else {
-      // in the free login whitelist, go directly
-      return
     }
   }
 })
