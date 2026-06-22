@@ -152,6 +152,11 @@ const router = createRouter({
   ],
 })
 
+router.beforeEach(async (to, from) => {
+  // set page title
+  document.title = to.meta.title ? `${to.meta.title} - Vue Admin` : `Vue Admin`
+})
+
 export const resetRouter = () => {
   // console.log(router)
 }
