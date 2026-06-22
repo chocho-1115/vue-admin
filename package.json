@@ -16,33 +16,33 @@
     "node": ">=22.16.0"
   },
   "dependencies": {
-    "axios": "^1.8.4",
-    "element-plus": "^2.9.9",
+    "axios": "^1.18.0",
+    "element-plus": "^2.14.2",
     "normalize.css": "^8.0.1",
     "nprogress": "^0.2.0",
     "path-browserify-esm": "^1.0.6",
-    "vue": "^3.5.13",
-    "vue-router": "^4.5.0"
+    "vue": "^3.5.38",
+    "vue-router": "^5.1.0"
   },
   "devDependencies": {
-    "@eslint/js": "^9.22.0",
-    "@faker-js/faker": "^9.7.0",
-    "@iconify-json/ep": "^1.2.2",
-    "@spiriit/vite-plugin-svg-spritemap": "^4.0.1",
-    "@vitejs/plugin-vue": "^5.2.3",
+    "@eslint/js": "^10.0.1",
+    "@faker-js/faker": "^10.5.0",
+    "@iconify-json/ep": "^1.2.4",
+    "@spiriit/vite-plugin-svg-spritemap": "^7.0.0",
+    "@vitejs/plugin-vue": "^6.0.7",
     "@vue/eslint-config-prettier": "^10.2.0",
-    "eslint": "^9.22.0",
-    "eslint-plugin-vue": "~10.0.0",
-    "globals": "^16.0.0",
-    "msw": "^2.7.5",
-    "prettier": "3.5.3",
-    "sass-embedded": "^1.87.0",
-    "unplugin-auto-import": "^19.1.2",
-    "unplugin-icons": "^22.1.0",
-    "unplugin-vue-components": "^28.5.0",
-    "vite": "^6.2.4",
+    "eslint": "^10.5.0",
+    "eslint-plugin-vue": "~10.9.2",
+    "globals": "^17.6.0",
+    "msw": "^2.14.6",
+    "prettier": "3.8.4",
+    "sass-embedded": "^1.100.0",
+    "unplugin-auto-import": "^21.0.0",
+    "unplugin-icons": "^23.0.1",
+    "unplugin-vue-components": "^32.1.0",
+    "vite": "^8.0.16",
     "vite-plugin-markdown": "^2.2.0",
-    "vite-plugin-vue-devtools": "^7.7.2"
+    "vite-plugin-vue-devtools": "^8.1.3"
   },
   "msw": {
     "workerDirectory": [

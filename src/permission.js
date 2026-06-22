@@ -19,7 +19,7 @@ const whiteList = [
   '/404'
 ]
 
-router.beforeEach(async (to, from, next) => {
+router.beforeEach(async (to, from) => {
   // start progress bar
   NProgress.start()
 
@@ -33,15 +33,15 @@ router.beforeEach(async (to, from, next) => {
 
     if (to.path === '/account/login') {
       // if is logged in, redirect to the home page
-      next({
-        path: '/',
-      })
       NProgress.done()
+      return {
+        path: '/',
+      }
     } else {
       const hasUserInfo = ctx.userInfo.name
 
       if (hasUserInfo) {
-        next()
+        return
       } else {
         try {
           // get user info
@@ -52,16 +52,19 @@ router.beforeEach(async (to, from, next) => {
             throw new Error("Verification failed, please Login again.");
           }
           dispatch.user.saveInfo(body)
-          next()
+          return
         } catch (error) {
           // remove token and go to login page to re-login
           dispatch.user.removeToken()
           ElMessage.error(error || 'Has Error')
           if (whiteList.indexOf(to.path) === -1) {
-            next(`/account/login?redirect=${to.path}`)
             NProgress.done()
+            return {
+              path: '/account/login', 
+              query: { redirect: to.fullPath || '/' } 
+            }
           }else{
-            next()
+            return
           }
         }
       }
@@ -71,11 +74,14 @@ router.beforeEach(async (to, from, next) => {
 
     if (whiteList.indexOf(to.path) === -1) {
       // other pages that do not have permission to access are redirected to the login page.
-      next(`/account/login?redirect=${to.path}`)
       NProgress.done()
+      return {
+        path: '/account/login', 
+        query: { redirect: to.fullPath || '/' } 
+      }
     } else {
       // in the free login whitelist, go directly
-      next()
+      return
     }
   }
 })
