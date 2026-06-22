@@ -15,25 +15,25 @@ const service = axios.create({
 })
 
 // request interceptor
-service.interceptors.request.use(
-  config => {
-    // do something before request is sent
+// service.interceptors.request.use(
+//   config => {
+//     // do something before request is sent
 
-    const token = dispatch.login.getTokenStorage()
-    if (token) {
-      // let each request carry token
-      // ['X-Token'] is a custom headers key
-      // please modify it according to the actual situation
-      config.headers['token'] = token
-    }
-    return config
-  },
-  error => {
-    // do something with request error
-    console.log(error) // for debug
-    return Promise.reject(error)
-  }
-)
+//     const token = dispatch.login.getTokenStorage()
+//     if (token) {
+//       // let each request carry token
+//       // ['X-Token'] is a custom headers key
+//       // please modify it according to the actual situation
+//       config.headers['token'] = token
+//     }
+//     return config
+//   },
+//   error => {
+//     // do something with request error
+//     console.log(error) // for debug
+//     return Promise.reject(error)
+//   }
+// )
 
 // response interceptor
 service.interceptors.response.use(
