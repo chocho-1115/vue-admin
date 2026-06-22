@@ -3,14 +3,14 @@ import {
   createWebHistory
   // createWebHashHistory
 } from 'vue-router'
-
-import nestedRouter from './modules/nested'
-
-import Layout from '@/layout/index.vue'
 import {
   Brush,
   Discount,
 } from '@element-plus/icons-vue'
+
+import Layout from '@/layout/index.vue'
+import nestedRouter from './modules/nested'
+import whiteList from './whiteList'
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.VITE_BASE_URL),
@@ -152,8 +152,18 @@ const router = createRouter({
   ],
 })
 
+router.beforeEach(async (to, from) => {
+  // set page title
+  document.title = to.meta.title ? `${to.meta.title} - Vue Admin` : `Vue Admin`
+})
+
 export const resetRouter = () => {
   // console.log(router)
+}
+
+export const isWhitePage = (path) => {
+  const route = router.currentRoute.value
+  return !(whiteList.indexOf(path || route.path) === -1)
 }
 
 export default router

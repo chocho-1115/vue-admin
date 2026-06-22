@@ -43,6 +43,7 @@ const redirect = route.fullPath || '/'
 
 const onLogout = async () => {
   logout().then(() => {
+    dispatch.login.removeToken()
     dispatch.user.removeInfo()
     router.push(`/account/login?redirect=${redirect}`)
   })

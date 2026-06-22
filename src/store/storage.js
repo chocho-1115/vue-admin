@@ -2,15 +2,15 @@ const sidebarOpenedCacheKey = 'VA_sidebar_opened'
 const tokenCacheKey = 'VA_token'
 const themeCacheKey = 'VA_theme'
 
-export function getToken() {
+export function getTokenStorage() {
   return localStorage.getItem(tokenCacheKey)
 }
 
-export function setToken(token) {
+export function saveTokenStorage(token) {
   return localStorage.setItem(tokenCacheKey, token)
 }
 
-export function removeToken() {
+export function removeTokenStorage() {
   return localStorage.removeItem(tokenCacheKey)
 }
 
