@@ -11,6 +11,16 @@
       <button @click="routerChange">Click to change form page query</button>
     </div>
     <p>给标签页加参数，看看再次进入标签页参数是否丢失（这里点击侧边栏二次进入标签页会丢失，这种场景不考虑）</p>
+
+    <div class="text">
+      <button @click="avatarChange">Click to change form userInfo.avatar</button>
+    </div>
+    <p>点击清空用户头像 模拟图片动态变化</p>
+      
+		<div style="width:100px;height:100px;">
+			<img-load :src="ctx.src"  backgroundColor="var(--el-fill-color-light)" defaultColor="var(--el-color-primary)" />
+		</div>
+		
   </div>
 </template>
 
@@ -26,6 +36,7 @@ const arr = [1]
 const ctx = reactive({
     o: obj,
     a: arr,
+		src: '',
 })
 
 setTimeout(function () {
@@ -52,6 +63,19 @@ const routerChange = () => {
         query: { name: v },
         // hash: { t: 2 },
     })
+}
+
+let avatar = ''
+const avatarChange = () => {
+    if(avatar){
+        context.userInfo.avatar = avatar
+        avatar = ''
+				ctx.src = undefined
+    }else{
+        avatar = context.userInfo.avatar
+        context.userInfo.avatar = ''
+				ctx.src = avatar
+    }
 }
 </script>
 
