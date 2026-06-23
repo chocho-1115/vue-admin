@@ -50,6 +50,8 @@
     ]
   },
   "overrides": {
-    "@vueuse/core": "14.2.1"
+    "@vueuse/core": "14.2.1",
+    "js-yaml": "^4.2.0",
+    "markdown-it": "^14.2.0"
   }
 }
