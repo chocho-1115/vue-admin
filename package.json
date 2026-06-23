@@ -16,7 +16,7 @@
     "node": ">=22.16.0"
   },
   "dependencies": {
-    "axios": "^1.18.0",
+    "axios": "^1.18.1",
     "element-plus": "^2.14.2",
     "normalize.css": "^8.0.1",
     "nprogress": "^0.2.0",
@@ -33,7 +33,7 @@
     "@vue/eslint-config-prettier": "^10.2.0",
     "eslint": "^10.5.0",
     "eslint-plugin-vue": "~10.9.2",
-    "globals": "^17.6.0",
+    "globals": "^17.7.0",
     "msw": "^2.14.6",
     "prettier": "3.8.4",
     "sass-embedded": "^1.100.0",
