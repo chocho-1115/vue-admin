@@ -9,9 +9,8 @@
 		<svg-icon :icon="defaultName" class="icon" v-if='!info.finishLoadFlag'
 			:style='{ color: defaultColor, "object-fit": "cover", "width": defaultWidth, "height": defaultHeight }' />
 
-		<!-- 下面src 为空时 会赋值 'loadError' 是为了当src动态变化为空字符串时 触发binderror事件 将info.finishLoadFlag重置为 false -->
 		<!-- src='{{src || "loadError"}}'  -->
-		<img :src='src ? src + info.XOssProcess : "loadError"' @load='onLoadSuccess' @error='onLoadError'
+		<img :src='src ? src + info.XOssProcess : ""' @load='onLoadSuccess' @error='onLoadError'
 			:class="{ 'before-load': !info.finishLoadFlag }"
 			:style='{ "object-fit": mode, "width": info.finishLoadFlag && width ? width : false, "height": info.finishLoadFlag && height ? height : false }' />
 	</div>
