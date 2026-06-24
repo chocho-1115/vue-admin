@@ -1,4 +1,4 @@
-const sidebarOpenedCacheKey = 'VA_sidebar_opened'
+const sidebarOpenedCacheKey = 'VA_mini-sidebar'
 const tokenCacheKey = 'VA_token'
 const themeCacheKey = 'VA_theme'
 

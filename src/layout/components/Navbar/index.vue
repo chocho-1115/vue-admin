@@ -4,7 +4,6 @@
     <hamburger class="hamburger-container" v-if="ctx.device!=='mobile'" :is-active="ctx.sidebar.opened" @toggleClick="toggleSidebar" />
     <breadcrumb class="breadcrumb-container" v-if="ctx.device!=='mobile'" />
     <div class="right-menu">
-      
       <el-tooltip content="Under development" effect="dark" placement="bottom" v-if="ctx.device!=='mobile'">
         <div class="icon-button hover-effect">
           <el-icon>
@@ -32,6 +31,7 @@
   </div>
 
   <Teleport defer to="body">
+    <div @click="onOutside" class="drawer-bg" v-if="drawerMenu === true"></div>
     <!-- drawer-menu-container元素是为了:deep样式生效 -->
     <div class="drawer-menu-container">
       <el-drawer v-model="drawerMenu" size="min(400px, max(30%, 240px))" :show-close="false">
@@ -77,7 +77,8 @@
 </template>
 
 <script setup>
-import { inject, ref } from 'vue'
+import { inject, ref, watch } from 'vue'
+import { useRoute } from 'vue-router'
 
 import MenuList from '../common/Menu/index.vue'
 import Logo from '../common/Logo.vue'
@@ -88,12 +89,19 @@ import UserCenter from '../common/UserCenter.vue'
 import { dispatch } from '@/store'
 import {setTheme, getTheme} from '@/store/storage'
 
+const route = useRoute()
 const ctx = inject('context')
-
 
 const themeDark = ref(getTheme() === 'dark' ? true : false)
 const drawerMenu = ref(false)
 const drawerMessage = ref(false)
+
+watch(
+	() => route.path,
+	() => {
+		drawerMenu.value = false
+	}
+)
 
 const toggleSidebar = () => {
   dispatch.sidebar.toggle()
@@ -107,6 +115,10 @@ const toggleTheme = () => {
   themeDark.value = !themeDark.value
   document.documentElement.classList.toggle('dark')
   themeDark.value ? setTheme('dark') : setTheme('light')
+}
+
+const onOutside = () => {
+	drawerMenu.value = false
 }
 
 </script>
@@ -148,6 +160,17 @@ const toggleTheme = () => {
     }
   }
 }
+
+.drawer-bg {
+	background: #000;
+	opacity: 0.3;
+	width: 100%;
+	top: 0;
+	height: 100%;
+	position: absolute;
+	z-index: 2;
+}
+
 .menu-header{
   .main{
     height:80px;
