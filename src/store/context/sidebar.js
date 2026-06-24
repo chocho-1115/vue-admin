@@ -4,5 +4,4 @@ import {
 
 export default {
   opened: getSidebarStatus(),
-  withoutAnimation: false
 }
