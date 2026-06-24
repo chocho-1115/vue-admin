@@ -105,7 +105,6 @@ const toggleSidebar = () => {
 </script>
 
 <style lang="scss" scoped>
-@use '@/styles/variables.module.scss' as v;
 .navbar {
   height: 50px;
   overflow: hidden;
