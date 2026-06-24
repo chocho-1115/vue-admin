@@ -42,10 +42,10 @@ provide('reloadAppMain', () => {
 
 const classObj = computed(() => {
 	return {
-		hideSidebar: !ctx.sidebar.opened,
-		openSidebar: ctx.sidebar.opened,
-		withoutAnimation: ctx.sidebar.withoutAnimation,
-		mobile: ctx.device === 'mobile',
+		'hide-sidebar': !ctx.sidebar.opened,
+		'open-sidebar': ctx.sidebar.opened,
+		'transition-none': ctx.sidebar.withoutAnimation,
+		'mobile': ctx.device === 'mobile',
 	}
 })
 
@@ -84,7 +84,7 @@ const handleClickOutside = () => {
 	min-height: 100vh;
 	width: 100%;
 
-	&.mobile.openSidebar {
+	&.mobile.open-sidebar {
 		position: fixed;
 		top: 0;
 	}
@@ -130,7 +130,7 @@ const handleClickOutside = () => {
 	// }
 }
 
-.hideSidebar {
+.hide-sidebar {
 	.sidebar {
 		width: 64px !important;
 	}
@@ -151,7 +151,7 @@ const handleClickOutside = () => {
 		width: var(--sidebar-width) !important;
 	}
 
-	&.hideSidebar {
+	&.hide-sidebar {
 		.sidebar {
 			pointer-events: none;
 			// transition-duration: 0.3s;
@@ -160,7 +160,7 @@ const handleClickOutside = () => {
 	}
 }
 
-.withoutAnimation {
+.transition-none {
 
 	.container,
 	.sidebar {
@@ -185,7 +185,7 @@ header {
 	transition: width 0.28s;
 }
 
-.hideSidebar .fixed-header {
+.hide-sidebar .fixed-header {
 	width: calc(100% - 64px);
 }
 
