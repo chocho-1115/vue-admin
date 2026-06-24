@@ -93,7 +93,7 @@ const handleClickOutside = () => {
 .container {
 	min-height: 100%;
 	transition: margin-left .28s;
-	margin-left: var(--sideBarWidth);
+	margin-left: var(--sidebar-width);
 	position: relative;
 	z-index: 1;
 }
@@ -110,7 +110,7 @@ const handleClickOutside = () => {
 
 .sidebar {
 	transition: width 0.28s;
-	width: var(--sideBarWidth) !important;
+	width: var(--sidebar-width) !important;
 	border-right: 1px solid var(--el-border-color-extra-light);
 	background: var(--el-fill-color-extra-light);
 	height: 100%;
@@ -148,14 +148,14 @@ const handleClickOutside = () => {
 
 	.sidebar {
 		transition: transform .28s;
-		width: var(--sideBarWidth) !important;
+		width: var(--sidebar-width) !important;
 	}
 
 	&.hideSidebar {
 		.sidebar {
 			pointer-events: none;
 			// transition-duration: 0.3s;
-			transform: translate3d(- var(--sideBarWidth), 0, 0);
+			transform: translate3d(calc(-1 * var(--sidebar-width)), 0, 0);
 		}
 	}
 }
@@ -181,7 +181,7 @@ header {
 	top: 0;
 	right: 0;
 	z-index: 2;
-	width: calc(100% - var(--sideBarWidth));
+	width: calc(100% - var(--sidebar-width));
 	transition: width 0.28s;
 }
 
