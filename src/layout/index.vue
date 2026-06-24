@@ -53,7 +53,8 @@ watch(
 	() => route.path,
 	() => {
 		if (ctx.device === 'mobile' && ctx.sidebar.opened) {
-			dispatch.sidebar.close({ withoutAnimation: false })
+			dispatch.sidebar.setWithoutAnimation(false)
+			dispatch.sidebar.close()
 		}
 	}
 )
@@ -62,7 +63,8 @@ onMounted(() => {
 	window.addEventListener('resize', resizeHandler)
 	if (isMobile()) {
 		ctx.device = 'mobile'
-		dispatch.sidebar.close({ withoutAnimation: true })
+		dispatch.sidebar.setWithoutAnimation(true)
+		dispatch.sidebar.close()
 	}
 })
 
@@ -71,7 +73,8 @@ onUnmounted(() => {
 })
 
 const handleClickOutside = () => {
-	dispatch.sidebar.close({ withoutAnimation: false })
+	dispatch.sidebar.setWithoutAnimation(false)
+	dispatch.sidebar.close()
 }
 </script>
 

@@ -18,9 +18,8 @@ export const resizeHandler = () => {
     const isM = isMobile()
     ctx.device = isM ? 'mobile' : 'desktop'
     if (isM) {
-      dispatch.sidebar.close({
-        withoutAnimation: true
-      })
+      dispatch.sidebar.setWithoutAnimation(true)
+      dispatch.sidebar.close()
     }
   }
 }
