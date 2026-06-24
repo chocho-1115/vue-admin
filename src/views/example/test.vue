@@ -17,7 +17,7 @@
     </div>
     <p>点击清空用户头像 模拟图片动态变化</p>
       
-		<div style="width:100px;height:100px;">
+		<div class="text" style="width:100px;height:100px;">
 			<img-load :src="ctx.src"  backgroundColor="var(--el-fill-color-light)" defaultColor="var(--el-color-primary)" />
 		</div>
 		
