@@ -77,7 +77,8 @@
 </template>
 
 <script setup>
-import { inject, ref } from 'vue'
+import { inject, ref, watch } from 'vue'
+import { useRoute } from 'vue-router'
 
 import MenuList from '../common/Menu/index.vue'
 import Logo from '../common/Logo.vue'
@@ -88,11 +89,19 @@ import UserCenter from '../common/UserCenter.vue'
 import { dispatch } from '@/store'
 import {setTheme, getTheme} from '@/store/storage'
 
+const route = useRoute()
 const ctx = inject('context')
 
 const themeDark = ref(getTheme() === 'dark' ? true : false)
 const drawerMenu = ref(false)
 const drawerMessage = ref(false)
+
+watch(
+	() => route.path,
+	() => {
+		drawerMenu.value = false
+	}
+)
 
 const toggleSidebar = () => {
   dispatch.sidebar.toggle()
