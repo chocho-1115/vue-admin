@@ -1,6 +1,5 @@
 <template>
 	<div :class="classObj" class="app-wrapper">
-		<div @click="handleClickOutside" class="drawer-bg" v-if="ctx.device === 'mobile' && ctx.sidebar.opened" />
 		<div class="sidebar">
 			<Sidebar />
 		</div>
@@ -20,7 +19,7 @@
 import { ref, inject, provide, nextTick, onMounted, onUnmounted, computed, watch } from 'vue'
 import { useRoute } from 'vue-router'
 import { Sidebar, Navbar, AppMain, TagsView } from './components'
-import { isMobile, resizeHandler } from './mixin/ResizeHandler'
+import { getDevice } from '@/common/layout'
 import { sctx, dispatch } from '@/store'
 
 const ctx = inject('context')
@@ -42,40 +41,24 @@ provide('reloadAppMain', () => {
 
 const classObj = computed(() => {
 	return {
-		'hide-sidebar': !ctx.sidebar.opened,
-		'open-sidebar': ctx.sidebar.opened,
-		'transition-none': ctx.sidebar.withoutAnimation,
+		'mini-sidebar': !ctx.sidebar.opened,
 		'mobile': ctx.device === 'mobile',
 	}
 })
 
-watch(
-	() => route.path,
-	() => {
-		if (ctx.device === 'mobile' && ctx.sidebar.opened) {
-			dispatch.sidebar.setWithoutAnimation(false)
-			dispatch.sidebar.close()
-		}
-	}
-)
+const resizeHandler = () => {
+  if (document.hidden) return
+	ctx.device = getDevice()
+}
 
 onMounted(() => {
 	window.addEventListener('resize', resizeHandler)
-	if (isMobile()) {
-		ctx.device = 'mobile'
-		dispatch.sidebar.setWithoutAnimation(true)
-		dispatch.sidebar.close()
-	}
 })
 
 onUnmounted(() => {
 	window.removeEventListener('resize', resizeHandler)
 })
 
-const handleClickOutside = () => {
-	dispatch.sidebar.setWithoutAnimation(false)
-	dispatch.sidebar.close()
-}
 </script>
 
 <style lang="scss" scoped>
@@ -86,11 +69,6 @@ const handleClickOutside = () => {
 	position: relative;
 	min-height: 100vh;
 	width: 100%;
-
-	&.mobile.open-sidebar {
-		position: fixed;
-		top: 0;
-	}
 }
 
 .container {
@@ -101,18 +79,8 @@ const handleClickOutside = () => {
 	z-index: 1;
 }
 
-.drawer-bg {
-	background: #000;
-	opacity: 0.3;
-	width: 100%;
-	top: 0;
-	height: 100%;
-	position: absolute;
-	z-index: 2;
-}
-
 .sidebar {
-	transition: width 0.28s;
+	transition: width 0.28s, transform 0.28s;
 	width: var(--sidebar-width) !important;
 	border-right: 1px solid var(--el-border-color-extra-light);
 	background: var(--el-fill-color-extra-light);
@@ -124,20 +92,12 @@ const handleClickOutside = () => {
 	left: 0;
 	z-index: 3;
 	overflow: hidden;
-	// &::before{
-	// 	content:'';
-	// 	width:1px;height:100%;
-	// 	background:#f00;
-	// 	position:absolute;
-	// 	left:50%;top:0;transform: translateX(-50%);
-	// }
 }
 
-.hide-sidebar {
+.mini-sidebar {
 	.sidebar {
 		width: 64px !important;
 	}
-
 	.container {
 		margin-left: 64px;
 	}
@@ -148,26 +108,9 @@ const handleClickOutside = () => {
 	.container {
 		margin-left: 0px;
 	}
-
 	.sidebar {
-		transition: transform .28s;
-		width: var(--sidebar-width) !important;
-	}
-
-	&.hide-sidebar {
-		.sidebar {
-			pointer-events: none;
-			// transition-duration: 0.3s;
-			transform: translate3d(calc(-1 * var(--sidebar-width)), 0, 0);
-		}
-	}
-}
-
-.transition-none {
-
-	.container,
-	.sidebar {
-		transition: none;
+		pointer-events: none;
+		transform: translate3d(-100%, 0, 0);
 	}
 }
 
@@ -188,7 +131,7 @@ header {
 	transition: width 0.28s;
 }
 
-.hide-sidebar .fixed-header {
+.mini-sidebar .fixed-header {
 	width: calc(100% - 64px);
 }
 
