@@ -5,7 +5,7 @@
 </template>
 
 <script setup>
-import { ref, computed, onMounted, onBeforeUnmount, defineExpose } from 'vue'
+import { ref, computed, onMounted, onBeforeUnmount } from 'vue'
 
 const emit = defineEmits()
 const scrollContainer = ref(null)
