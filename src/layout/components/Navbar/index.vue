@@ -107,10 +107,6 @@ const toggleSidebar = () => {
   dispatch.sidebar.toggle()
 }
 
-if(themeDark.value){
-  document.documentElement.classList.add('dark')
-}
-
 const toggleTheme = () => {
   themeDark.value = !themeDark.value
   document.documentElement.classList.toggle('dark')
@@ -173,7 +169,7 @@ const onOutside = () => {
 
 .menu-header{
   .main{
-    height:80px;
+    height:60px;
     display: flex;
     align-items: center;
     .icon-button{
@@ -203,6 +199,10 @@ const onOutside = () => {
   }
 }
 
+.drawer-menu-container{
+  user-select: none; // 禁止选中
+	-webkit-tap-highlight-color: transparent; // 移动端点击时避免蓝色高亮（可选）
+}
 .drawer-menu-container :deep(.el-drawer__header) {margin-bottom:0;padding-top:0;background:rgba(0,0,0,.05);border-bottom:solid 1px rgba(0,0,0,.05)}
 .drawer-menu-container :deep(.el-drawer__body) {padding: 0 !important}
 </style>

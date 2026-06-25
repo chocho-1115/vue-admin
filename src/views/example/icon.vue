@@ -106,23 +106,42 @@ aside {
 }
 
 .grid {
+	max-width: 1200px;
 	position: relative;
 	display: grid;
+	gap: 30px 10px;
 	grid-template-columns: repeat(auto-fill, minmax(120px, 1fr));
+	user-select: none; // 禁止选中
+	-webkit-tap-highlight-color: transparent; // 移动端点击时避免蓝色高亮（可选）
 }
 .icon-item {
-	margin: 20px;
-	height: 85px;
 	text-align: center;
-	width: 100px;
-	float: left;
 	color: #6b778c;
-  	font-size: 24px;
+  font-size: 42px;
 	cursor: pointer;
 	span {
 		display: block;
-		font-size: 16px;
+		font-size: 14px;
 		margin-top: 10px;
 	}
 }
+// 手机：固定 3 列
+@media (max-width: 600px) {
+  .grid {
+    grid-template-columns: repeat(3, 1fr);
+  }
+	.icon-item {
+		font-size: 30px;
+		span {
+			font-size: 12px;
+		}
+	}
+}
+
+@media (any-hover: hover) {
+  .icon-item:hover{
+    color: var(--el-color-primary);
+  } 
+}
+
 </style>

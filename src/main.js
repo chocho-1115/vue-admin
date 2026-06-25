@@ -15,7 +15,13 @@ import SvgIcon from './components/SvgIcon.vue'
 import {
   ctx
 } from './store'
+import {
+  getTheme
+} from '@/store/storage'
 import './permission'
+
+// set theme
+if(getTheme() === 'dark') document.documentElement.classList.add('dark')
 
 async function enableMocking() {
   // if (import.meta.env.MODE !== 'development') {
