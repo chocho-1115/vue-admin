@@ -15,7 +15,7 @@
     </el-menu-item>
   </template>
 
-  <el-sub-menu :index="resolvePath(info.path)" popper-append-to-body ref="subMenu" v-else>
+  <el-sub-menu :index="resolvePath(info.path)" popper-append-to-body ref="subMenu" popper-style="user-select: none;-webkit-tap-highlight-color: transparent;" v-else>
     <template #title>
       <template v-if="info.meta.icon">
         

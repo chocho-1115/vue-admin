@@ -92,6 +92,8 @@ onUnmounted(() => {
 	left: 0;
 	z-index: 3;
 	overflow: hidden;
+	user-select: none; // 禁止选中
+	-webkit-tap-highlight-color: transparent; // 移动端点击时避免蓝色高亮（可选）
 }
 
 .mini-sidebar {
@@ -119,7 +121,8 @@ header {
 	background: var(--el-bg-color);
 	box-shadow: var(--el-box-shadow-lighter);
 	// box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.12), 0 0 3px 0 rgba(0, 0, 0, 0.04);
-
+	user-select: none; // 禁止选中
+	-webkit-tap-highlight-color: transparent; // 移动端点击时避免蓝色高亮（可选）
 }
 
 .fixed-header {
