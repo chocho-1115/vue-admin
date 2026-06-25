@@ -173,7 +173,7 @@ const onOutside = () => {
 
 .menu-header{
   .main{
-    height:80px;
+    height:60px;
     display: flex;
     align-items: center;
     .icon-button{
