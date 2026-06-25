@@ -1,42 +1,13 @@
-<template>
-	
-	<div class="login-container">
-		<el-form :model="loginForm" :rules="loginRules" class="login-form" ref="formDom">
-			<div class="title-container">
-				<h3 class="title">Login Form</h3>
-			</div>
-
-			<el-form-item prop="username">
-				<el-input size="large" autocomplete="on" name="username" placeholder="Username" ref="username" tabindex="1" type="text" v-model="loginForm.username">
-					<template #prefix>
-						<svg-icon icon="user" />
-					</template>
-				</el-input>
-			</el-form-item>
-
-			<el-form-item prop="password">
-				<el-input size="large" :type="passwordType" autocomplete="on" name="password" placeholder="Password" ref="passwordDom" tabindex="2" v-model="loginForm.password">
-					<template #prefix>
-						<svg-icon icon="password" />
-					</template>
-					<template #suffix>
-						<span @click="showPwd">
-							<svg-icon :icon="passwordType === 'password' ? 'eye' : 'eye-open'" />
-						</span>
-					</template>
-				</el-input>
-			</el-form-item>
-
-			<el-button size="large" :loading="loading" @click.native.prevent="handleLogin" style="width:100%;margin-bottom:30px;" type="primary">Login</el-button>
-
-			<div class="tips">
-				<span style="margin-right:20px;">username: admin</span>
-				<span>password: any</span>
-			</div>
-		</el-form>
-	</div>
-
-	<div class="gradient-bg">
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+</head>
+<body>
+  
+  <div class="gradient-bg">
     <svg xmlns="http://www.w3.org/2000/svg">
       <defs>
         <filter id="goo">
@@ -56,116 +27,26 @@
     </div>
   </div>
 
-</template>
+</body>
+</html>
 
-<script setup>
-import { reactive, ref, nextTick } from 'vue'
-import { useRouter, useRoute } from 'vue-router'
-
-import { validUsername } from '@/common/validate'
-import { login } from '@/api/login'
-import { dispatch } from '@/store'
-
-const router = useRouter()
-const route = useRoute()
-
-const loading = ref(false)
-const passwordType = ref('password')
-const redirect = route.query.redirect || '/'
-
-const loginForm = reactive({
-	username: 'admin',
-	password: '111111',
-})
-
-const validateUsername = (rule, value, callback) => {
-	if (!validUsername(value)) {
-		callback(new Error('Please enter the correct user name'))
-	} else {
-		callback()
-	}
-}
-const validatePassword = (rule, value, callback) => {
-	if (value.length < 6) {
-		callback(new Error('The password can not be less than 6 digits'))
-	} else {
-		callback()
-	}
+<style>
+html, body {
+  margin: 0;
+  padding: 0;
 }
 
-const loginRules = reactive({
-	username: [{ required: true, trigger: 'blur', validator: validateUsername }],
-	password: [{ required: true, trigger: 'blur', validator: validatePassword }],
-})
-
-const passwordDom = ref(null)
-const formDom = ref() //该变量名必须等于el-form的ref属性值，才能获取到表单实例。
-
-const showPwd = async () => {
-	if (passwordType.value === 'password') {
-		passwordType.value = ''
-	} else {
-		passwordType.value = 'password'
-	}
-	await nextTick()
-	passwordDom.value.focus()
-}
-const handleLogin = () => {
-	formDom.value.validate((valid) => {
-		if (valid) {
-			loading.value = true
-			login(loginForm)
-				.then((res) => {
-					dispatch.login.saveToken(res.body.token)
-					router.push(redirect)
-					loading.value = false
-				})
-				.catch(() => {
-					loading.value = false
-				})
-		} else {
-			console.log('error submit!!')
-			return false
-		}
-	})
-}
-</script>
-
-<style lang="scss" scoped>
-.login-container {
-	min-height: 100vh;
-	width: 100%;
-	background-color: var(--el-bg-color);
-	overflow: hidden;
-	.login-form {
-		position: relative;
-		width: 520px;
-		max-width: 100%;
-		padding: 160px 35px 0;
-		margin: 0 auto;
-		overflow: hidden;
-	}
-	.tips {
-		font-size: 14px;
-		color: var(--el-text-color-regular);
-		margin-bottom: 10px;
-
-		span {
-			&:first-of-type {
-				margin-right: 16px;
-			}
-		}
-	}
-	.title-container {
-		position: relative;
-		.title {
-			font-size: 26px;
-			color: var(--el-text-color-primary);
-			margin: 0px auto 40px auto;
-			text-align: center;
-			font-weight: bold;
-		}
-	}
+:root {
+  --color-bg1: rgb(108, 0, 162);
+  --color-bg2: rgb(0, 17, 82);
+  --color1: 18, 113, 255;
+  --color2: 221, 74, 255;
+  --color3: 100, 220, 255;
+  --color4: 200, 50, 50;
+  --color5: 180, 180, 50;
+  --color-interactive: 140, 100, 255;
+  --circle-size: 80%;
+  --blending: hard-light;
 }
 
 @keyframes moveInCircle {
@@ -205,29 +86,14 @@ const handleLogin = () => {
 }
 
 .gradient-bg {
-  --color-bg1: rgb(108, 0, 162);
-  --color-bg2: rgb(0, 17, 82);
-  --color1: 18, 113, 255;
-  --color2: 221, 74, 255;
-  --color3: 100, 220, 255;
-  --color4: 200, 50, 50;
-  --color5: 180, 180, 50;
-  --color-interactive: 140, 100, 255;
-  --circle-size: 80%;
-  --blending: hard-light;
-}
-
-.gradient-bg {
-	z-index: 0;
   width: 100vw;
   height: 100vh;
-  position: fixed;
+  position: relative;
   overflow: hidden;
   background: linear-gradient(40deg, var(--color-bg1), var(--color-bg2));
   top: 0;
   left: 0;
-	opacity: 0.25;
-	pointer-events: none;
+
   svg {
     position: fixed;
     top:0;
