@@ -107,10 +107,6 @@ const toggleSidebar = () => {
   dispatch.sidebar.toggle()
 }
 
-if(themeDark.value){
-  document.documentElement.classList.add('dark')
-}
-
 const toggleTheme = () => {
   themeDark.value = !themeDark.value
   document.documentElement.classList.toggle('dark')
