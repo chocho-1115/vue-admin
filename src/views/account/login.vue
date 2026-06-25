@@ -5,7 +5,7 @@
 			<div class="title-container">
 				<h3 class="title">Login Form</h3>
 			</div>
-
+			<!-- 'large' | 'default' | 'small' -->
 			<el-form-item prop="username">
 				<el-input size="large" autocomplete="on" name="username" placeholder="Username" ref="username" tabindex="1" type="text" v-model="loginForm.username">
 					<template #prefix>
@@ -141,7 +141,7 @@ const handleLogin = () => {
 		position: relative;
 		width: 520px;
 		max-width: 100%;
-		padding: 160px 35px 0;
+		padding: 25vh 35px 0;
 		margin: 0 auto;
 		overflow: hidden;
 	}
