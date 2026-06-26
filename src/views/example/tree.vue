@@ -16,10 +16,10 @@
 </template>
 
 <script setup>
-import { ref, watch } from 'vue'
+import { ref, useTemplateRef, watch } from 'vue'
 
 const filterText = ref('')
-const treeRef = ref()
+const treeRef = useTemplateRef('treeRef')
 
 const defaultProps = {
 	children: 'children',
