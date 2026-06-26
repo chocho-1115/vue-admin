@@ -5,10 +5,10 @@
 </template>
 
 <script setup>
-import { ref, computed, onMounted, onBeforeUnmount } from 'vue'
+import { useTemplateRef, computed, onMounted, onBeforeUnmount } from 'vue'
 
 const emit = defineEmits()
-const scrollContainer = ref(null)
+const scrollContainer = useTemplateRef('scrollContainer')
 
 const tagAndTagSpacing = 4 // tagAndTagSpacing
 

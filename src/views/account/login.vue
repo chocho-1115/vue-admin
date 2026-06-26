@@ -5,9 +5,9 @@
 			<div class="title-container">
 				<h3 class="title">Login Form</h3>
 			</div>
-
+			<!-- 'large' | 'default' | 'small' -->
 			<el-form-item prop="username">
-				<el-input size="large" autocomplete="on" name="username" placeholder="Username" ref="username" tabindex="1" type="text" v-model="loginForm.username">
+				<el-input size="large" autocomplete="on" name="username" placeholder="Username" tabindex="1" type="text" v-model="loginForm.username">
 					<template #prefix>
 						<svg-icon icon="user" />
 					</template>
@@ -59,7 +59,7 @@
 </template>
 
 <script setup>
-import { reactive, ref, nextTick } from 'vue'
+import { reactive, ref, useTemplateRef, nextTick } from 'vue'
 import { useRouter, useRoute } from 'vue-router'
 
 import { validUsername } from '@/common/validate'
@@ -98,8 +98,8 @@ const loginRules = reactive({
 	password: [{ required: true, trigger: 'blur', validator: validatePassword }],
 })
 
-const passwordDom = ref(null)
-const formDom = ref() //该变量名必须等于el-form的ref属性值，才能获取到表单实例。
+const passwordDom = useTemplateRef('passwordDom')
+const formDom = useTemplateRef('formDom') //该变量名必须等于el-form的ref属性值，才能获取到表单实例。
 
 const showPwd = async () => {
 	if (passwordType.value === 'password') {
@@ -141,7 +141,7 @@ const handleLogin = () => {
 		position: relative;
 		width: 520px;
 		max-width: 100%;
-		padding: 160px 35px 0;
+		padding: 25vh 35px 0;
 		margin: 0 auto;
 		overflow: hidden;
 	}

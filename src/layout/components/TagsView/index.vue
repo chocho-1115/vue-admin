@@ -35,7 +35,7 @@
   </div>
 </template>
 <script setup>
-import { ref, reactive, inject, watch, onMounted, nextTick } from 'vue'
+import { reactive, useTemplateRef, inject, watch, onMounted, nextTick } from 'vue'
 import { useRouter, useRoute } from 'vue-router'
 import path from 'path-browserify-esm'
 
@@ -47,9 +47,9 @@ const reloadAppMain = inject('reloadAppMain')
 const router = useRouter()
 const route = useRoute()
 
-const tagsDom = ref(null)
-const scrollPaneDom = ref(null)
-const tagsRootDom = ref(null)
+const tagsDom = useTemplateRef('tagsDom')
+const scrollPaneDom = useTemplateRef('scrollPaneDom')
+const tagsRootDom = useTemplateRef('tagsRootDom')
 
 const menu = reactive({
     visible: false,

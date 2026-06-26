@@ -1,0 +1,319 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>图标 - 语义化版</title>
+  <style>
+    /* ============================================
+       1. 基础布局
+       ============================================ */
+    body {
+      margin: 0;
+      min-height: 100vh;
+      background-color: #000;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+    }
+
+    svg {
+      width: 64px;
+      height: 64px;
+      color: #966;
+      overflow: hidden;
+      cursor: pointer;
+    }
+
+    /* ============================================
+       2. 通用描边和填充样式
+       ============================================ */
+    /* 主描边宽度 */
+    .stroke-main {
+      stroke-width: var(--svg-stroke-width, 1.5px);
+    }
+
+    /* 圆角描边：无填充 + 圆头端点 + 圆角连接 */
+    .stroke-round {
+      fill: none;
+      stroke-linecap: round;
+      stroke-linejoin: round;
+    }
+
+    /* 白色描边（用于蒙版内部） */
+    .stroke-white {
+      stroke: #fff;
+    }
+
+    /* 黑色填充（用于蒙版内部） */
+    .fill-black {
+      fill: #000;
+    }
+
+    /* 白色填充（用于蒙版内部） */
+    .fill-white {
+      fill: #fff;
+    }
+
+    /* ============================================
+       3. 形状定义 - 默认状态 (state-static)
+       ============================================ */
+    /* --- 第一组：主体 (mask: SVGV2z6rcVJ) --- */
+    .shape-body {
+      d: path("M9.88 2.75H9.5c-3.73 0-6.75 3.02-6.75 6.75c0 3.73 3.02 6.75 6.75 6.75c2.7 0 5.05-1.6 6.12-3.9c-2.6 1.2-5.75 0.3-7.25-2.29c-1.43-2.51-0.75-5.62 1.5-7.31Z");
+      fill-opacity: 0;
+    }
+    .shape-body-line {
+      d: path("M9.88 2.75c-2.25 1.69-2.93 4.8-1.5 7.31c1.5 2.59 4.65 3.49 7.25 2.29");
+    }
+    .shape-body-part {
+      d: path("M9.88 2.75H9.5c-3.73 0-6.75 3.02-6.75 6.75c0 3.73 3.02 6.75 6.75 6.75c2.7 0 5.05-1.6 6.12-3.9");
+    }
+    .shape-bg-dark {
+      d: path("M24 0h24v24H0Z");
+    }
+
+    /* --- 第二组：圆环 (mask: SVGwSDhBe6E) --- */
+    .shape-ring {
+      d: path("M14.5 10.75c2.07 0 3.75 1.68 3.75 3.75c0 2.07-1.68 3.75-3.75 3.75c-2.07 0-3.75-1.68-3.75-3.75c0-2.07 1.68-3.75 3.75-3.75Z");
+      fill-opacity: 0;
+    }
+    .shape-ring-line {
+      d: path("M14.5 10.75c2.07 0 3.75 1.68 3.75 3.75c0 2.07-1.68 3.75-3.75 3.75c-2.07 0-3.75-1.68-3.75-3.75c0-2.07 1.68-3.75 3.75-3.75Z");
+    }
+    .shape-bg-light {
+      d: path("M24 0h-48v24H0Z");
+    }
+
+    /* --- 第三组：十字交叉线 (mask: SVG48m1YcIw) --- */
+    .shape-cross {
+      d: path("M14.5 7.75V7M14.5 21.25V22M7.75 14.5H7M21.25 14.5H22");
+    }
+    .shape-cross-diag {
+      d: path("M9.63 9.63L9.25 9.25M9.63 19.38l-0.38 0.38M19.38 9.63l0.38-0.38M19.38 19.38l0.38 0.38");
+    }
+
+    /* --- 第四组：X 形状 (蒙版外部) --- */
+    .shape-x {
+      d: path("M12 12L22 2M12 12L2 22");
+    }
+
+    /* 蒙版基础形状（所有蒙版共用） */
+    .shape-mask-base {
+      d: path("M0 0h24v24H0Z");
+    }
+
+    /* ============================================
+       4. 颜色控制（通过 CSS 变量）
+       ============================================ */
+    .fill-primary {
+      fill: var(--svg-primary-color, currentColor);
+    }
+    .fill-secondary {
+      fill: var(--svg-secondary-color, currentColor);
+    }
+    .stroke-tertiary {
+      stroke: var(--svg-tertiary-color, currentColor);
+    }
+    .stroke-mask {
+      stroke: #000;
+      stroke-width: var(--svg-mask-width, calc(var(--svg-stroke-width, 1.5px) + 1px));
+    }
+
+    /* ============================================
+       5. 状态变化 - state-dark / state-light
+       ============================================ */
+    /* --- state-dark --- */
+    svg.state-dark .shape-body {
+      d: path("M12.5 3H12c-4.97 0-9 4.03-9 9c0 4.97 4.03 9 9 9c3.6 0 6.73-2.13 8.16-5.2c-3.46 1.6-7.66 0.4-9.66-3.05c-1.9-3.35-1-7.49 2-9.75Z");
+    }
+    svg.state-dark .shape-bg-dark {
+      d: path("M48 0h24v24H24Z");
+    }
+    svg.state-dark .shape-bg-light {
+      d: path("M48 0H0v24h24Z");
+    }
+    svg.state-dark .shape-body-line {
+      d: path("M12.5 3c-3 2.26-3.9 6.4-2 9.75c2 3.45 6.2 4.65 9.66 3.05");
+    }
+    svg.state-dark .shape-body-part {
+      d: path("M12.5 3H12c-4.97 0-9 4.03-9 9c0 4.97 4.03 9 9 9c3.6 0 6.73-2.13 8.16-5.2");
+    }
+    svg.state-dark .shape-x {
+      d: path("M26 26l10-10M26 26L16 36");
+    }
+
+    /* --- state-light --- */
+    svg.state-light .shape-bg-dark {
+      d: path("M0 0h24v24h-48Z");
+    }
+    svg.state-light .shape-ring {
+      d: path("M12 7c2.76 0 5 2.24 5 5c0 2.76-2.24 5-5 5c-2.76 0-5-2.24-5-5c0-2.76 2.24-5 5-5Z");
+    }
+    svg.state-light .shape-bg-light {
+      d: path("M0 0h-48v24h24Z");
+    }
+    svg.state-light .shape-ring-line {
+      d: path("M12 7c2.76 0 5 2.24 5 5c0 2.76-2.24 5-5 5c-2.76 0-5-2.24-5-5c0-2.76 2.24-5 5-5Z");
+    }
+    svg.state-light .shape-x {
+      d: path("M-2-2L8-12M-2-2L-12 8");
+    }
+    svg.state-light .shape-cross {
+      d: path("M12 3V2M12 21v1M3 12H2M21 12h1");
+    }
+    svg.state-light .shape-cross-diag {
+      d: path("M5.5 5.5L5 5M5.5 18.5L5 19M18.5 5.5L19 5M18.5 18.5L19 19");
+    }
+
+    /* ============================================
+       6. 过渡动画
+       ============================================ */
+    @media not (prefers-reduced-motion) {
+      .shape-body {
+        transition: d .4s linear, fill-opacity .4s linear;
+      }
+      .shape-bg-dark {
+        transition: d .4s linear;
+      }
+      .shape-ring {
+        transition: d .4s linear, fill-opacity .4s linear;
+      }
+      .shape-bg-light {
+        transition: d .4s linear;
+      }
+      .shape-body-line {
+        transition: d .4s linear;
+      }
+      .shape-body-part {
+        transition: d .4s linear;
+      }
+      .shape-x {
+        transition: d .4s linear;
+      }
+      .shape-ring-line {
+        transition: d .4s linear;
+      }
+      .shape-cross {
+        transition: d .4s linear;
+      }
+      .shape-cross-diag {
+        transition: d .4s linear;
+      }
+
+      /* --- 入场绘制动画（首次加载时触发） --- */
+      svg:not(.state-static) .fill-white {
+        animation: fade-to-1 .4s linear .4s forwards;
+        opacity: 0;
+      }
+      svg:not(.state-static) .shape-body-line {
+        animation: draw-from-28 .4s linear forwards;
+        stroke-dasharray: 28;
+      }
+      svg:not(.state-static) .shape-body-part {
+        animation: draw-from-44 .4s linear forwards;
+        stroke-dasharray: 44;
+      }
+      svg:not(.state-static) .shape-x {
+        animation: draw-from-18 .4s linear forwards;
+        stroke-dasharray: 18;
+      }
+      svg:not(.state-static) .shape-ring-line {
+        animation: draw-from-34 .4s linear forwards;
+        stroke-dasharray: 34;
+      }
+      svg:not(.state-static) .shape-cross {
+        animation: draw-to-0 .4s linear .8s forwards;
+        stroke-dasharray: 6;
+        stroke-dashoffset: 6;
+      }
+      svg:not(.state-static) .shape-cross-diag {
+        animation: draw-to-0 .4s linear 1s forwards;
+        stroke-dasharray: 6;
+        stroke-dashoffset: 6;
+      }
+    }
+
+    /* --- 关键帧定义 --- */
+    @keyframes fade-to-1 {
+      to {
+        opacity: 1;
+      }
+    }
+    @keyframes draw-from-28 {
+      0% {
+        stroke-dashoffset: 28;
+      }
+    }
+    @keyframes draw-from-44 {
+      0% {
+        stroke-dashoffset: 44;
+      }
+    }
+    @keyframes draw-from-18 {
+      0% {
+        stroke-dashoffset: 18;
+      }
+    }
+    @keyframes draw-from-34 {
+      0% {
+        stroke-dashoffset: 34;
+      }
+    }
+    @keyframes draw-to-0 {
+      to {
+        stroke-dashoffset: 0;
+      }
+    }
+  </style>
+</head>
+
+<body>
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" class="state-static">
+    <defs>
+      <!-- 蒙版1：主体 -->
+      <mask id="mask-body">
+        <path class="fill-white shape-body" />
+        <path class="stroke-main stroke-round shape-body-line stroke-white" />
+        <path class="stroke-main stroke-round shape-body-part stroke-white" />
+        <path class="shape-bg-dark fill-black" />
+        <path class="stroke-mask shape-x stroke-round" />
+      </mask>
+
+      <!-- 蒙版2：圆环 -->
+      <mask id="mask-ring">
+        <path class="fill-white shape-ring" />
+        <path class="stroke-main stroke-round shape-ring-line stroke-white" />
+        <path class="fill-black shape-bg-light" />
+        <path class="stroke-mask shape-x stroke-round" />
+      </mask>
+
+      <!-- 蒙版3：十字交叉线 -->
+      <mask id="mask-cross">
+        <path class="stroke-main stroke-round shape-cross stroke-white" />
+        <path class="stroke-main stroke-round shape-cross-diag stroke-white" />
+        <path class="fill-black shape-bg-light" />
+        <path class="stroke-mask shape-x stroke-round" />
+      </mask>
+    </defs>
+
+    <!-- 三个图层叠加形成完整图标 -->
+    <path mask="url(#mask-body)" class="fill-primary shape-mask-base" />
+    <path mask="url(#mask-ring)" class="fill-primary shape-mask-base" />
+    <path mask="url(#mask-cross)" class="fill-secondary shape-mask-base" />
+    <path class="shape-x stroke-main stroke-round stroke-tertiary" />
+  </svg>
+
+  <script>
+    const element = document.querySelector('.state-static');
+    if (element) {
+      let isLight = true;
+      element.addEventListener('click', function() {
+        this.classList.remove('state-light', 'state-dark');
+        this.classList.add(isLight ? 'state-dark' : 'state-light');
+        isLight = !isLight;
+      });
+    }
+  </script>
+</body>
+</html>

@@ -37,7 +37,7 @@
 
 <script setup>
 import path from 'path-browserify-esm'
-import { inject, ref, onMounted } from 'vue'
+import { inject, useTemplateRef } from 'vue'
 import { useRouter } from 'vue-router'
 
 import { isExternal } from '@/common/validate'
@@ -58,7 +58,7 @@ const props = defineProps({
   },
 })
 
-const subMenu = ref(null)
+const subMenu = useTemplateRef('subMenu')
 
 // onMounted(() => {
 //   fixBugIniOS()
