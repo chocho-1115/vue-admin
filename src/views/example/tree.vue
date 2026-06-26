@@ -10,8 +10,8 @@
 
 		<el-input class="w-60 mb-2" placeholder="Filter keyword" style="margin-bottom:30px;" v-model="filterText" />
 
-		<el-tree :data="data" :filter-node-method="filterNode" :props="defaultProps" class="filter-tree" default-expand-all
-			ref="treeRef" style="max-width: 600px" />
+		<el-tree :data="data" :filter-node-method="filterNode" :props="defaultProps" class="filter-tree" ref="treeRef"
+			style="max-width: 600px" default-expand-all />
 	</div>
 </template>
 
