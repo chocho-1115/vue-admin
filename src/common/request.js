@@ -1,9 +1,6 @@
 import axios from 'axios'
 import { EventBus } from '@/core/eventBus'
 import { initHttpSubscriber } from "@/common/httpSubscriber.js"
-import {
-  dispatch
-} from '@/store'
 
 initHttpSubscriber()
 
