@@ -31,7 +31,7 @@ import { dispatch } from '@/store'
 const router = useRouter()
 const route = useRoute()
 
-const props = defineProps({
+defineProps({
   size: {
     type: String,
     default: '32px',

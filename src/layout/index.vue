@@ -16,14 +16,12 @@
 </template>
 
 <script setup>
-import { ref, inject, provide, nextTick, onMounted, onUnmounted, computed, watch } from 'vue'
-import { useRoute } from 'vue-router'
+import { ref, inject, provide, nextTick, onMounted, onUnmounted, computed } from 'vue'
 import { Sidebar, Navbar, AppMain, TagsView } from './components'
 import { getDevice } from '@/common/layout'
-import { sctx, dispatch } from '@/store'
+import { sctx } from '@/store'
 
 const ctx = inject('context')
-const route = useRoute()
 
 const needTagsView = sctx.tagsView
 const fixedHeader = sctx.fixedHeader

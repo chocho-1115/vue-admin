@@ -16,7 +16,7 @@ NProgress.configure({
   showSpinner: false,
 })
 
-router.beforeEach(async (to, from) => {
+router.beforeEach(async (to) => {
   // start progress bar
   NProgress.start()
   // store token

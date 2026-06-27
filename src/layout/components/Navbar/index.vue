@@ -19,7 +19,7 @@
       <div class="icon-button hover-effect" @click="toggleTheme" v-if="ctx.device!=='mobile'">
         <el-icon>
           <i-ep-Sunny v-if="!themeDark" />
-          <i-ep-Moon v-else="themeDark" />
+          <i-ep-Moon v-else />
         </el-icon>
       </div>
       <div class="icon-button hover-effect" @click="drawerMenu = true" v-if="ctx.device==='mobile'">
@@ -54,7 +54,7 @@
               <div class="icon-button hover-effect" @click="toggleTheme">
                 <el-icon>
                   <i-ep-Sunny v-if="!themeDark" />
-                  <i-ep-Moon v-else="themeDark" />
+                  <i-ep-Moon v-else />
                 </el-icon>
               </div>
             </div>

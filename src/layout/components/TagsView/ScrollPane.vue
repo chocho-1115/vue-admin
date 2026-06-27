@@ -7,7 +7,7 @@
 <script setup>
 import { useTemplateRef, computed, onMounted, onBeforeUnmount } from 'vue'
 
-const emit = defineEmits()
+const emit = defineEmits(['scroll'])
 const scrollContainer = useTemplateRef('scrollContainer')
 
 const tagAndTagSpacing = 4 // tagAndTagSpacing

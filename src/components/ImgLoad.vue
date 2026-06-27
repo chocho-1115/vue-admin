@@ -17,7 +17,7 @@
 </template>
 
 <script setup>
-import { reactive, watch } from 'vue'
+import { reactive } from 'vue'
 
 const info = reactive({
 	finishLoadFlag: false,
@@ -93,11 +93,11 @@ const setOssStr = () => {
 
 }
 
-const onLoadSuccess = (e) => {
+const onLoadSuccess = () => {
 	info.finishLoadFlag = true
 }
 
-const onLoadError = (e) => {
+const onLoadError = () => {
 	info.finishLoadFlag = false
 }
 

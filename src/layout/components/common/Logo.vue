@@ -14,7 +14,7 @@
 
 <script setup>
 import { ref } from 'vue'
-const props = defineProps({
+defineProps({
     collapse: {
         type: Boolean,
         default: false,

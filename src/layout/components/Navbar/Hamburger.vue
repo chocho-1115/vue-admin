@@ -1,7 +1,7 @@
 <template>
   <div @click="toggleClick" class="hamburger">
     <svg
-      :class="{'is-active': props.isActive}"
+      :class="{'is-active': isActive}"
       height="64"
       viewBox="0 0 1024 1024"
       width="64"
@@ -15,8 +15,8 @@
 </template>
 
 <script setup>
-const emit = defineEmits()
-const props = defineProps({
+const emit = defineEmits(['toggleClick'])
+defineProps({
     isActive: {
         type: Boolean,
         default: false,

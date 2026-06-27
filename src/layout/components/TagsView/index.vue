@@ -5,7 +5,7 @@
         :class="isActive(tag)?'active':''"
         :key="tag.path"
         :to="{ path: tag.path, query: tag.query, fullPath: tag.fullPath }"
-        @contextmenu.prevent.native="openMenu(tag,$event)"
+        @contextmenu.prevent="openMenu(tag,$event)"
         class="tags-view-item"
         ref="tagsDom"
         v-for="tag in ctx.tagsView"

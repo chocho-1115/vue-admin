@@ -152,7 +152,7 @@ const router = createRouter({
   ],
 })
 
-router.beforeEach(async (to, from) => {
+router.beforeEach(async (to) => {
   // set page title
   document.title = to.meta.title ? `${to.meta.title} - Vue Admin` : `Vue Admin`
 })

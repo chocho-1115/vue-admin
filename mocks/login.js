@@ -1,6 +1,5 @@
 import {
   tokens,
-  users
 } from './config'
 import {
   response

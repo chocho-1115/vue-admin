@@ -37,7 +37,7 @@
 
 <script setup>
 import path from 'path-browserify-esm'
-import { inject, useTemplateRef } from 'vue'
+import { useTemplateRef } from 'vue'
 import { useRouter } from 'vue-router'
 
 import { isExternal } from '@/common/validate'
@@ -45,7 +45,7 @@ import { isExternal } from '@/common/validate'
 // import Item from './Item'
 
 const router = useRouter()
-const ctx = inject('context')
+// const ctx = inject('context')
 
 const props = defineProps({
   info: {
@@ -105,16 +105,16 @@ const onGotoPage = (child) => {
   }
 }
 
-const fixBugIniOS = () => {
-  if (subMenu.value) {
-    ///  handleMouseleave 似乎是有问题的
-    const handleMouseleave = subMenu.value.handleMouseleave
-    subMenu.value.handleMouseleave = (e) => {
-      if (ctx.device === 'mobile') {
-        return
-      }
-      handleMouseleave(e)
-    }
-  }
-}
+// const fixBugIniOS = () => {
+//   if (subMenu.value) {
+//     ///  handleMouseleave 似乎是有问题的
+//     const handleMouseleave = subMenu.value.handleMouseleave
+//     subMenu.value.handleMouseleave = (e) => {
+//       if (ctx.device === 'mobile') {
+//         return
+//       }
+//       handleMouseleave(e)
+//     }
+//   }
+// }
 </script>

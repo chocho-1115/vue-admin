@@ -27,7 +27,7 @@
 				</el-input>
 			</el-form-item>
 
-			<el-button size="large" :loading="loading" @click.native.prevent="handleLogin" style="width:100%;margin-bottom:30px;" type="primary">Login</el-button>
+			<el-button size="large" :loading="loading" @click.prevent="handleLogin" style="width:100%;margin-bottom:30px;" type="primary">Login</el-button>
 
 			<div class="tips">
 				<span style="margin-right:20px;">username: admin</span>
