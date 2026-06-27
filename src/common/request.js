@@ -1,6 +1,6 @@
 import axios from 'axios'
 import { EventBus } from '@/core/eventBus'
-import { initHttpSubscriber } from "@/common/httpSubscriber.js"
+import { initHttpSubscriber } from '@/common/httpSubscriber.js'
 
 initHttpSubscriber()
 
@@ -8,26 +8,26 @@ initHttpSubscriber()
 const service = axios.create({
   baseURL: import.meta.env.VITE_BASE_API, // url = base url + request url
   // withCredentials: true, // send cookies when cross-domain requests
-  timeout: 5000 // request timeout
+  timeout: 5000, // request timeout
 })
 
 // Add a request interceptor
 axios.interceptors.request.use(
   function (config) {
     // Do something before request is sent
-    return config;
+    return config
   },
   function (error) {
     // Do something with request error
-    return Promise.reject(error);
-  }
-);
+    return Promise.reject(error)
+  },
+)
 
 // Add a response interceptor
 service.interceptors.response.use(
   // Any status code that lie within the range of 2xx cause this function to trigger
   // Do something with response data
-  response => {
+  (response) => {
     const res = response.data
     const url = response.config.url
     // if the custom code is not 20000, it is judged as an error.
@@ -35,9 +35,9 @@ service.interceptors.response.use(
       // 50008: Illegal token; 50012: Other clients logged in; 50014: Token expired;
       if (res.code === 50008) {
         EventBus.emit('auth:unauthorized', { url, res })
-      }else if (res.code === 50012 || res.code === 50014) {
+      } else if (res.code === 50012 || res.code === 50014) {
         EventBus.emit('auth:expired', { url, res })
-      }else{
+      } else {
         EventBus.emit('request:error', { url, res })
       }
       const error = new Error(res.msg || res.data?.message || 'Error', { cause: response })
@@ -49,8 +49,7 @@ service.interceptors.response.use(
   },
   // Any status codes that falls outside the range of 2xx cause this function to trigger
   // Do something with response error
-  error => {
-
+  (error) => {
     if (error.response) {
       // The request was made and the server responded with a status code
       // that falls out of the range of 2xx
@@ -77,7 +76,7 @@ service.interceptors.response.use(
     EventBus.emit('request:error', { code, message, status, url })
 
     return Promise.reject(error)
-  }
+  },
 )
 
 export default service

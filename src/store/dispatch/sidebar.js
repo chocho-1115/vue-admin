@@ -1,6 +1,4 @@
-import {
-  setSidebarStatus
-} from '../storage'
+import { setSidebarStatus } from '../storage'
 
 import ctx from '../context'
 

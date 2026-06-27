@@ -3,7 +3,10 @@
     <el-menu-item :index="resolvePath(theOnlyOneChild.path)" @click="onGotoPage(theOnlyOneChild)">
       <template v-if="theOnlyOneChild.meta.icon">
         <el-icon class="el-menu-icon">
-          <svg-icon :icon="theOnlyOneChild.meta.icon" v-if="typeof theOnlyOneChild.meta.icon === 'string'" />
+          <svg-icon
+            :icon="theOnlyOneChild.meta.icon"
+            v-if="typeof theOnlyOneChild.meta.icon === 'string'"
+          />
           <component :is="theOnlyOneChild.meta.icon" v-else />
         </el-icon>
       </template>
@@ -15,10 +18,15 @@
     </el-menu-item>
   </template>
 
-  <el-sub-menu :index="resolvePath(info.path)" popper-append-to-body ref="subMenu" popper-style="user-select: none;-webkit-tap-highlight-color: transparent;" v-else>
+  <el-sub-menu
+    :index="resolvePath(info.path)"
+    popper-append-to-body
+    ref="subMenu"
+    popper-style="user-select: none;-webkit-tap-highlight-color: transparent;"
+    v-else
+  >
     <template #title>
       <template v-if="info.meta.icon">
-        
         <el-icon class="el-menu-icon">
           <svg-icon :icon="info.meta.icon" v-if="typeof info.meta.icon === 'string'" />
           <component :is="info.meta.icon" v-else />
@@ -30,14 +38,20 @@
 
       <!-- <Item :icon="item.meta.icon" :title="item.meta.title" /> -->
     </template>
-    <item :base-path="resolvePath(child.path)" :is-nest="true" :info="child" :key="child.path" class="nest-menu"
-      v-for="child in info.children" />
+    <item
+      :base-path="resolvePath(child.path)"
+      :is-nest="true"
+      :info="child"
+      :key="child.path"
+      class="nest-menu"
+      v-for="child in info.children"
+    />
   </el-sub-menu>
 </template>
 
 <script setup>
 import path from 'path-browserify-esm'
-import { inject, useTemplateRef } from 'vue'
+import { useTemplateRef } from 'vue'
 import { useRouter } from 'vue-router'
 
 import { isExternal } from '@/common/validate'
@@ -45,7 +59,7 @@ import { isExternal } from '@/common/validate'
 // import Item from './Item'
 
 const router = useRouter()
-const ctx = inject('context')
+// const ctx = inject('context')
 
 const props = defineProps({
   info: {
@@ -95,26 +109,26 @@ const resolvePath = (routePath) => {
 }
 
 const onGotoPage = (child) => {
-  if(!child.meta) return
+  if (!child.meta) return
   const toPath = resolvePath(child.path)
   console.log(toPath)
-  if(toPath.startsWith('http')){
+  if (toPath.startsWith('http')) {
     window.open(toPath, '_blank')
-  }else{
+  } else {
     router.push(toPath)
   }
 }
 
-const fixBugIniOS = () => {
-  if (subMenu.value) {
-    ///  handleMouseleave 似乎是有问题的
-    const handleMouseleave = subMenu.value.handleMouseleave
-    subMenu.value.handleMouseleave = (e) => {
-      if (ctx.device === 'mobile') {
-        return
-      }
-      handleMouseleave(e)
-    }
-  }
-}
+// const fixBugIniOS = () => {
+//   if (subMenu.value) {
+//     ///  handleMouseleave 似乎是有问题的
+//     const handleMouseleave = subMenu.value.handleMouseleave
+//     subMenu.value.handleMouseleave = (e) => {
+//       if (ctx.device === 'mobile') {
+//         return
+//       }
+//       handleMouseleave(e)
+//     }
+//   }
+// }
 </script>

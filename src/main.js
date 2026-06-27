@@ -2,35 +2,27 @@ import 'normalize.css/normalize.css' // CSS resets
 import '@/styles/main.scss' // global css
 
 // import 'element-plus/theme-chalk/dark/css-vars.css' // dark theme
-// dark theme 动态的dark模式样式文件 // theme/index.scss 也将起效 
+// dark theme 动态的dark模式样式文件 // theme/index.scss 也将起效
 // 参见 https://juejin.cn/post/7442573821444390949
-import 'element-plus/theme-chalk/src/dark/css-vars.scss' 
+import 'element-plus/theme-chalk/src/dark/css-vars.scss'
 
-import {
-  createApp
-} from 'vue'
+import { createApp } from 'vue'
 import App from './App.vue'
 import router from './router'
 import SvgIcon from './components/SvgIcon.vue'
-import {
-  ctx
-} from './store'
-import {
-  getTheme
-} from '@/store/storage'
+import { ctx } from './store'
+import { getTheme } from '@/store/storage'
 import './permission'
 
 // set theme
-if(getTheme() === 'dark') document.documentElement.classList.add('dark')
+if (getTheme() === 'dark') document.documentElement.classList.add('dark')
 
 async function enableMocking() {
   if (import.meta.env.MODE !== 'development') {
     return
   }
 
-  const {
-    worker
-  } = await import('../mocks/browser')
+  const { worker } = await import('../mocks/browser')
 
   // `worker.start()` returns a Promise that resolves
   // once the Service Worker is up and ready to intercept requests.

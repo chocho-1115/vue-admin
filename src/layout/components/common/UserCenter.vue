@@ -1,20 +1,30 @@
 <template>
   <el-dropdown trigger="click" @command="handleCommand">
-    <div class="avatar-container" :style="{
+    <div
+      class="avatar-container"
+      :style="{
         width: size,
-        height: size
-    }">
-      <img-load :src="ctx.userInfo.avatar" defaultName="user" backgroundColor="rgba(0, 0, 0, .05)" defaultColor="var(--el-color-primary)" defaultWidth="50%" defaultHeight="50%" />
+        height: size,
+      }"
+    >
+      <img-load
+        :src="ctx.userInfo.avatar"
+        defaultName="user"
+        backgroundColor="rgba(0, 0, 0, .05)"
+        defaultColor="var(--el-color-primary)"
+        defaultWidth="50%"
+        defaultHeight="50%"
+      />
     </div>
     <template v-slot:dropdown>
       <el-dropdown-menu>
         <el-dropdown-item command="PersonalCenter">Personal Center</el-dropdown-item>
         <el-dropdown-item command="Notification">Notification</el-dropdown-item>
-        
+
         <el-dropdown-item command="Home" divided>Home</el-dropdown-item>
         <el-dropdown-item command="Github">Github</el-dropdown-item>
-        
-        <el-dropdown-item  command="LogOut" divided>Log Out</el-dropdown-item>
+
+        <el-dropdown-item command="LogOut" divided>Log Out</el-dropdown-item>
         <!--  @click.native="onLogout" -->
       </el-dropdown-menu>
     </template>
@@ -31,7 +41,7 @@ import { dispatch } from '@/store'
 const router = useRouter()
 const route = useRoute()
 
-const props = defineProps({
+defineProps({
   size: {
     type: String,
     default: '32px',
@@ -50,18 +60,16 @@ const onLogout = async () => {
 }
 
 const handleCommand = (command) => {
-  if(command == 'Home'){
+  if (command == 'Home') {
     router.push('/')
-  }else if(command == 'Github'){
+  } else if (command == 'Github') {
     window.open('https://github.com/chocho-1115/vue-admin', '_blank')
-  }else if(command == 'LogOut'){
+  } else if (command == 'LogOut') {
     onLogout()
-  }else{
+  } else {
     ElMessage(`click on item ${command}`)
   }
-  
 }
-
 </script>
 
 <style lang="scss" scoped>

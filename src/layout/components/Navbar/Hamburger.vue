@@ -1,7 +1,7 @@
 <template>
   <div @click="toggleClick" class="hamburger">
     <svg
-      :class="{'is-active': props.isActive}"
+      :class="{ 'is-active': isActive }"
       height="64"
       viewBox="0 0 1024 1024"
       width="64"
@@ -15,23 +15,23 @@
 </template>
 
 <script setup>
-const emit = defineEmits()
-const props = defineProps({
-    isActive: {
-        type: Boolean,
-        default: false,
-    },
+const emit = defineEmits(['toggleClick'])
+defineProps({
+  isActive: {
+    type: Boolean,
+    default: false,
+  },
 })
 
 const toggleClick = () => {
-    emit('toggleClick')
+  emit('toggleClick')
 }
 </script>
 
 <style scoped lang="scss">
 .hamburger {
   padding: 0 15px;
-  svg{
+  svg {
     display: inline-block;
     vertical-align: middle;
     width: 20px;
@@ -43,5 +43,4 @@ const toggleClick = () => {
     }
   }
 }
-
 </style>

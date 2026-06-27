@@ -4,11 +4,11 @@ let state = ctx.tagsView
 
 export default {
   add(view) {
-    if (state.some(v => v.path === view.path)) return
+    if (state.some((v) => v.path === view.path)) return
     state.push(
       Object.assign({}, view, {
-        title: view.meta?.title || 'no-name'
-      })
+        title: view.meta?.title || 'no-name',
+      }),
     )
   },
   // visitedViews
@@ -40,5 +40,5 @@ export default {
         i--
       }
     }
-  }
+  },
 }

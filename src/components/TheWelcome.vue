@@ -40,9 +40,7 @@ const openReadmeInEditor = () => fetch('/__open-in-editor?file=README.md')
     <a href="https://playwright.dev/" rel="noopener" target="_blank">Playwright</a>
     .
     <br />More instructions are available in
-    <a @click="openReadmeInEditor" href="javascript:void(0)">
-      <code>README.md</code> </a
-    >.
+    <a @click="openReadmeInEditor" href="javascript:void(0)"> <code>README.md</code> </a>.
   </WelcomeItem>
 
   <WelcomeItem>

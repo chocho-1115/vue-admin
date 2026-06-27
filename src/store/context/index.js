@@ -1,6 +1,4 @@
-import {
-  reactive,
-} from 'vue'
+import { reactive } from 'vue'
 
 import { getDevice } from '@/common/layout'
 import login from './login'

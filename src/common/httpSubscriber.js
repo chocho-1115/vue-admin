@@ -33,14 +33,13 @@ export function initHttpSubscriber() {
   })
 
   EventBus.on('request:error', ({ code, message, status, url }) => {
-    console.log('统一错误日志上报:', {code, message, status, url})
+    console.log('统一错误日志上报:', { code, message, status, url })
     ElMessage({
       message: message || 'Error',
       type: 'error',
       duration: 5 * 1000,
     })
   })
-
 }
 
 export function destroyHttpSubscriber() {

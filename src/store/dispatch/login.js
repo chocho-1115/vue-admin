@@ -7,16 +7,16 @@ const state = ctx.login
 
 export default {
   getTokenStorage,
-  saveToken(token){
+  saveToken(token) {
     saveTokenStorage(token)
     state.token = token
   },
-  removeToken(){
+  removeToken() {
     removeTokenStorage()
     state.token = ''
   },
   go() {
-    if(router.currentRoute.value.path === '/account/login') return
+    if (router.currentRoute.value.path === '/account/login') return
     router.push(`/account/login?redirect=${router.currentRoute.value.fullPath || '/'}`)
   },
 }

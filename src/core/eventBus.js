@@ -26,7 +26,7 @@ export const EventBus = {
    */
   off(event, callback) {
     if (!this.events[event]) return
-    this.events[event] = this.events[event].filter(cb => cb !== callback)
+    this.events[event] = this.events[event].filter((cb) => cb !== callback)
   },
 
   /**
@@ -36,7 +36,7 @@ export const EventBus = {
    */
   emit(event, data) {
     if (!this.events[event]) return
-    this.events[event].forEach(cb => cb(data))
+    this.events[event].forEach((cb) => cb(data))
   },
 
   /**
@@ -50,7 +50,7 @@ export const EventBus = {
       this.off(event, wrapper)
     }
     this.on(event, wrapper)
-  }
+  },
 }
 
 export default EventBus

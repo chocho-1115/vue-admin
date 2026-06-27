@@ -1,5 +1,2 @@
 // no redirect whitelist
-export default [
-  '/account/login',
-  '/404'
-]
+export default ['/account/login', '/404']
