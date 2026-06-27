@@ -30,4 +30,3 @@ export function setTheme(tName) {
 export function getTheme() {
   return localStorage.getItem(themeCacheKey) || ''
 }
-

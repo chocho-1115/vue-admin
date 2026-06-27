@@ -15,14 +15,14 @@
 <script setup>
 import { ref } from 'vue'
 defineProps({
-    collapse: {
-        type: Boolean,
-        default: false,
-    },
-    theme: {
-        type: String,
-        default: 'dark', // dark light
-    },
+  collapse: {
+    type: Boolean,
+    default: false,
+  },
+  theme: {
+    type: String,
+    default: 'dark', // dark light
+  },
 })
 const title = ref('Vue Admin')
 </script>
@@ -32,8 +32,8 @@ const title = ref('Vue Admin')
   transition: opacity 1.5s;
 }
 
-// .sidebarLogoFade-leave-to 
-.sidebarLogoFade-enter-from{
+// .sidebarLogoFade-leave-to
+.sidebarLogoFade-enter-from {
   opacity: 0;
 }
 
@@ -49,7 +49,6 @@ const title = ref('Vue Admin')
     width: 32px;
     height: 32px;
     vertical-align: middle;
-    
   }
   .title {
     display: inline-block;
@@ -58,7 +57,12 @@ const title = ref('Vue Admin')
     font-weight: 600;
     line-height: 50px;
     font-size: 14px;
-    font-family: Avenir, Helvetica Neue, Arial, Helvetica, sans-serif;
+    font-family:
+      Avenir,
+      Helvetica Neue,
+      Arial,
+      Helvetica,
+      sans-serif;
     vertical-align: middle;
   }
 }

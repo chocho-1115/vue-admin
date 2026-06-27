@@ -1,31 +1,49 @@
 <template>
   <div class="navbar">
-    <logo class="logo-container" v-if="ctx.device==='mobile'" />
-    <hamburger class="hamburger-container" v-if="ctx.device!=='mobile'" :is-active="ctx.sidebar.opened" @toggleClick="toggleSidebar" />
-    <breadcrumb class="breadcrumb-container" v-if="ctx.device!=='mobile'" />
+    <logo class="logo-container" v-if="ctx.device === 'mobile'" />
+    <hamburger
+      class="hamburger-container"
+      v-if="ctx.device !== 'mobile'"
+      :is-active="ctx.sidebar.opened"
+      @toggleClick="toggleSidebar"
+    />
+    <breadcrumb class="breadcrumb-container" v-if="ctx.device !== 'mobile'" />
     <div class="right-menu">
-      <el-tooltip content="Under development" effect="dark" placement="bottom" v-if="ctx.device!=='mobile'">
+      <el-tooltip
+        content="Under development"
+        effect="dark"
+        placement="bottom"
+        v-if="ctx.device !== 'mobile'"
+      >
         <div class="icon-button hover-effect">
           <el-icon>
             <i-ep-Search />
           </el-icon>
         </div>
       </el-tooltip>
-      <div class="icon-button hover-effect" @click="drawerMessage = true" v-if="ctx.device!=='mobile'">
+      <div
+        class="icon-button hover-effect"
+        @click="drawerMessage = true"
+        v-if="ctx.device !== 'mobile'"
+      >
         <el-icon>
           <i-ep-Bell />
         </el-icon>
       </div>
-      <div class="icon-button hover-effect" @click="toggleTheme" v-if="ctx.device!=='mobile'">
+      <div class="icon-button hover-effect" @click="toggleTheme" v-if="ctx.device !== 'mobile'">
         <el-icon>
           <i-ep-Sunny v-if="!themeDark" />
           <i-ep-Moon v-else />
         </el-icon>
       </div>
-      <div class="icon-button hover-effect" @click="drawerMenu = true" v-if="ctx.device==='mobile'">
+      <div
+        class="icon-button hover-effect"
+        @click="drawerMenu = true"
+        v-if="ctx.device === 'mobile'"
+      >
         <svg-icon icon="menu" />
       </div>
-      
+
       <UserCenter size="32px" />
     </div>
   </div>
@@ -38,7 +56,7 @@
         <template #header>
           <div class="menu-header">
             <div class="main">
-              <UserCenter size="40px" style="margin-right:auto;" />
+              <UserCenter size="40px" style="margin-right: auto" />
               <el-tooltip content="Under development" effect="dark" placement="bottom">
                 <div class="icon-button hover-effect">
                   <el-icon>
@@ -66,14 +84,16 @@
   </Teleport>
 
   <Teleport defer to="body">
-    <el-drawer v-model="drawerMessage" title="I am the title" :with-header="true" size="min(400px, max(30%, 240px))">
+    <el-drawer
+      v-model="drawerMessage"
+      title="I am the title"
+      :with-header="true"
+      size="min(400px, max(30%, 240px))"
+    >
       <!-- 历史记录、文档类 -->
-      <div style="color:#666;">
-        Under development
-      </div>
+      <div style="color: #666">Under development</div>
     </el-drawer>
   </Teleport>
-
 </template>
 
 <script setup>
@@ -87,7 +107,7 @@ import Hamburger from './Hamburger.vue'
 import UserCenter from '../common/UserCenter.vue'
 
 import { dispatch } from '@/store'
-import {setTheme, getTheme} from '@/store/storage'
+import { setTheme, getTheme } from '@/store/storage'
 
 const route = useRoute()
 const ctx = inject('context')
@@ -97,10 +117,10 @@ const drawerMenu = ref(false)
 const drawerMessage = ref(false)
 
 watch(
-	() => route.path,
-	() => {
-		drawerMenu.value = false
-	}
+  () => route.path,
+  () => {
+    drawerMenu.value = false
+  },
 )
 
 const toggleSidebar = () => {
@@ -114,9 +134,8 @@ const toggleTheme = () => {
 }
 
 const onOutside = () => {
-	drawerMenu.value = false
+  drawerMenu.value = false
 }
-
 </script>
 
 <style lang="scss" scoped>
@@ -124,8 +143,8 @@ const onOutside = () => {
   height: 50px;
   overflow: hidden;
   position: relative;
-  display:flex;
-  .logo-container{
+  display: flex;
+  .logo-container {
     margin-left: 15px;
   }
   .hamburger-container {
@@ -147,7 +166,7 @@ const onOutside = () => {
     line-height: 50px;
     margin-right: 15px;
     margin-left: auto;
-    
+
     &:focus {
       outline: none;
     }
@@ -158,22 +177,21 @@ const onOutside = () => {
 }
 
 .drawer-bg {
-	background: #000;
-	opacity: 0.3;
-	width: 100%;
-	top: 0;
-	height: 100%;
-	position: absolute;
-	z-index: 2;
+  background: #000;
+  opacity: 0.3;
+  width: 100%;
+  top: 0;
+  height: 100%;
+  position: absolute;
+  z-index: 2;
 }
 
-.menu-header{
-  .main{
-    height:60px;
+.menu-header {
+  .main {
+    height: 60px;
     display: flex;
     align-items: center;
-    .icon-button{
-      
+    .icon-button {
     }
   }
 }
@@ -199,10 +217,17 @@ const onOutside = () => {
   }
 }
 
-.drawer-menu-container{
+.drawer-menu-container {
   user-select: none; // 禁止选中
-	-webkit-tap-highlight-color: transparent; // 移动端点击时避免蓝色高亮（可选）
+  -webkit-tap-highlight-color: transparent; // 移动端点击时避免蓝色高亮（可选）
 }
-.drawer-menu-container :deep(.el-drawer__header) {margin-bottom:0;padding-top:0;background:rgba(0,0,0,.05);border-bottom:solid 1px rgba(0,0,0,.05)}
-.drawer-menu-container :deep(.el-drawer__body) {padding: 0 !important}
+.drawer-menu-container :deep(.el-drawer__header) {
+  margin-bottom: 0;
+  padding-top: 0;
+  background: rgba(0, 0, 0, 0.05);
+  border-bottom: solid 1px rgba(0, 0, 0, 0.05);
+}
+.drawer-menu-container :deep(.el-drawer__body) {
+  padding: 0 !important;
+}
 </style>

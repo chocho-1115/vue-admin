@@ -5,7 +5,7 @@ export function getList(params) {
   return request({
     url: '/table/list',
     method: 'get',
-    headers: { 'token': dispatch.login.getTokenStorage() },
-    params
+    headers: { token: dispatch.login.getTokenStorage() },
+    params,
   })
 }

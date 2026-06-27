@@ -5,11 +5,11 @@
  * @param {boolean} integerB 是否为整数
  */
 function getRandomNum(Min, Max, integerB) {
-    if (integerB) {
-        return (Math.floor(Math.random() * (Max - Min + 1) + Min))
-    } else {
-        return (Min + Math.random() * (Max - Min))
-    }
+  if (integerB) {
+    return Math.floor(Math.random() * (Max - Min + 1) + Min)
+  } else {
+    return Min + Math.random() * (Max - Min)
+  }
 }
 
 export default getRandomNum

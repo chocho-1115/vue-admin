@@ -15,12 +15,10 @@ const ctx = inject('context')
 const showLogo = sctx.sidebarLogo
 
 const isCollapse = computed(() => {
-    return !ctx.sidebar.opened
+  return !ctx.sidebar.opened
 })
-
 </script>
 <style lang="scss" scoped>
-.logo-container{
-  
+.logo-container {
 }
 </style>

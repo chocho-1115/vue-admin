@@ -2,16 +2,13 @@
   <div class="app-container">
     <p>
       The following example is from
-      <a
-        href="https://element-plus.org/zh-CN/component/form.html#典型表单"
-        target="_blank"
-      >
+      <a href="https://element-plus.org/zh-CN/component/form.html#典型表单" target="_blank">
         <el-text type="primary">element plus</el-text>
       </a>
     </p>
     <el-divider />
 
-    <el-form :model="form" style="max-width: 600px;">
+    <el-form :model="form" style="max-width: 600px">
       <el-form-item label="Activity name">
         <el-input v-model="form.name" />
       </el-form-item>
@@ -65,34 +62,33 @@
   </div>
 </template>
 
-
 <script setup>
 import { reactive } from 'vue'
 
 // do not use same name with ref
 const form = reactive({
-    name: '',
-    region: '',
-    date1: '',
-    date2: '',
-    delivery: false,
-    type: [],
-    resource: '',
-    desc: '',
+  name: '',
+  region: '',
+  date1: '',
+  date2: '',
+  delivery: false,
+  type: [],
+  resource: '',
+  desc: '',
 })
 
 const onSubmit = () => {
-    ElMessage({
-        message: 'submit!',
-        type: 'success',
-        duration: 2 * 1000,
-    })
+  ElMessage({
+    message: 'submit!',
+    type: 'success',
+    duration: 2 * 1000,
+  })
 }
 const onCancel = () => {
-    ElMessage({
-        message: 'cancel!',
-        type: 'warning',
-        duration: 2 * 1000,
-    })
+  ElMessage({
+    message: 'cancel!',
+    type: 'warning',
+    duration: 2 * 1000,
+  })
 }
 </script>

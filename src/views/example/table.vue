@@ -25,28 +25,28 @@ import { onMounted, reactive } from 'vue'
 import { getList } from '@/api/table'
 
 const table = reactive({
-    list: null,
-    listLoading: true,
+  list: null,
+  listLoading: true,
 })
 
 const statusFilter = (status) => {
-    const statusMap = {
-        published: 'success',
-        draft: 'primary',
-        deleted: 'danger',
-        // ["primary", "success", "info", "warning", "danger"]
-    }
-    return statusMap[status]
+  const statusMap = {
+    published: 'success',
+    draft: 'primary',
+    deleted: 'danger',
+    // ["primary", "success", "info", "warning", "danger"]
+  }
+  return statusMap[status]
 }
 
 onMounted(() => {
-    fetchData()
+  fetchData()
 })
 const fetchData = () => {
-    table.listLoading = true
-    getList().then((res) => {
-        table.list = res.body.items
-        table.listLoading = false
-    })
+  table.listLoading = true
+  getList().then((res) => {
+    table.list = res.body.items
+    table.listLoading = false
+  })
 }
 </script>
