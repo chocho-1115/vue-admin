@@ -5,22 +5,22 @@
 </p>
 <p align="center">
     <a href="https://github.com/vitejs/vite">
-        <img src="https://img.shields.io/badge/vite-brightgreen.svg">
+        <img src="https://img.shields.io/badge/vite-8.1.0-brightgreen.svg">
     </a>
     <a href="https://github.com/vuejs/core">
-        <img src="https://img.shields.io/badge/vue-brightgreen.svg">
+        <img src="https://img.shields.io/badge/vue-3.5.39-brightgreen.svg">
     </a>
     <a href="https://github.com/element-plus/element-plus">
-        <img src="https://img.shields.io/badge/elemnet--plus-brightgreen.svg">
+        <img src="https://img.shields.io/badge/elemnet--plus-2.14.2-brightgreen.svg">
     </a>
     <a href="https://github.com/axios/axios">
-        <img src="https://img.shields.io/badge/axios-brightgreen.svg">
+        <img src="https://img.shields.io/badge/axios-1.18.1-brightgreen.svg">
     </a>
     <a href="https://github.com/mswjs/msw">
-        <img src="https://img.shields.io/badge/msw-brightgreen.svg">
+        <img src="https://img.shields.io/badge/msw-2.14.6-brightgreen.svg">
     </a>
     <a href="https://github.com/faker-js/faker">
-        <img src="https://img.shields.io/badge/faker-brightgreen.svg">
+        <img src="https://img.shields.io/badge/faker-10.5.0-brightgreen.svg">
     </a>
     <a href="https://github.com/chocho-1115/vue-admin">
         <img src="https://img.shields.io/badge/license-MIT-brightgreen.svg">
