@@ -27,7 +27,8 @@ export default defineConfig([
 
   {
     rules: {
-      'vue/multi-word-component-names': 'off', // 关闭vue组件名称必须多单词
+      // Allow single-word component names
+      'vue/multi-word-component-names': 'off',
     },
   },
 ])
