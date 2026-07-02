@@ -111,7 +111,6 @@ const resolvePath = (routePath) => {
 const onGotoPage = (child) => {
   if (!child.meta) return
   const toPath = resolvePath(child.path)
-  console.log(toPath)
   if (toPath.startsWith('http')) {
     window.open(toPath, '_blank')
   } else {

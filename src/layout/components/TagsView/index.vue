@@ -10,7 +10,7 @@
         ref="tagsDom"
         v-for="tag in ctx.tagsView"
       >
-        {{ tag.title }}
+        {{ tag.meta.title }}
         <el-icon
           @click.prevent.stop="closeSelectedTag(tag)"
           class="el-icon-close"
@@ -60,7 +60,6 @@ const menu = reactive({
 })
 
 let selectedTag = null
-let affixTags = []
 
 watch(
   () => route.fullPath,
@@ -91,21 +90,22 @@ const isAffix = (tag) => {
   return tag.meta && tag.meta.affix
 }
 
-const filterAffixTags = (routes, basePath = '/') => {
+const filterAffixTags = (routesConfig, basePath = '/') => {
   let tags = []
-  routes.forEach((route) => {
+  routesConfig.forEach((route) => {
     const tagPath = path.join(basePath, route.path)
     if (route.children) {
       const tempTags = filterAffixTags(route.children, tagPath)
       if (tempTags.length >= 1) {
         tags = [...tags, ...tempTags]
       }
-      // } else if (route.meta && route.name) {
-    } else if (route.meta && route.name && route.meta.affix) {
+    } else if (route.meta && route.meta.affix) {
       tags.push({
         fullPath: tagPath,
         path: tagPath,
-        name: route.name,
+        // 这里取的是路由配置对象 配置对象一般没有query 虽然如果设置了query 这里能取到，但是路由配置不会设置query 因为 【query 是 “导航动作” 的属性，而不是 “路由配置” 的属性】
+        // 这里不设置query没关系 因为 dispatch.tagsView.add 内部会通过filterParameter函数保证缓存数据的一致性
+        // query: { ...route.query }, 
         meta: { ...route.meta },
       })
     }
@@ -113,18 +113,14 @@ const filterAffixTags = (routes, basePath = '/') => {
   return tags
 }
 const initTags = () => {
-  affixTags = filterAffixTags(router.options.routes)
+  const affixTags = filterAffixTags(router.options.routes)
   for (const tag of affixTags) {
     dispatch.tagsView.add(tag)
   }
 }
 
 const addTags = () => {
-  const { name } = route
-  if (name) {
-    dispatch.tagsView.add(route)
-  }
-  return false
+  dispatch.tagsView.add(route)
 }
 const closeSelectedTag = (view) => {
   dispatch.tagsView.remove(view)

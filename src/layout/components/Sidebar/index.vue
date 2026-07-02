@@ -15,7 +15,7 @@ const ctx = inject('context')
 const showLogo = sctx.sidebarLogo
 
 const isCollapse = computed(() => {
-  return !ctx.sidebar.opened
+  return ctx.sidebar.miniSidebar
 })
 </script>
 <style lang="scss" scoped>

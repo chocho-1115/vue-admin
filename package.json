@@ -31,18 +31,18 @@
     "@spiriit/vite-plugin-svg-spritemap": "^7.0.0",
     "@vitejs/plugin-vue": "^6.0.7",
     "@vue/eslint-config-prettier": "^10.2.0",
-    "eslint": "^10.5.0",
+    "eslint": "^10.6.0",
     "eslint-plugin-vue": "~10.9.2",
     "globals": "^17.7.0",
     "msw": "^2.14.6",
-    "prettier": "3.8.4",
+    "prettier": "3.9.1",
     "sass-embedded": "^1.100.0",
     "unplugin-auto-import": "^21.0.0",
     "unplugin-icons": "^23.0.1",
     "unplugin-vue-components": "^32.1.0",
     "vite": "^8.1.0",
     "vite-plugin-markdown": "^2.2.0",
-    "vite-plugin-vue-devtools": "^8.1.3"
+    "vite-plugin-vue-devtools": "^8.1.5"
   },
   "msw": {
     "workerDirectory": [

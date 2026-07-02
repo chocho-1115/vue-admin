@@ -27,6 +27,7 @@ const router = createRouter({
           path: 'dashboard',
           name: 'Dashboard',
           component: () => import('@/views/dashboard.vue'),
+          query: {name: 91},
           meta: {
             title: 'Dashboard',
             icon: 'home',

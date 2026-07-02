@@ -1,32 +1,49 @@
-const sidebarOpenedCacheKey = 'VA_mini-sidebar'
 const tokenCacheKey = 'VA_token'
 const themeCacheKey = 'VA_theme'
+const miniSidebarCacheKey = 'VA_mini-sidebar'
+const tagsViewCacheKey = 'VA_tags-view'
 
-export function getTokenStorage() {
+export function getToken() {
   return localStorage.getItem(tokenCacheKey)
 }
 
-export function saveTokenStorage(token) {
+export function saveToken(token) {
   return localStorage.setItem(tokenCacheKey, token)
 }
 
-export function removeTokenStorage() {
+export function removeToken() {
   return localStorage.removeItem(tokenCacheKey)
 }
 
-export function getSidebarStatus() {
-  const status = localStorage.getItem(sidebarOpenedCacheKey)
-  return status ? !!+status : true
-}
-
-export function setSidebarStatus(status) {
-  localStorage.setItem(sidebarOpenedCacheKey, status ? 1 : 0)
+export function getTheme() {
+  return localStorage.getItem(themeCacheKey) || ''
 }
 
 export function setTheme(tName) {
   localStorage.setItem(themeCacheKey, tName)
 }
 
-export function getTheme() {
-  return localStorage.getItem(themeCacheKey) || ''
+export function getMiniSidebar() {
+  const status = localStorage.getItem(miniSidebarCacheKey)
+  return status ? !!+status : false
 }
+
+export function setMiniSidebar(status) {
+  localStorage.setItem(miniSidebarCacheKey, status ? 1 : 0)
+}
+
+export function getTagsView() {
+  try {
+    return JSON.parse(sessionStorage.getItem(tagsViewCacheKey) || '[]')
+  } catch {
+    return []
+  }
+}
+
+export function setTagsView(tags) {
+  sessionStorage.setItem(tagsViewCacheKey, JSON.stringify(tags))
+}
+
+
+
+

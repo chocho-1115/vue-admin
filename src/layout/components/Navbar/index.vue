@@ -4,7 +4,7 @@
     <hamburger
       class="hamburger-container"
       v-if="ctx.device !== 'mobile'"
-      :is-active="ctx.sidebar.opened"
+      :is-active="!ctx.sidebar.miniSidebar"
       @toggleClick="toggleSidebar"
     />
     <breadcrumb class="breadcrumb-container" v-if="ctx.device !== 'mobile'" />

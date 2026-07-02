@@ -1,18 +1,20 @@
 import router from '@/router'
 
-import { getTokenStorage, saveTokenStorage, removeTokenStorage } from '../storage'
+import { getToken, saveToken, removeToken } from '../storage'
 import ctx from '../context'
 
 const state = ctx.login
 
 export default {
-  getTokenStorage,
+  getTokenStorage(){
+    return getToken()
+  },
   saveToken(token) {
-    saveTokenStorage(token)
+    saveToken(token)
     state.token = token
   },
   removeToken() {
-    removeTokenStorage()
+    removeToken()
     state.token = ''
   },
   go() {
