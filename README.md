@@ -39,7 +39,7 @@
 
 ## 🎉 技术栈
 
-**项目使用[create-vue 3.x](https://github.com/vuejs/create-vue)从零开始创建，基于 `vite 6.x` 进行版本构建，建议 [Node.js](https://nodejs.org/) 使用较新版本。**
+**项目使用[create-vue 3.x](https://github.com/vuejs/create-vue)从零开始创建，基于 `vite 8.x` 进行版本构建，建议 [Node.js](https://nodejs.org/) 使用较新版本。**
 
 主要集成了以下技术栈：
 
