@@ -39,7 +39,7 @@ provide('reloadAppMain', () => {
 
 const classObj = computed(() => {
   return {
-    'mini-sidebar': !ctx.sidebar.opened,
+    'mini-sidebar': ctx.sidebar.miniSidebar,
     mobile: ctx.device === 'mobile',
   }
 })

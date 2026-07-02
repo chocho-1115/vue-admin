@@ -1,6 +1,6 @@
 const tokenCacheKey = 'VA_token'
 const themeCacheKey = 'VA_theme'
-const sidebarOpenedCacheKey = 'VA_mini-sidebar'
+const miniSidebarCacheKey = 'VA_mini-sidebar'
 
 export function getToken() {
   return localStorage.getItem(tokenCacheKey)
@@ -22,13 +22,13 @@ export function getTheme() {
   return localStorage.getItem(themeCacheKey) || ''
 }
 
-export function getSidebarStatus() {
-  const status = localStorage.getItem(sidebarOpenedCacheKey)
-  return status ? !!+status : true
+export function getMiniSidebar() {
+  const status = localStorage.getItem(miniSidebarCacheKey)
+  return status ? !!+status : false
 }
 
-export function setSidebarStatus(status) {
-  localStorage.setItem(sidebarOpenedCacheKey, status ? 1 : 0)
+export function setMiniSidebar(status) {
+  localStorage.setItem(miniSidebarCacheKey, status ? 1 : 0)
 }
 
 
