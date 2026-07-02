@@ -10,7 +10,7 @@
         ref="tagsDom"
         v-for="tag in ctx.tagsView"
       >
-        {{ tag.title }}
+        {{ tag.meta.title }}
         <el-icon
           @click.prevent.stop="closeSelectedTag(tag)"
           class="el-icon-close"
@@ -48,6 +48,9 @@ const reloadAppMain = inject('reloadAppMain')
 
 const router = useRouter()
 const route = useRoute()
+
+console.log(router)
+console.log(route)
 
 const tagsDom = useTemplateRef('tagsDom')
 const scrollPaneDom = useTemplateRef('scrollPaneDom')
@@ -115,6 +118,8 @@ const filterAffixTags = (routes, basePath = '/') => {
 const initTags = () => {
   affixTags = filterAffixTags(router.options.routes)
   for (const tag of affixTags) {
+    console.log('===1')
+    console.log(tag.query)
     dispatch.tagsView.add(tag)
   }
 }
@@ -122,6 +127,8 @@ const initTags = () => {
 const addTags = () => {
   const { name } = route
   if (name) {
+    console.log('===2')
+    console.log(route.query)
     dispatch.tagsView.add(route)
   }
   return false
@@ -168,6 +175,7 @@ const handleScroll = () => {
 const moveToCurrentTag = async () => {
   await nextTick()
   for (const tag of tagsDom.value) {
+    console.log(tag.to.fullPath)
     if (tag.to.path === route.path) {
       scrollPaneDom.value.moveToTarget(tag, tagsDom)
       // when query is different then update
