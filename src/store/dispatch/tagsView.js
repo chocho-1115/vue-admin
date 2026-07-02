@@ -8,8 +8,8 @@ const filterParameter = (view) => {
   return {
     path: view.path,
     fullPath: view.fullPath,
-    query: view.query,
-    meta: view.meta
+    query: { ...view.query },
+    meta: { ...view.meta }
   }
 }
 
@@ -18,7 +18,6 @@ export default {
     if (state.some((v) => v.path === view.path)) return
     view = filterParameter(view)
     state.push(view)
-
     setTagsView(state)
   },
   // visitedViews
