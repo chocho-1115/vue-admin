@@ -18,9 +18,9 @@ import './permission'
 if (getTheme() === 'dark') document.documentElement.classList.add('dark')
 
 async function enableMocking() {
-  if (import.meta.env.MODE !== 'development') {
-    return
-  }
+  // if (import.meta.env.MODE !== 'development') {
+  //   return
+  // }
 
   const { worker } = await import('../mocks/browser')
 

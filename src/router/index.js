@@ -1,7 +1,7 @@
 import {
   createRouter,
-  createWebHistory,
-  // createWebHashHistory
+  // createWebHistory
+  createWebHashHistory,
 } from 'vue-router'
 import { Brush, Discount } from '@element-plus/icons-vue'
 
@@ -10,9 +10,8 @@ import nestedRouter from './modules/nested'
 import whiteList from './whiteList'
 
 const router = createRouter({
-  history: createWebHistory(import.meta.env.VITE_BASE_URL),
-  routes: [
-    {
+  history: createWebHashHistory(import.meta.env.VITE_BASE_URL),
+  routes: [{
       path: '/account/login',
       name: 'login',
       hidden: true,
