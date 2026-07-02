@@ -43,7 +43,7 @@
 
 主要集成了以下技术栈：
 
-- 💪 [vue3](https://vuejs.org/) + [vite6](https://vite.dev/)
+- 💪 [vue3](https://vuejs.org/) + [vite8](https://vite.dev/)
 - 💅 [vue-router](https://router.vuejs.org/)
 - 💅 [element plus](https://element-plus.org/zh-CN/)
 - 🌍 [mswjs](https://mswjs.io/) + [fakerjs](https://fakerjs.dev/)
