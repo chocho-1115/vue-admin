@@ -1,7 +1,5 @@
-import {
-  getSidebarStatus
-} from '../storage'
+import { getMiniSidebar } from '../storage'
 
 export default {
-  opened: getSidebarStatus(),
+  miniSidebar: getMiniSidebar(),
 }

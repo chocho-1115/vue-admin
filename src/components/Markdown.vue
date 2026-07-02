@@ -9,29 +9,29 @@
 
 <script setup>
 const props = defineProps({
-    title: {
-        type: String,
-        default: '',
-    },
+  title: {
+    type: String,
+    default: '',
+  },
 })
 </script>
 
 <style lang="scss" scoped>
 .container {
-    margin: 30px;
+  margin: 30px;
 }
 .title {
-    margin: 30px auto;
+  margin: 30px auto;
 }
 .content {
-    font-size: 14px;
-    line-height: 1.6em;
-    :deep(li) {
-        margin-bottom: 8px;
-    }
-    :deep(a) {
-        color: var(--el-color-primary);
-        margin: auto 2px;
-    }
+  font-size: 14px;
+  line-height: 1.6em;
+  :deep(li) {
+    margin-bottom: 8px;
+  }
+  :deep(a) {
+    color: var(--el-color-primary);
+    margin: auto 2px;
+  }
 }
 </style>

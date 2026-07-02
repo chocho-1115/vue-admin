@@ -1,6 +1,4 @@
-const {
-  body
-} = document
+const { body } = document
 const WIDTH = 768 // refer to Bootstrap's responsive design
 
 export const getDevice = () => {

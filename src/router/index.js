@@ -3,10 +3,7 @@ import {
   // createWebHistory
   createWebHashHistory,
 } from 'vue-router'
-import {
-  Brush,
-  Discount,
-} from '@element-plus/icons-vue'
+import { Brush, Discount } from '@element-plus/icons-vue'
 
 import Layout from '@/layout/index.vue'
 import nestedRouter from './modules/nested'
@@ -24,17 +21,20 @@ const router = createRouter({
       path: '/',
       component: Layout,
       redirect: '/dashboard',
-      children: [{
-        path: 'dashboard',
-        name: 'Dashboard',
-        component: () => import('@/views/dashboard.vue'),
-        meta: {
-          title: 'Dashboard',
-          icon: 'home',
-          keepAlive: true,
-          affix: true
-        }
-      }, ]
+      children: [
+        {
+          path: 'dashboard',
+          name: 'Dashboard',
+          component: () => import('@/views/dashboard.vue'),
+          query: {name: 91},
+          meta: {
+            title: 'Dashboard',
+            icon: 'home',
+            keepAlive: true,
+            affix: true,
+          },
+        },
+      ],
     },
     {
       path: '/about',
@@ -43,23 +43,26 @@ const router = createRouter({
       meta: {
         alwaysShow: true,
         title: 'About',
-        icon: 'about'
+        icon: 'about',
       },
-      children: [{
-        path: 'readme',
-        name: 'Readme',
-        component: () => import('@/views/about/readme.vue'),
-        meta: {
-          title: 'Readme',
-        }
-      }, {
-        path: 'changelog',
-        name: 'Changelog',
-        component: () => import('@/views/about/changelog.vue'),
-        meta: {
-          title: 'Changelog',
-        }
-      }]
+      children: [
+        {
+          path: 'readme',
+          name: 'Readme',
+          component: () => import('@/views/about/readme.vue'),
+          meta: {
+            title: 'Readme',
+          },
+        },
+        {
+          path: 'changelog',
+          name: 'Changelog',
+          component: () => import('@/views/about/changelog.vue'),
+          meta: {
+            title: 'Changelog',
+          },
+        },
+      ],
     },
     {
       path: '/example',
@@ -68,16 +71,17 @@ const router = createRouter({
       meta: {
         alwaysShow: true,
         title: 'Example',
-        icon: 'example'
+        icon: 'example',
       },
-      children: [{
+      children: [
+        {
           path: 'icon',
           name: 'Icons',
           component: () => import('@/views/example/icon.vue'),
           meta: {
             title: 'Icon',
             icon: Discount,
-          }
+          },
         },
         {
           path: 'color',
@@ -86,7 +90,7 @@ const router = createRouter({
           meta: {
             title: 'Color',
             icon: Brush,
-          }
+          },
         },
         {
           path: 'table',
@@ -95,14 +99,14 @@ const router = createRouter({
           meta: {
             title: 'Table',
             icon: 'table',
-          }
+          },
         },
         {
           path: 'tree',
           name: 'Tree',
           meta: {
             title: 'Tree',
-            icon: 'tree'
+            icon: 'tree',
           },
           component: () => import('@/views/example/tree.vue'),
         },
@@ -111,7 +115,7 @@ const router = createRouter({
           name: 'Form',
           meta: {
             title: 'Form',
-            icon: 'form'
+            icon: 'form',
           },
           component: () => import('@/views/example/form.vue'),
         },
@@ -123,36 +127,38 @@ const router = createRouter({
             title: 'Test',
             icon: 'test',
             keepAlive: true,
-          }
+          },
         },
-      ]
+      ],
     },
     nestedRouter,
     {
       path: '/external-link',
       component: Layout,
-      children: [{
-        path: 'https://github.com/chocho-1115/vue-admin',
-        meta: {
-          title: 'External Link',
-          icon: 'link'
-        }
-      }]
+      children: [
+        {
+          path: 'https://github.com/chocho-1115/vue-admin',
+          meta: {
+            title: 'External Link',
+            icon: 'link',
+          },
+        },
+      ],
     },
     {
       path: '/404',
       component: () => import('@/views/404.vue'),
-      hidden: true
+      hidden: true,
     },
     {
       path: '/:pathMatch(.*)*',
       redirect: '/404',
-      hidden: true
+      hidden: true,
     },
   ],
 })
 
-router.beforeEach(async (to, from) => {
+router.beforeEach(async (to) => {
   // set page title
   document.title = to.meta.title ? `${to.meta.title} - Vue Admin` : `Vue Admin`
 })
