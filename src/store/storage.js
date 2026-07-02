@@ -43,7 +43,3 @@ export function getTagsView() {
 export function setTagsView(tags) {
   sessionStorage.setItem(tagsViewCacheKey, JSON.stringify(tags))
 }
-
-
-
-

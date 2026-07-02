@@ -6,7 +6,7 @@ import ctx from '../context'
 const state = ctx.login
 
 export default {
-  getTokenStorage(){
+  getTokenStorage() {
     return getToken()
   },
   saveToken(token) {

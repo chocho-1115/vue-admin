@@ -105,7 +105,7 @@ const filterAffixTags = (routesConfig, basePath = '/') => {
         path: tagPath,
         // 这里取的是路由配置对象 配置对象一般没有query 虽然如果设置了query 这里能取到，但是路由配置不会设置query 因为 【query 是 “导航动作” 的属性，而不是 “路由配置” 的属性】
         // 这里不设置query没关系 因为 dispatch.tagsView.add 内部会通过filterParameter函数保证缓存数据的一致性
-        // query: { ...route.query }, 
+        // query: { ...route.query },
         meta: { ...route.meta },
       })
     }
