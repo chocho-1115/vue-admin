@@ -5,8 +5,8 @@
 
       <div class="info">The webmaster said that you can not enter this page...</div>
       <div class="tips">
-        Please check that the URL you entered is correct, or click the button below to return to
-        the homepage.
+        Please check that the URL you entered is correct, or click the button below to return to the
+        homepage.
       </div>
       <a class="btn-home" href="/">Back to home</a>
     </div>
@@ -15,7 +15,7 @@
 
 <style lang="scss" scoped>
 .container {
-  min-height:100vh;
+  min-height: 100vh;
   max-width: 1200px;
   overflow: hidden;
   margin: auto;
@@ -41,7 +41,7 @@
   .tips {
     font-size: 13px;
     line-height: 1.4em;
-    color:var(--el-text-color-secondary);
+    color: var(--el-text-color-secondary);
     margin-bottom: 30px;
   }
   .btn-home {
@@ -57,5 +57,4 @@
     cursor: pointer;
   }
 }
-
 </style>
