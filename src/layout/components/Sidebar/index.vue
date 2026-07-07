@@ -1,5 +1,5 @@
 <template>
-  <logo class="logo-container" :collapse="isCollapse" theme="light" v-if="showLogo" />
+  <logo :collapse="isCollapse" theme="light" v-if="showLogo" />
   <menu-list :height="showLogo ? 'calc(100% - 50px)' : '100%'" :isCollapse="isCollapse" />
 </template>
 
@@ -18,7 +18,4 @@ const isCollapse = computed(() => {
   return ctx.sidebar.miniSidebar
 })
 </script>
-<style lang="scss" scoped>
-.logo-container {
-}
-</style>
+
