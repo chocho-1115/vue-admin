@@ -18,4 +18,3 @@ const isCollapse = computed(() => {
   return ctx.sidebar.miniSidebar
 })
 </script>
-
