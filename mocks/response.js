@@ -6,7 +6,7 @@ const getCode = (status, message) => {
   const res = {}
   switch (status) {
     case 1:
-      res.code = 20000
+      res.code = 0
       res.message = message || 'Success'
       break;
     case -1:

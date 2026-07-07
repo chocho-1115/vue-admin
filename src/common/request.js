@@ -30,8 +30,8 @@ service.interceptors.response.use(
   (response) => {
     const res = response.data
     const url = response.config.url
-    // if the custom code is not 20000, it is judged as an error.
-    if (res.code !== 20000) {
+    // if the custom code is not 0, it is judged as an error.
+    if (res.code !== 0) {
       // 50008: Illegal token; 50012: Other clients logged in; 50014: Token expired;
       if (res.code === 50008) {
         EventBus.emit('auth:unauthorized', { url, res })
@@ -40,6 +40,7 @@ service.interceptors.response.use(
       } else {
         EventBus.emit('request:error', { url, res })
       }
+      console.log(response)
       const error = new Error(res.msg || res.data?.message || 'Error', { cause: response })
       error.response = response
       return Promise.reject(error) // 没有catch时 会直接抛出错误 不会执行请求之后的代码
