@@ -1,8 +1,8 @@
 import {
   tokens,
-} from '../config'
-import { BIZ_CODES } from '../bizCodes'
-import { createSuccess, createError } from '../responseHelpers'
+} from './common/config'
+import { BIZ_CODES } from './common/bizCodes'
+import { createSuccess, createError } from './common/responseHelpers'
 
 export default [{
     path: '/login/loginByAccount',
