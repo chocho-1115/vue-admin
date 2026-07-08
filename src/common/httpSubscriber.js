@@ -33,7 +33,7 @@ export function initHttpSubscriber() {
   })
 
   EventBus.on('request:error', (errorInfo) => {
-    console.log('统一错误日志上报:', errorInfo)
+    console.log('Unified error log reporting:', errorInfo)
     ElMessage({
       message: errorInfo.message || 'Error',
       type: 'error',
