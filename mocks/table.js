@@ -58,7 +58,7 @@ export default [{
     }
 
     return response({
-      body: {
+      data: {
         items: list,
         total: list.length,
       }

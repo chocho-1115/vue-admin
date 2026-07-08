@@ -69,7 +69,7 @@ router.afterEach(async () => {
   const cahceToken = dispatch.login.getTokenStorage()
 
   if (!hasUserInfo && cahceToken) {
-    const { body } = await getInfo()
-    dispatch.user.saveInfo(body)
+    const { data } = await getInfo()
+    dispatch.user.saveInfo(data)
   }
 })

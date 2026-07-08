@@ -22,7 +22,7 @@ export default [{
         })
       }
       return response({
-        body: token
+        data: token
       })
     }
   },

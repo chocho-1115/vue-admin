@@ -1,6 +1,7 @@
 import {
   HttpResponse
 } from 'msw'
+import { BIZ_CODES } from './bizCodes'
 
 const getCode = (status, message) => {
   const res = {}
@@ -24,11 +25,11 @@ const getCode = (status, message) => {
 export const response = ({
   status = 1,
   message,
-  body
+  data
 } = {}) => {
   const res = {}
   Object.assign(res, getCode(status, message))
 
-  if (body) res['body'] = body
+  if (data) res['data'] = data
   return HttpResponse.json(res)
 }

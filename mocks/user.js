@@ -20,7 +20,7 @@ export default [
         })
       }
       return response({
-        body: info
+        data: info
       })
     }
   },
