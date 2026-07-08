@@ -9,10 +9,14 @@
  *
  * Ranges:
  * - 0          : Success
- * - 10000-19999: Generic errors - parameter validation, request format, data parsing, etc.
- * - 20000-29999: Auth errors - missing token, invalid token, token expired, insufficient permissions, etc.
- * - 30000-39999: Business errors - order not found, insufficient stock, payment failed, etc.
- * - 50000-59999: System errors - database error, cache error, RPC timeout, file operation failed, etc.
+ * - 10000-19999: Generic errors
+ *                e.g. invalid parameter, missing field, malformed JSON
+ * - 20000-29999: Auth errors
+ *                e.g. unauthorized (no token / invalid token), expired, forbidden, other device login
+ * - 30000-39999: Business errors
+ *                e.g. order not found, insufficient stock, payment failed
+ * - 50000-59999: System errors
+ *                e.g. database connection failed, cache unavailable, RPC timeout
  * ==========================================
  */
 
@@ -30,6 +34,7 @@ export const BIZ_CODES = {
   AUTH_UNAUTHORIZED: 20001,
   AUTH_EXPIRED: 20002,
   AUTH_FORBIDDEN: 20003,
+  AUTH_OTHER_CLIENT_LOGGED_IN: 20004,
 
   // Business errors (30000-39999) - Reserved
   // ORDER_NOT_FOUND: 30001,
@@ -51,6 +56,7 @@ export const BIZ_MESSAGES = {
   [BIZ_CODES.AUTH_UNAUTHORIZED]: 'Unauthorized',
   [BIZ_CODES.AUTH_EXPIRED]: 'Expired',
   [BIZ_CODES.AUTH_FORBIDDEN]: 'Forbidden',
+  [BIZ_CODES.AUTH_OTHER_CLIENT_LOGGED_IN]: 'Other client logged in',
 };
 
 // ---------- Helpers ----------
