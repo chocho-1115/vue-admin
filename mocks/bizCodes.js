@@ -12,7 +12,7 @@
  * - 10000-19999: Generic errors
  *                e.g. invalid parameter, missing field, malformed JSON
  * - 20000-29999: Auth errors
- *                e.g. unauthorized (no token / invalid token), expired, forbidden, other device login
+ *                e.g. unauthorized (no token / invalid token), expired, forbidden, other client logged in
  * - 30000-39999: Business errors
  *                e.g. order not found, insufficient stock, payment failed
  * - 50000-59999: System errors
