@@ -32,10 +32,10 @@ export function initHttpSubscriber() {
     }
   })
 
-  EventBus.on('request:error', ({ code, message, status, url }) => {
-    console.log('统一错误日志上报:', { code, message, status, url })
+  EventBus.on('request:error', (errorInfo) => {
+    console.log('统一错误日志上报:', errorInfo)
     ElMessage({
-      message: message || 'Error',
+      message: errorInfo.message || 'Error',
       type: 'error',
       duration: 5 * 1000,
     })
