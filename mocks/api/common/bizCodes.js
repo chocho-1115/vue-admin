@@ -37,7 +37,7 @@ export const BIZ_CODES = {
   // AUTH_OTHER_CLIENT_LOGGED_IN: 20004,
 
   // Business errors (30000-39999) - Reserved
-  USER_NOT_FOUND: 30001, // 账号不存在
+  USER_NOT_FOUND: 30001, // User not found
   // ORDER_NOT_FOUND: 30002,
   // INSUFFICIENT_STOCK: 30003,
 

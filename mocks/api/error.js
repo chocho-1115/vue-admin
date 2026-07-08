@@ -1,9 +1,9 @@
 import {
   users
-} from './config'
+} from './common/config'
 import {
   response
-} from './responseHelpers.js'
+} from './common/responseHelpers.js'
 
 export default [
   {

@@ -2,12 +2,12 @@
 import {
   faker
 } from "@faker-js/faker";
-import { BIZ_CODES } from './bizCodes'
-import { createSuccess, createError } from './responseHelpers'
+import { BIZ_CODES } from '../bizCodes'
+import { createSuccess, createError } from '../responseHelpers'
 
 import {
   users
-} from './config.js'
+} from '../config.js'
 import {
   formatTime
 } from '@/core/utils/index.js'
