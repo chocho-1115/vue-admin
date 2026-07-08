@@ -11,7 +11,7 @@
 
     <!-- +++++++++++++++ -->
     <div class="text">
-      <button @click="test_404">Click</button>
+      <button @click="onHttpTest404">Click</button>
     </div>
     <p>
       点击发送一个404错误的请求
@@ -19,7 +19,7 @@
 
     <!-- +++++++++++++++ -->
     <div class="text">
-      <button @click="test_500">Click</button>
+      <button @click="onHttpTest500">Click</button>
     </div>
     <p>
       点击发送一个500错误的请求
@@ -38,7 +38,7 @@
       <button @click="avatarChange">Click to change form userInfo.avatar</button>
     </div>
     <p>点击清空用户头像 模拟图片动态变化</p>
-    
+
     <div class="text" style="width: 100px; height: 100px">
       <img-load
         :src="ctx.src"
@@ -103,6 +103,14 @@ const avatarChange = () => {
     context.userInfo.avatar = ''
     ctx.src = avatar
   }
+}
+
+const onHttpTest404 = async(key) => {
+  test_404()
+}
+
+const onHttpTest500 = async(key) => {
+  test_500()
 }
 </script>
 
