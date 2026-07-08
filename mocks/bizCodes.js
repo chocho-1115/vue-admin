@@ -70,8 +70,8 @@ export function getMessage(code, fallback = 'Error') {
   return BIZ_MESSAGES[code] || fallback;
 }
 
-/** Build success response */
-export function buildSuccess(data, message = 'Success') {
+/** Create success response */
+export function createSuccess(data, message = 'Success') {
   return {
     code: BIZ_CODES.SUCCESS,
     message,
@@ -80,8 +80,8 @@ export function buildSuccess(data, message = 'Success') {
   };
 }
 
-/** Build error response */
-export function buildError(code, data = null) {
+/** Create error response */
+export function createError(code, data = null) {
   return {
     code,
     message: getMessage(code),
