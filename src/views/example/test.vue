@@ -106,11 +106,11 @@ const avatarChange = () => {
 }
 
 const onHttpTest404 = async(key) => {
-  test_404()
+  await test_404()//.catch(()=>{})
 }
 
 const onHttpTest500 = async(key) => {
-  test_500()
+  await test_500()//.catch(()=>{})
 }
 </script>
 
