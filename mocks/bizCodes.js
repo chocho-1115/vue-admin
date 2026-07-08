@@ -14,7 +14,7 @@
  * - 20000-29999: Auth errors
  *                e.g. unauthorized (no token / invalid token), expired, forbidden, other client logged in
  * - 30000-39999: Business errors
- *                e.g. order not found, insufficient stock, payment failed
+ *                e.g. user not found, order not found, insufficient stock, payment failed
  * - 50000-59999: System errors
  *                e.g. database connection failed, cache unavailable, RPC timeout
  * ==========================================
@@ -37,8 +37,9 @@ export const BIZ_CODES = {
   // AUTH_OTHER_CLIENT_LOGGED_IN: 20004,
 
   // Business errors (30000-39999) - Reserved
-  // ORDER_NOT_FOUND: 30001,
-  // INSUFFICIENT_STOCK: 30002,
+  USER_NOT_FOUND: 30001, // 账号不存在
+  // ORDER_NOT_FOUND: 30002,
+  // INSUFFICIENT_STOCK: 30003,
 
   // System errors (50000-59999) - Reserved
   // DB_ERROR: 50001,
@@ -57,41 +58,6 @@ export const BIZ_MESSAGES = {
   [BIZ_CODES.AUTH_EXPIRED]: 'Expired',
   [BIZ_CODES.AUTH_FORBIDDEN]: 'Forbidden',
   // [BIZ_CODES.AUTH_OTHER_CLIENT_LOGGED_IN]: 'Other client logged in',
+
+  [BIZ_CODES.USER_NOT_FOUND]: 'User not found',
 };
-
-// ---------- Helpers ----------
-
-/** Check if code is success */
-export function isSuccess(code) {
-  return code === BIZ_CODES.SUCCESS;
-}
-
-/** Check if code is auth error */
-export function isAuthError(code) {
-  return code >= 20000 && code < 30000;
-}
-
-/** Get message by code */
-export function getMessage(code, fallback = 'Error') {
-  return BIZ_MESSAGES[code] || fallback;
-}
-
-/** Create success response */
-export function createSuccess(data, message = 'Success') {
-  return {
-    code: BIZ_CODES.SUCCESS,
-    message,
-    data,
-    timestamp: Date.now(),
-  };
-}
-
-/** Create error response */
-export function createError(code, data = null) {
-  return {
-    code,
-    message: getMessage(code),
-    data,
-    timestamp: Date.now(),
-  };
-}

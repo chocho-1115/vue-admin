@@ -1,10 +1,9 @@
-import {
-  response
-} from './response.js'
 // import { faker } from "@faker-js/faker/locale/zh_CN";
 import {
   faker
 } from "@faker-js/faker";
+import { BIZ_CODES } from './bizCodes'
+import { createSuccess, createError } from './response'
 
 import {
   users
@@ -52,16 +51,12 @@ export default [{
 
     // mock error
     if (!info) {
-      return response({
-        status: -1,
-      })
+      return createError(BIZ_CODES.AUTH_UNAUTHORIZED)
     }
 
-    return response({
-      data: {
-        items: list,
-        total: list.length,
-      }
+    return createSuccess({
+      items: list,
+      total: list.length,
     })
   }
 }, ]

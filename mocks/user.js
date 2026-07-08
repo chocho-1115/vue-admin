@@ -1,10 +1,6 @@
-import {
-  users
-} from './config'
-import {
-  response
-} from './response.js'
-
+import { users } from './config'
+import { BIZ_CODES } from './bizCodes'
+import { createSuccess, createError } from './response'
 export default [
   {
     path: '/user/info',
@@ -15,13 +11,9 @@ export default [
       const token = request.headers.get('token')
       const info = users[token]
       if (!info) {
-        return response({
-          status: -1,
-        })
+        return createError(BIZ_CODES.AUTH_UNAUTHORIZED)
       }
-      return response({
-        data: info
-      })
+      return createSuccess(info)
     }
   },
 ];
