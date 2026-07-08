@@ -2,7 +2,7 @@ import {
   tokens,
 } from './config'
 import { BIZ_CODES } from './bizCodes'
-import { createSuccess, createError } from './response'
+import { createSuccess, createError } from './responseHelpers'
 
 export default [{
     path: '/login/loginByAccount',

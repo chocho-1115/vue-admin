@@ -3,7 +3,7 @@ import {
 } from './config'
 import {
   response
-} from './response.js'
+} from './responseHelpers.js'
 
 export default [
   {
