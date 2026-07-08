@@ -1,12 +1,31 @@
 <template>
   <div>
+    <!-- +++++++++++++++ -->
     <div class="text">user name: {{ context.userInfo.name }}</div>
     <p>inject('context')与import { ctx as context } from '@/store'等效</p>
     <!-- <div class="text">{{ context.tagsView.length }}</div> -->
 
+    <!-- +++++++++++++++ -->
     <div class="text">{{ ctx.o.a }}|{{ ctx.a[0] }}</div>
     <p>测试keepAlive，返回页面时，数字变为2.即缓存页面成功</p>
 
+    <!-- +++++++++++++++ -->
+    <div class="text">
+      <button @click="test_404">Click</button>
+    </div>
+    <p>
+      点击发送一个404错误的请求
+    </p>
+
+    <!-- +++++++++++++++ -->
+    <div class="text">
+      <button @click="test_500">Click</button>
+    </div>
+    <p>
+      点击发送一个500错误的请求
+    </p>
+
+    <!-- +++++++++++++++ -->
     <div class="text">
       <button @click="routerChange">Click to change form page query</button>
     </div>
@@ -14,11 +33,12 @@
       给标签页加参数，看看再次进入标签页参数是否丢失（这里点击侧边栏二次进入标签页会丢失，这种场景不考虑）
     </p>
 
+    <!-- +++++++++++++++ -->
     <div class="text">
       <button @click="avatarChange">Click to change form userInfo.avatar</button>
     </div>
     <p>点击清空用户头像 模拟图片动态变化</p>
-
+    
     <div class="text" style="width: 100px; height: 100px">
       <img-load
         :src="ctx.src"
@@ -33,6 +53,8 @@
 import { inject, reactive } from 'vue'
 import { useRouter } from 'vue-router'
 // import { ctx as context } from '@/store'
+import { test_404, test_500 } from '@/api/test'
+
 const context = inject('context') // import store 和 inject的方式是一样的效果
 const router = useRouter()
 

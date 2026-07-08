@@ -1,27 +1,18 @@
-import {
-  users
-} from './common/config'
-import {
-  response
-} from './common/responseHelpers.js'
+import { HttpResponse } from 'msw'
 
 export default [
   {
-    path: '/user/info',
+    path: '/404',
     method: 'get',
-    handler: ({
-      request
-    }) => {
-      const token = request.headers.get('token')
-      const info = users[token]
-      if (!info) {
-        return response({
-          status: -1,
-        })
-      }
-      return response({
-        data: info
-      })
+    handler: () => {
+      return new HttpResponse(null, { status: 404 })
+    }
+  },
+  {
+    path: '/500',
+    method: 'get',
+    handler: () => {
+      return new HttpResponse(null, { status: 500 })
     }
   },
 ];
