@@ -6,7 +6,7 @@ import { createSuccess, createError } from './common/responseHelpers'
 
 export default [{
     path: '/login/loginByAccount',
-    type: 'post',
+    method: 'post',
     handler: async ({
       request
     }) => {
@@ -22,14 +22,14 @@ export default [{
   },
   {
     path: '/login/logout',
-    type: 'post',
+    method: 'post',
     handler: () => {
       return createSuccess()
     }
   },
   {
     path: '/login/checkToken',
-    type: 'get',
+    method: 'get',
     handler: () => {
       return createSuccess()
     }

@@ -42,7 +42,7 @@ const list = faker.helpers.multiple(createRandomUser, {
 
 export default [{
   path: '/table/list',
-  type: 'get',
+  method: 'get',
   handler: async ({
     request
   }) => {

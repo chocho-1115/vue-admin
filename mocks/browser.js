@@ -2,7 +2,7 @@ import {
   setupWorker
 } from 'msw/browser'
 import handlers from './handlers';
-// console.log(handlers)
+
 const worker = new setupWorker();
 worker.use(...handlers)
 // worker.events.on('request:start', ({

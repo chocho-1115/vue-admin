@@ -8,7 +8,7 @@ import {
 export default [
   {
     path: '/user/info',
-    type: 'get',
+    method: 'get',
     handler: ({
       request
     }) => {

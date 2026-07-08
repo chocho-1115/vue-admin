@@ -4,7 +4,7 @@ import { createSuccess, createError } from './common/responseHelpers'
 export default [
   {
     path: '/user/info',
-    type: 'get',
+    method: 'get',
     handler: ({
       request
     }) => {
