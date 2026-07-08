@@ -11,8 +11,8 @@ const getCode = (status, message) => {
       res.message = message || 'Success'
       break;
     case -1:
-      // 50008: Illegal token; 50012: Other clients logged in; 50014: Token expired;
-      res.code = 50008
+      // 20001: unauthorized (no token / invalid token)
+      res.code = 20001
       res.message = message || 'Illegal token'
       break;
     default:

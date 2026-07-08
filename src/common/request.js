@@ -32,15 +32,14 @@ service.interceptors.response.use(
     const url = response.config.url
     // if the custom code is not 0, it is judged as an error.
     if (res.code !== 0) {
-      // 50008: Illegal token; 50012: Other clients logged in; 50014: Token expired;
-      if (res.code === 50008) {
+      // unauthorized (no token / invalid token), expired
+      if (res.code === 20001) {
         EventBus.emit('auth:unauthorized', { url, res })
-      } else if (res.code === 50012 || res.code === 50014) {
+      } else if (res.code === 20002) {
         EventBus.emit('auth:expired', { url, res })
       } else {
         EventBus.emit('request:error', { url, res })
       }
-      console.log(response)
       const error = new Error(res.msg || res.data?.message || 'Error', { cause: response })
       error.response = response
       return Promise.reject(error) // 没有catch时 会直接抛出错误 不会执行请求之后的代码
