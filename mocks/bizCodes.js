@@ -34,7 +34,7 @@ export const BIZ_CODES = {
   AUTH_UNAUTHORIZED: 20001,
   AUTH_EXPIRED: 20002,
   AUTH_FORBIDDEN: 20003,
-  AUTH_OTHER_CLIENT_LOGGED_IN: 20004,
+  // AUTH_OTHER_CLIENT_LOGGED_IN: 20004,
 
   // Business errors (30000-39999) - Reserved
   // ORDER_NOT_FOUND: 30001,
@@ -56,7 +56,7 @@ export const BIZ_MESSAGES = {
   [BIZ_CODES.AUTH_UNAUTHORIZED]: 'Unauthorized',
   [BIZ_CODES.AUTH_EXPIRED]: 'Expired',
   [BIZ_CODES.AUTH_FORBIDDEN]: 'Forbidden',
-  [BIZ_CODES.AUTH_OTHER_CLIENT_LOGGED_IN]: 'Other client logged in',
+  // [BIZ_CODES.AUTH_OTHER_CLIENT_LOGGED_IN]: 'Other client logged in',
 };
 
 // ---------- Helpers ----------
