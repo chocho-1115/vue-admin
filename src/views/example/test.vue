@@ -11,13 +11,13 @@
 
     <!-- +++++++++++++++ -->
     <div class="text">
-      <button @click="onHttpTest404">Click</button>
+      <button @click="onTestError(404)">Click</button>
     </div>
     <p>点击发送一个404错误的请求</p>
 
     <!-- +++++++++++++++ -->
     <div class="text">
-      <button @click="onHttpTest500">Click</button>
+      <button @click="onTestError(500)">Click</button>
     </div>
     <p>点击发送一个500错误的请求</p>
 
@@ -49,7 +49,7 @@
 import { inject, reactive } from 'vue'
 import { useRouter } from 'vue-router'
 // import { ctx as context } from '@/store'
-import { test_404, test_500 } from '@/api/test'
+import { testError } from '@/api/test'
 
 defineOptions({
   name: 'Test', // 必须与keepAliveName一致
@@ -105,12 +105,10 @@ const avatarChange = () => {
   }
 }
 
-const onHttpTest404 = async () => {
-  await test_404() //.catch(()=>{})
-}
-
-const onHttpTest500 = async () => {
-  await test_500() //.catch(()=>{})
+const onTestError = async (status) => {
+  await testError(status).catch(() => {
+    // throw e
+  })
 }
 </script>
 
