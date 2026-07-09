@@ -6,6 +6,10 @@
 
 <script setup>
 import { ctx } from '@/store'
+
+defineOptions({
+  name: 'Dashboard'  // 必须与keepAliveName一致
+})
 </script>
 
 <style lang="scss" scoped>

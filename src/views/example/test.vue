@@ -55,6 +55,10 @@ import { useRouter } from 'vue-router'
 // import { ctx as context } from '@/store'
 import { test_404, test_500 } from '@/api/test'
 
+defineOptions({
+  name: 'Test'  // 必须与keepAliveName一致
+})
+
 const context = inject('context') // import store 和 inject的方式是一样的效果
 const router = useRouter()
 

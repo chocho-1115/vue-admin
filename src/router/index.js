@@ -30,7 +30,6 @@ const router = createRouter({
           meta: {
             title: 'Dashboard',
             icon: 'home',
-            keepAlive: true,
             affix: true,
           },
         },
@@ -126,7 +125,6 @@ const router = createRouter({
           meta: {
             title: 'Test',
             icon: 'test',
-            keepAlive: true,
           },
         },
       ],
