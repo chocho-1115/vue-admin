@@ -34,13 +34,13 @@
     "eslint": "^10.6.0",
     "eslint-plugin-vue": "~10.9.2",
     "globals": "^17.7.0",
-    "msw": "^2.14.6",
+    "msw": "^2.15.0",
     "prettier": "3.9.4",
     "sass-embedded": "^1.100.0",
     "unplugin-auto-import": "^21.0.0",
     "unplugin-icons": "^23.0.1",
     "unplugin-vue-components": "^32.1.0",
-    "vite": "^8.1.3",
+    "vite": "^8.1.4",
     "vite-plugin-markdown": "^2.2.0",
     "vite-plugin-vue-devtools": "^8.1.5"
   },
@@ -48,8 +48,5 @@
     "workerDirectory": [
       ""
     ]
-  },
-  "overrides": {
-    "@vueuse/core": "14.2.1"
   }
 }
