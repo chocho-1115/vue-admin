@@ -9,7 +9,7 @@ const filterParameter = (view) => {
     path: view.path,
     fullPath: view.fullPath,
     query: { ...view.query },
-    meta: { ...view.meta }
+    meta: { ...view.meta },
   }
 }
 
@@ -36,7 +36,7 @@ export default {
     view = filterParameter(view)
     for (let v of state) {
       if (v.path === view.path) {
-        v = Object.assign(v, view)
+        Object.assign(v, view)
         break
       }
     }

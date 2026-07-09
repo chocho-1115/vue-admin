@@ -1,14 +1,13 @@
-import {
-  response
-} from './response.js'
 // import { faker } from "@faker-js/faker/locale/zh_CN";
 import {
   faker
 } from "@faker-js/faker";
+import { BIZ_CODES } from './common/bizCodes'
+import { createSuccess, createError } from './common/responseHelpers'
 
 import {
   users
-} from './config.js'
+} from './common/config.js'
 import {
   formatTime
 } from '@/core/utils/index.js'
@@ -43,7 +42,7 @@ const list = faker.helpers.multiple(createRandomUser, {
 
 export default [{
   path: '/table/list',
-  type: 'get',
+  method: 'get',
   handler: async ({
     request
   }) => {
@@ -52,16 +51,12 @@ export default [{
 
     // mock error
     if (!info) {
-      return response({
-        status: -1,
-      })
+      return createError(BIZ_CODES.AUTH_UNAUTHORIZED)
     }
 
-    return response({
-      body: {
-        items: list,
-        total: list.length,
-      }
+    return createSuccess({
+      items: list,
+      total: list.length,
     })
   }
 }, ]

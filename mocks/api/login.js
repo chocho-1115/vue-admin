@@ -1,13 +1,12 @@
 import {
   tokens,
-} from './config'
-import {
-  response
-} from './response.js'
+} from './common/config'
+import { BIZ_CODES } from './common/bizCodes'
+import { createSuccess, createError } from './common/responseHelpers'
 
 export default [{
     path: '/login/loginByAccount',
-    type: 'post',
+    method: 'post',
     handler: async ({
       request
     }) => {
@@ -16,28 +15,23 @@ export default [{
       } = await request.json()
       const token = tokens[username]
       if (!token) {
-        return response({
-          status: 0,
-          message: 'Account and password are incorrect.'
-        })
+        return createError(BIZ_CODES.USER_NOT_FOUND)
       }
-      return response({
-        body: token
-      })
+      return createSuccess(token)
     }
   },
   {
     path: '/login/logout',
-    type: 'post',
+    method: 'post',
     handler: () => {
-      return response()
+      return createSuccess()
     }
   },
   {
     path: '/login/checkToken',
-    type: 'get',
+    method: 'get',
     handler: () => {
-      return response()
+      return createSuccess()
     }
   },
 

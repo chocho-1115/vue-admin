@@ -39,11 +39,11 @@
 
 ## 🎉 技术栈
 
-**项目使用[create-vue 3.x](https://github.com/vuejs/create-vue)从零开始创建，基于 `vite 6.x` 进行版本构建，建议 [Node.js](https://nodejs.org/) 使用较新版本。**
+**项目使用[create-vue 3.x](https://github.com/vuejs/create-vue)从零开始创建，基于 `vite 8.x` 进行版本构建，建议 [Node.js](https://nodejs.org/) 使用较新版本。**
 
 主要集成了以下技术栈：
 
-- 💪 [vue3](https://vuejs.org/) + [vite6](https://vite.dev/)
+- 💪 [vue3](https://vuejs.org/) + [vite8](https://vite.dev/)
 - 💅 [vue-router](https://router.vuejs.org/)
 - 💅 [element plus](https://element-plus.org/zh-CN/)
 - 🌍 [mswjs](https://mswjs.io/) + [fakerjs](https://fakerjs.dev/)

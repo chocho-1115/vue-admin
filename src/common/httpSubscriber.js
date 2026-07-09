@@ -15,7 +15,7 @@ import { EventBus } from '@/core/eventBus'
 // })
 
 export function initHttpSubscriber() {
-  // 50008: Illegal token
+  // unauthorized (no token / invalid token)
   EventBus.on('auth:unauthorized', () => {
     dispatch.login.removeToken()
     dispatch.user.removeInfo()
@@ -23,7 +23,7 @@ export function initHttpSubscriber() {
       dispatch.login.go()
     }
   })
-  // 50012: Other clients logged in; 50014: Token expired;
+  // expired
   EventBus.on('auth:expired', () => {
     dispatch.login.removeToken()
     dispatch.user.removeInfo()
@@ -32,10 +32,10 @@ export function initHttpSubscriber() {
     }
   })
 
-  EventBus.on('request:error', ({ code, message, status, url }) => {
-    console.log('统一错误日志上报:', { code, message, status, url })
+  EventBus.on('request:error', (errorInfo) => {
+    console.log('Unified error log reporting:', errorInfo)
     ElMessage({
-      message: message || 'Error',
+      message: errorInfo.message || 'Error',
       type: 'error',
       duration: 5 * 1000,
     })

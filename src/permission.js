@@ -51,9 +51,9 @@ router.beforeEach(async (to) => {
 
     NProgress.done()
 
-    // 如果是401 403接口拦截处会跳转到登录页面 这里就不跳转了
-    // 50008: Illegal token; 50012: Other clients logged in; 50014: Token expired;
-    if (res && (res.code === 50008 || res.code === 50012 || res.code === 50014)) {
+    // 接口拦截处会跳转到登录页面 这里就不跳转了
+    // unauthorized (no token / invalid token), expired
+    if (res && (res.code === 20001 || res.code === 20002)) {
       return false
     }
     // 如果是其他错误 如网络错误 500错误等
@@ -69,7 +69,7 @@ router.afterEach(async () => {
   const cahceToken = dispatch.login.getTokenStorage()
 
   if (!hasUserInfo && cahceToken) {
-    const { body } = await getInfo()
-    dispatch.user.saveInfo(body)
+    const { data } = await getInfo()
+    dispatch.user.saveInfo(data)
   }
 })
