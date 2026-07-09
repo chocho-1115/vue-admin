@@ -143,7 +143,7 @@ const handleLogin = () => {
       loading.value = true
       login(loginForm)
         .then((res) => {
-          dispatch.login.saveToken(res.body.token)
+          dispatch.login.saveToken(res.data.token)
           router.push(redirect)
           loading.value = false
         })

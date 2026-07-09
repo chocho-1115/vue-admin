@@ -59,10 +59,10 @@ onUnmounted(() => {
 </script>
 
 <style lang="scss" scoped>
-@use '@/styles/mixin.scss' as *;
+// @use '@/styles/mixin.scss' as *;
 
 .app-wrapper {
-  @include clearfix;
+  // @include clearfix;
   position: relative;
   min-height: 100vh;
   width: 100%;

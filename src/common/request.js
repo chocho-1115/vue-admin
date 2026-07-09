@@ -30,12 +30,12 @@ service.interceptors.response.use(
   (response) => {
     const res = response.data
     const url = response.config.url
-    // if the custom code is not 20000, it is judged as an error.
-    if (res.code !== 20000) {
-      // 50008: Illegal token; 50012: Other clients logged in; 50014: Token expired;
-      if (res.code === 50008) {
+    // if the custom code is not 0, it is judged as an error.
+    if (res.code !== 0) {
+      // unauthorized (no token / invalid token), expired
+      if (res.code === 20001) {
         EventBus.emit('auth:unauthorized', { url, res })
-      } else if (res.code === 50012 || res.code === 50014) {
+      } else if (res.code === 20002) {
         EventBus.emit('auth:expired', { url, res })
       } else {
         EventBus.emit('request:error', { url, res })
@@ -65,15 +65,19 @@ service.interceptors.response.use(
       // Something happened in setting up the request that triggered an Error
       // console.log("Error", error.message);
     }
-    // console.log(error.config);
-
-    const code = error.code // 自定义内容
-    const message = error.message // 自定义内容
-    const status = error.status // 请求状态码
-    const url = error.config?.url // 请求url
+    const errorInfo = {
+      code: error.code, // axios自定义内容
+      message: error.message, // axios自定义内容
+      status: error.status, // 请求状态码
+      statusText: error.response?.statusText, // 请求状态文本
+      url: error.config?.url, // 请求url
+      method: error.config?.method?.toUpperCase(), // request method
+      // timestamp: Date.now(), // timestamp
+      // stack: error.stack, // stack trace (useful for debugging)
+    }
 
     // 对响应错误做点什么
-    EventBus.emit('request:error', { code, message, status, url })
+    EventBus.emit('request:error', errorInfo)
 
     return Promise.reject(error)
   },
