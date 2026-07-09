@@ -13,17 +13,13 @@
     <div class="text">
       <button @click="onHttpTest404">Click</button>
     </div>
-    <p>
-      点击发送一个404错误的请求
-    </p>
+    <p>点击发送一个404错误的请求</p>
 
     <!-- +++++++++++++++ -->
     <div class="text">
       <button @click="onHttpTest500">Click</button>
     </div>
-    <p>
-      点击发送一个500错误的请求
-    </p>
+    <p>点击发送一个500错误的请求</p>
 
     <!-- +++++++++++++++ -->
     <div class="text">
@@ -56,7 +52,7 @@ import { useRouter } from 'vue-router'
 import { test_404, test_500 } from '@/api/test'
 
 defineOptions({
-  name: 'Test'  // 必须与keepAliveName一致
+  name: 'Test', // 必须与keepAliveName一致
 })
 
 const context = inject('context') // import store 和 inject的方式是一样的效果
@@ -109,12 +105,12 @@ const avatarChange = () => {
   }
 }
 
-const onHttpTest404 = async(key) => {
-  await test_404()//.catch(()=>{})
+const onHttpTest404 = async () => {
+  await test_404() //.catch(()=>{})
 }
 
-const onHttpTest500 = async(key) => {
-  await test_500()//.catch(()=>{})
+const onHttpTest500 = async () => {
+  await test_500() //.catch(()=>{})
 }
 </script>
 
