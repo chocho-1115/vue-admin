@@ -5,22 +5,22 @@
 </template>
 
 <script setup>
-import { ref, onMounted } from 'vue'
-import MarkdownIt from 'markdown-it'
+// import { ref, onMounted } from 'vue'
+// import MarkdownIt from 'markdown-it'
 
 const props = defineProps({
-  rawMd: {
+  htmlContent: {
     type: String,
     default: '',
   },
 })
 
-const md = new MarkdownIt({ html: true })
-const htmlContent = ref('')
+// const md = new MarkdownIt({ html: true })
+// const htmlContent = ref('')
 
-onMounted(() => {
-  htmlContent.value = md.render(props.rawMd)
-})
+// onMounted(() => {
+//   htmlContent.value = md.render(props.rawMd)
+// })
 
 </script>
 

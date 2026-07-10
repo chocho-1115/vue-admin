@@ -22,6 +22,8 @@ import Icons from 'unplugin-icons/vite'
 import IconsResolver from 'unplugin-icons/resolver'
 // SvgSpritemap
 import VitePluginSvgSpritemap from '@spiriit/vite-plugin-svg-spritemap'
+// markdown
+import vitePluginMdToHtml from './plugin/vite-plugin-md-to-html.js';
 
 export default defineConfig(({
   mode
@@ -48,6 +50,7 @@ export default defineConfig(({
       VitePluginSvgSpritemap('./src/icons/svg/*.svg', {
         // injectSvgOnDev: true,
       }),
+      vitePluginMdToHtml(),
       vue(),
       vueDevTools(),
       AutoImport({
