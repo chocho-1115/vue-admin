@@ -23,7 +23,7 @@ import IconsResolver from 'unplugin-icons/resolver'
 // SvgSpritemap
 import VitePluginSvgSpritemap from '@spiriit/vite-plugin-svg-spritemap'
 // markdown
-import mdPlugin from 'vite-plugin-markdown'
+import vitePluginMdToHtml from './plugin/vite-plugin-md-to-html.js';
 
 export default defineConfig(({
   mode
@@ -46,13 +46,11 @@ export default defineConfig(({
       },
     },
     plugins: [
-      mdPlugin.plugin({
-        mode: [mdPlugin.Mode.VUE]
-      }),
       // svg 雪碧图
       VitePluginSvgSpritemap('./src/icons/svg/*.svg', {
         // injectSvgOnDev: true,
       }),
+      vitePluginMdToHtml(),
       vue(),
       vueDevTools(),
       AutoImport({

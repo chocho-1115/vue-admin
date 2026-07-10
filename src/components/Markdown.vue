@@ -1,15 +1,10 @@
 <template>
-  <div class="container">
-    <h2 class="title">{{ props.title }}</h2>
-    <div class="content">
-      <slot />
-    </div>
-  </div>
+  <div class="content" v-html="htmlContent"></div>
 </template>
 
 <script setup>
-const props = defineProps({
-  title: {
+defineProps({
+  htmlContent: {
     type: String,
     default: '',
   },
@@ -17,13 +12,8 @@ const props = defineProps({
 </script>
 
 <style lang="scss" scoped>
-.container {
-  margin: 30px;
-}
-.title {
-  margin: 30px auto;
-}
 .content {
+  margin: 30px;
   font-size: 14px;
   line-height: 1.6em;
   :deep(li) {
