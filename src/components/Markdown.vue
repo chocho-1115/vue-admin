@@ -1,7 +1,5 @@
 <template>
-  <div class="container">
-    <div class="content" v-html="htmlContent"></div>
-  </div>
+  <div class="content" v-html="htmlContent"></div>
 </template>
 
 <script setup>
@@ -14,11 +12,8 @@ defineProps({
 </script>
 
 <style lang="scss" scoped>
-.container {
-  margin: 30px;
-}
-
 .content {
+  margin: 30px;
   font-size: 14px;
   line-height: 1.6em;
   :deep(li) {
