@@ -1,28 +1,34 @@
 <template>
   <div class="container">
-    <h2 class="title">{{ props.title }}</h2>
-    <div class="content">
-      <slot />
-    </div>
+    <div class="content" v-html="htmlContent"></div>
   </div>
 </template>
 
 <script setup>
+import { ref, onMounted } from 'vue'
+import MarkdownIt from 'markdown-it'
+
 const props = defineProps({
-  title: {
+  rawMd: {
     type: String,
     default: '',
   },
 })
+
+const md = new MarkdownIt({ html: true })
+const htmlContent = ref('')
+
+onMounted(() => {
+  htmlContent.value = md.render(props.rawMd)
+})
+
 </script>
 
 <style lang="scss" scoped>
 .container {
   margin: 30px;
 }
-.title {
-  margin: 30px auto;
-}
+
 .content {
   font-size: 14px;
   line-height: 1.6em;
