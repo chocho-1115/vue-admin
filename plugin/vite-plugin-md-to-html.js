@@ -1,6 +1,5 @@
 // vite-plugin-md-to-html.js
 import fs from 'node:fs';
-import path from 'node:path';
 import MarkdownIt from 'markdown-it';
 
 // 注意：这里的 markdown-it 是开发依赖，不会打包到最终产物中
