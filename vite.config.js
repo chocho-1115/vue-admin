@@ -22,8 +22,6 @@ import Icons from 'unplugin-icons/vite'
 import IconsResolver from 'unplugin-icons/resolver'
 // SvgSpritemap
 import VitePluginSvgSpritemap from '@spiriit/vite-plugin-svg-spritemap'
-// markdown
-import mdPlugin from 'vite-plugin-markdown'
 
 export default defineConfig(({
   mode
@@ -46,9 +44,6 @@ export default defineConfig(({
       },
     },
     plugins: [
-      mdPlugin.plugin({
-        mode: [mdPlugin.Mode.VUE]
-      }),
       // svg 雪碧图
       VitePluginSvgSpritemap('./src/icons/svg/*.svg', {
         // injectSvgOnDev: true,
