@@ -7,9 +7,9 @@ import sidebar from './sidebar'
 import tagsView from './tagsView'
 
 export default reactive({
-  device: getDevice(),
-  login,
-  userInfo,
-  sidebar,
-  tagsView,
+	device: getDevice(),
+	login,
+	userInfo,
+	sidebar,
+	tagsView,
 })

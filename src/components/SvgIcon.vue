@@ -1,8 +1,8 @@
 <template>
-  <div :style="styleExternalIcon" class="svg-external-icon svg-icon" v-if="isExternal" />
-  <svg :class="svgClass" aria-hidden="true" v-else>
-    <use :href="`/__spritemap#sprite-${icon}`" class="use" />
-  </svg>
+	<div :style="styleExternalIcon" class="svg-external-icon svg-icon" v-if="isExternal" />
+	<svg :class="svgClass" aria-hidden="true" v-else>
+		<use :href="`/__spritemap#sprite-${icon}`" class="use" />
+	</svg>
 </template>
 
 <script setup>
@@ -11,39 +11,39 @@ import { computed } from 'vue'
 import { isExternal as isExt } from '@/common/validate'
 
 const props = defineProps({
-  icon: {
-    // 属性名
-    type: String,
-    required: true,
-  },
-  className: {
-    type: String,
-    default: '',
-  },
+	icon: {
+		// 属性名
+		type: String,
+		required: true,
+	},
+	className: {
+		type: String,
+		default: '',
+	},
 })
 const isExternal = computed(() => {
-  return isExt(props.icon)
+	return isExt(props.icon)
 })
 const svgClass = computed(() => {
-  if (props.className) {
-    return 'svg-icon ' + props.className
-  } else {
-    return 'svg-icon'
-  }
+	if (props.className) {
+		return 'svg-icon ' + props.className
+	} else {
+		return 'svg-icon'
+	}
 })
 </script>
 
 <style scoped>
 .svg-icon {
-  width: 1em;
-  height: 1em;
-  vertical-align: -0.15em;
-  fill: currentColor;
-  overflow: hidden;
+	width: 1em;
+	height: 1em;
+	vertical-align: -0.15em;
+	fill: currentColor;
+	overflow: hidden;
 }
 .svg-external-icon {
-  background-color: currentColor;
-  mask-size: cover !important;
-  display: inline-block;
+	background-color: currentColor;
+	mask-size: cover !important;
+	display: inline-block;
 }
 </style>

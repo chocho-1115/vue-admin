@@ -1,10 +1,10 @@
 /* just override what you need */
 @forward 'element-plus/theme-chalk/src/common/var.scss' with (
-  $colors: (
-    'primary': (
-      'base': #42b983,
-    ),
-  )
+	$colors: (
+		'primary': (
+			'base': #42b983,
+		),
+	)
 );
 
 // --el-menu-hover-bg-color

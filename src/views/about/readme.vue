@@ -1,5 +1,5 @@
 <template>
-  <Markdown :htmlContent="htmlContent"></Markdown>
+	<Markdown :htmlContent="htmlContent"></Markdown>
 </template>
 
 <script setup>

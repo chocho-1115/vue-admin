@@ -1,6 +1,6 @@
 <template>
-  <logo :collapse="isCollapse" theme="light" v-if="showLogo" />
-  <menu-list :height="showLogo ? 'calc(100% - 50px)' : '100%'" :isCollapse="isCollapse" />
+	<logo :collapse="isCollapse" theme="light" v-if="showLogo" />
+	<menu-list :height="showLogo ? 'calc(100% - 50px)' : '100%'" :isCollapse="isCollapse" />
 </template>
 
 <script setup>
@@ -15,6 +15,6 @@ const ctx = inject('context')
 const showLogo = sctx.sidebarLogo
 
 const isCollapse = computed(() => {
-  return ctx.sidebar.miniSidebar
+	return ctx.sidebar.miniSidebar
 })
 </script>

@@ -6,19 +6,19 @@ import ctx from '../context'
 const state = ctx.login
 
 export default {
-  getTokenStorage() {
-    return getToken()
-  },
-  saveToken(token) {
-    saveToken(token)
-    state.token = token
-  },
-  removeToken() {
-    removeToken()
-    state.token = ''
-  },
-  go() {
-    if (router.currentRoute.value.path === '/account/login') return
-    router.push(`/account/login?redirect=${router.currentRoute.value.fullPath || '/'}`)
-  },
+	getTokenStorage() {
+		return getToken()
+	},
+	saveToken(token) {
+		saveToken(token)
+		state.token = token
+	},
+	removeToken() {
+		removeToken()
+		state.token = ''
+	},
+	go() {
+		if (router.currentRoute.value.path === '/account/login') return
+		router.push(`/account/login?redirect=${router.currentRoute.value.fullPath || '/'}`)
+	},
 }

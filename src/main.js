@@ -18,39 +18,39 @@ import './permission'
 if (getTheme() === 'dark') document.documentElement.classList.add('dark')
 
 async function enableMocking() {
-  if (import.meta.env.MODE !== 'development') {
-    return
-  }
+	if (import.meta.env.MODE !== 'development') {
+		return
+	}
 
-  const { worker } = await import('../mocks/browser')
+	const { worker } = await import('../mocks/browser')
 
-  // `worker.start()` returns a Promise that resolves
-  // once the Service Worker is up and ready to intercept requests.
-  return worker.start({
-    // quiet: true, // Disables all the logging from the library (e.g. the activation message, the intercepted requests’ messages).
-    serviceWorker: {
-      url: '/mockServiceWorker.js',
-    },
-    // Decide how to react to unhandled requests (i.e. those that do not have a matching request handler).
-    // filter warnings
-    onUnhandledRequest(request, print) {
-      const url = new URL(request.url)
-      if (url.pathname.includes('/dev-api')) {
-        print.warning()
-      }
-      return
-    },
-  })
+	// `worker.start()` returns a Promise that resolves
+	// once the Service Worker is up and ready to intercept requests.
+	return worker.start({
+		// quiet: true, // Disables all the logging from the library (e.g. the activation message, the intercepted requests’ messages).
+		serviceWorker: {
+			url: '/mockServiceWorker.js',
+		},
+		// Decide how to react to unhandled requests (i.e. those that do not have a matching request handler).
+		// filter warnings
+		onUnhandledRequest(request, print) {
+			const url = new URL(request.url)
+			if (url.pathname.includes('/dev-api')) {
+				print.warning()
+			}
+			return
+		},
+	})
 }
 
 enableMocking().then(async () => {
-  // await import('@/permission')
+	// await import('@/permission')
 
-  const app = createApp(App)
-  app.use(router) // It must be after the enablemock function
+	const app = createApp(App)
+	app.use(router) // It must be after the enablemock function
 
-  app.provide('context', ctx)
-  app.component('svg-icon', SvgIcon)
+	app.provide('context', ctx)
+	app.component('svg-icon', SvgIcon)
 
-  app.mount('#app')
+	app.mount('#app')
 })
