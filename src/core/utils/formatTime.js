@@ -16,7 +16,10 @@ function formatTime(format, timestamp) {
 		S: d.getMilliseconds(), // millisecond
 	}
 	if (/(y+)/.test(format))
-		format = format.replace(RegExp.$1, `${d.getFullYear()}`.substring(4 - RegExp.$1.length))
+		format = format.replace(
+			RegExp.$1,
+			`${d.getFullYear()}`.substring(4 - RegExp.$1.length),
+		)
 	for (const k in o)
 		if (new RegExp(`(${k})`).test(format))
 			format = format.replace(
