@@ -14,8 +14,8 @@
 </template>
 
 <script setup>
-import { reactive, onMounted, watch } from 'vue'
-import { useRoute, useRouter } from 'vue-router'
+import { reactive, onMounted, watch } from "vue"
+import { useRoute, useRouter } from "vue-router"
 
 // import pathToRegexp from 'path-to-regexp'
 // import path from 'path-browserify-esm'
@@ -42,7 +42,7 @@ const getBreadcrumb = () => {
 	let matched = route.matched.filter((item) => item.meta && item.meta.title)
 	const first = matched[0]
 	if (!isDashboard(first)) {
-		matched = [{ path: '/dashboard', meta: { title: 'Dashboard' } }].concat(matched)
+		matched = [{ path: "/dashboard", meta: { title: "Dashboard" } }].concat(matched)
 	}
 	level.list = matched.filter(
 		(item) => item.meta && item.meta.title && item.meta.breadcrumb !== false,
@@ -54,7 +54,7 @@ const isDashboard = (route) => {
 	if (!name) {
 		return false
 	}
-	return name.trim().toLocaleLowerCase() === 'Dashboard'.toLocaleLowerCase()
+	return name.trim().toLocaleLowerCase() === "Dashboard".toLocaleLowerCase()
 }
 // const pathCompile = (path) => {
 //     const { params } = route

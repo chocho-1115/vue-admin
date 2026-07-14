@@ -86,53 +86,53 @@
 </template>
 
 <script setup>
-import { reactive, ref, useTemplateRef, nextTick } from 'vue'
-import { useRouter, useRoute } from 'vue-router'
+import { reactive, ref, useTemplateRef, nextTick } from "vue"
+import { useRouter, useRoute } from "vue-router"
 
-import { validUsername } from '@/common/validate'
-import { login } from '@/api/login'
-import { dispatch } from '@/store'
+import { validUsername } from "@/common/validate"
+import { login } from "@/api/login"
+import { dispatch } from "@/store"
 
 const router = useRouter()
 const route = useRoute()
 
 const loading = ref(false)
-const passwordType = ref('password')
-const redirect = route.query.redirect || '/'
+const passwordType = ref("password")
+const redirect = route.query.redirect || "/"
 
 const loginForm = reactive({
-	username: 'admin',
-	password: '111111',
+	username: "admin",
+	password: "111111",
 })
 
 const validateUsername = (rule, value, callback) => {
 	if (!validUsername(value)) {
-		callback(new Error('Please enter the correct user name'))
+		callback(new Error("Please enter the correct user name"))
 	} else {
 		callback()
 	}
 }
 const validatePassword = (rule, value, callback) => {
 	if (value.length < 6) {
-		callback(new Error('The password can not be less than 6 digits'))
+		callback(new Error("The password can not be less than 6 digits"))
 	} else {
 		callback()
 	}
 }
 
 const loginRules = reactive({
-	username: [{ required: true, trigger: 'blur', validator: validateUsername }],
-	password: [{ required: true, trigger: 'blur', validator: validatePassword }],
+	username: [{ required: true, trigger: "blur", validator: validateUsername }],
+	password: [{ required: true, trigger: "blur", validator: validatePassword }],
 })
 
-const passwordDom = useTemplateRef('passwordDom')
-const formDom = useTemplateRef('formDom') //该变量名必须等于el-form的ref属性值，才能获取到表单实例。
+const passwordDom = useTemplateRef("passwordDom")
+const formDom = useTemplateRef("formDom") //该变量名必须等于el-form的ref属性值，才能获取到表单实例。
 
 const showPwd = async () => {
-	if (passwordType.value === 'password') {
-		passwordType.value = ''
+	if (passwordType.value === "password") {
+		passwordType.value = ""
 	} else {
-		passwordType.value = 'password'
+		passwordType.value = "password"
 	}
 	await nextTick()
 	passwordDom.value.focus()
@@ -151,7 +151,7 @@ const handleLogin = () => {
 					loading.value = false
 				})
 		} else {
-			console.log('error submit!!')
+			console.log("error submit!!")
 			return false
 		}
 	})

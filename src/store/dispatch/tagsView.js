@@ -1,6 +1,6 @@
-import { setTagsView } from '../storage'
+import { setTagsView } from "../storage"
 
-import ctx from '../context'
+import ctx from "../context"
 
 const state = ctx.tagsView
 

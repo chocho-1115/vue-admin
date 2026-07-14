@@ -1,8 +1,8 @@
 // import { defineAsyncComponent } from "vue";
 
-const context = import.meta.glob('./svg/*', {
+const context = import.meta.glob("./svg/*", {
 	eager: true,
-	query: '?component',
+	query: "?component",
 })
 
 const iconNameList = []
@@ -10,8 +10,8 @@ const iconNameList = []
 // const iconComponents = {}
 
 for (const path in context) {
-	let [fileName, fileType] = path.match(/([^/]+)$/)[0].split('.')
-	if (fileType !== 'svg') continue
+	let [fileName, fileType] = path.match(/([^/]+)$/)[0].split(".")
+	if (fileType !== "svg") continue
 	iconNameList.push(fileName)
 	// iconModules[fileName] = context[path]
 	// iconComponents[fileName] = defineAsyncComponent(context[path]);

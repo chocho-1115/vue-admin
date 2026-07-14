@@ -1,6 +1,6 @@
-import { setMiniSidebar } from '../storage'
+import { setMiniSidebar } from "../storage"
 
-import ctx from '../context'
+import ctx from "../context"
 
 const state = ctx.sidebar
 

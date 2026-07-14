@@ -50,11 +50,11 @@
 </template>
 
 <script setup>
-import path from 'path-browserify-esm'
-import { useTemplateRef } from 'vue'
-import { useRouter } from 'vue-router'
+import path from "path-browserify-esm"
+import { useTemplateRef } from "vue"
+import { useRouter } from "vue-router"
 
-import { isExternal } from '@/common/validate'
+import { isExternal } from "@/common/validate"
 // import AppLink from './Link.vue'
 // import Item from './Item'
 
@@ -68,11 +68,11 @@ const props = defineProps({
 	},
 	basePath: {
 		type: String,
-		default: '',
+		default: "",
 	},
 })
 
-const subMenu = useTemplateRef('subMenu')
+const subMenu = useTemplateRef("subMenu")
 
 // onMounted(() => {
 //   fixBugIniOS()
@@ -93,7 +93,7 @@ const theOnlyOneChild = (function () {
 		case number === 1:
 			return showingChildren[0]
 		default:
-			return { ...props.info, path: '' }
+			return { ...props.info, path: "" }
 	}
 })()
 
@@ -111,8 +111,8 @@ const resolvePath = (routePath) => {
 const onGotoPage = (child) => {
 	if (!child.meta) return
 	const toPath = resolvePath(child.path)
-	if (toPath.startsWith('http')) {
-		window.open(toPath, '_blank')
+	if (toPath.startsWith("http")) {
+		window.open(toPath, "_blank")
 	} else {
 		router.push(toPath)
 	}

@@ -32,11 +32,11 @@
 </template>
 
 <script setup>
-import { inject } from 'vue'
-import { useRouter, useRoute } from 'vue-router'
+import { inject } from "vue"
+import { useRouter, useRoute } from "vue-router"
 
-import { logout } from '@/api/login'
-import { dispatch } from '@/store'
+import { logout } from "@/api/login"
+import { dispatch } from "@/store"
 
 const router = useRouter()
 const route = useRoute()
@@ -44,12 +44,12 @@ const route = useRoute()
 defineProps({
 	size: {
 		type: String,
-		default: '32px',
+		default: "32px",
 	},
 })
 
-const ctx = inject('context')
-const redirect = route.fullPath || '/'
+const ctx = inject("context")
+const redirect = route.fullPath || "/"
 
 const onLogout = async () => {
 	logout().then(() => {
@@ -60,11 +60,11 @@ const onLogout = async () => {
 }
 
 const handleCommand = (command) => {
-	if (command == 'Home') {
-		router.push('/')
-	} else if (command == 'Github') {
-		window.open('https://github.com/chocho-1115/vue-admin', '_blank')
-	} else if (command == 'LogOut') {
+	if (command == "Home") {
+		router.push("/")
+	} else if (command == "Github") {
+		window.open("https://github.com/chocho-1115/vue-admin", "_blank")
+	} else if (command == "LogOut") {
 		onLogout()
 	} else {
 		ElMessage(`click on item ${command}`)

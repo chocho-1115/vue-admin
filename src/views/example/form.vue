@@ -63,31 +63,31 @@
 </template>
 
 <script setup>
-import { reactive } from 'vue'
+import { reactive } from "vue"
 
 // do not use same name with ref
 const form = reactive({
-	name: '',
-	region: '',
-	date1: '',
-	date2: '',
+	name: "",
+	region: "",
+	date1: "",
+	date2: "",
 	delivery: false,
 	type: [],
-	resource: '',
-	desc: '',
+	resource: "",
+	desc: "",
 })
 
 const onSubmit = () => {
 	ElMessage({
-		message: 'submit!',
-		type: 'success',
+		message: "submit!",
+		type: "success",
 		duration: 2 * 1000,
 	})
 }
 const onCancel = () => {
 	ElMessage({
-		message: 'cancel!',
-		type: 'warning',
+		message: "cancel!",
+		type: "warning",
 		duration: 2 * 1000,
 	})
 }

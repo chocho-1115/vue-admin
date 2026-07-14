@@ -21,8 +21,8 @@
 </template>
 
 <script setup>
-import { onMounted, reactive } from 'vue'
-import { getList } from '@/api/table'
+import { onMounted, reactive } from "vue"
+import { getList } from "@/api/table"
 
 const table = reactive({
 	list: null,
@@ -31,9 +31,9 @@ const table = reactive({
 
 const statusFilter = (status) => {
 	const statusMap = {
-		published: 'success',
-		draft: 'primary',
-		deleted: 'danger',
+		published: "success",
+		draft: "primary",
+		deleted: "danger",
 		// ["primary", "success", "info", "warning", "danger"]
 	}
 	return statusMap[status]

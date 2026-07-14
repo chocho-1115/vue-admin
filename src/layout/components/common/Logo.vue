@@ -13,7 +13,7 @@
 </template>
 
 <script setup>
-import { ref } from 'vue'
+import { ref } from "vue"
 defineProps({
 	collapse: {
 		type: Boolean,
@@ -21,10 +21,10 @@ defineProps({
 	},
 	theme: {
 		type: String,
-		default: 'dark', // dark light
+		default: "dark", // dark light
 	},
 })
-const title = ref('Vue Admin')
+const title = ref("Vue Admin")
 </script>
 
 <style lang="scss" scoped>

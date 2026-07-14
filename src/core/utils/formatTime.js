@@ -7,12 +7,12 @@
 function formatTime(format, timestamp) {
 	const d = timestamp ? new Date(timestamp) : new Date()
 	const o = {
-		'M+': d.getMonth() + 1, // month
-		'd+': d.getDate(), // day
-		'h+': d.getHours(), // hour
-		'm+': d.getMinutes(), // minute
-		's+': d.getSeconds(), // second
-		'q+': Math.floor((d.getMonth() + 3) / 3), // quarter
+		"M+": d.getMonth() + 1, // month
+		"d+": d.getDate(), // day
+		"h+": d.getHours(), // hour
+		"m+": d.getMinutes(), // minute
+		"s+": d.getSeconds(), // second
+		"q+": Math.floor((d.getMonth() + 3) / 3), // quarter
 		S: d.getMilliseconds(), // millisecond
 	}
 	if (/(y+)/.test(format))

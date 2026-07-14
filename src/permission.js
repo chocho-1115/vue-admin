@@ -1,9 +1,9 @@
-import router, { isWhitePage } from './router'
-import { getInfo } from './api/user'
-import { checkToken } from './api/login'
-import { ctx, dispatch } from './store'
-import NProgress from 'nprogress'
-import 'nprogress/nprogress.css'
+import router, { isWhitePage } from "./router"
+import { getInfo } from "./api/user"
+import { checkToken } from "./api/login"
+import { ctx, dispatch } from "./store"
+import NProgress from "nprogress"
+import "nprogress/nprogress.css"
 
 NProgress.configure({
 	showSpinner: false,
@@ -24,8 +24,8 @@ router.beforeEach(async (to) => {
 		if (needLogin) {
 			// blacklist pages that do not have permission to access are redirected to the login page.
 			return {
-				path: '/account/login',
-				query: { redirect: to.fullPath || '/' },
+				path: "/account/login",
+				query: { redirect: to.fullPath || "/" },
 			}
 		} else {
 			return
@@ -42,8 +42,8 @@ router.beforeEach(async (to) => {
 		await checkToken()
 		ctx.login.token = cahceToken
 		// 跳转页面
-		if (to.path === '/account/login') {
-			return { path: to.query.redirect || '/' } // 这里不需要考虑 redirect === /account/login 因为不会这样设置，如果有也只是停留在登录页而已
+		if (to.path === "/account/login") {
+			return { path: to.query.redirect || "/" } // 这里不需要考虑 redirect === /account/login 因为不会这样设置，如果有也只是停留在登录页而已
 		}
 		return
 	} catch (error) {

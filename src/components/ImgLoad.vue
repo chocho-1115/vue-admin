@@ -34,59 +34,59 @@
 </template>
 
 <script setup>
-import { reactive } from 'vue'
+import { reactive } from "vue"
 
 const info = reactive({
 	finishLoadFlag: false,
-	XOssProcess: '',
+	XOssProcess: "",
 	status: 0, // 为了防止图片加载2次 设置好XOssProcess 后再显示图片
 })
 
 const props = defineProps({
 	//原始图片
-	src: { default: '' },
+	src: { default: "" },
 	//默认图片
 	defaultName: {
-		default: 'default',
+		default: "default",
 	},
 	defaultColor: {
-		default: '',
+		default: "",
 	},
 	defaultWidth: {
 		// 属性名
 		type: String,
-		default: '72%',
+		default: "72%",
 	},
 	defaultHeight: {
 		// 属性名
 		type: String,
-		default: '72%',
+		default: "72%",
 	},
 	width: {
 		// 属性名
 		type: String,
-		default: '100%',
+		default: "100%",
 	},
 	height: {
 		// 属性名
 		type: String,
-		default: '100%',
+		default: "100%",
 	},
 	mode: {
 		// 属性名
 		type: String,
-		default: 'cover', // cover contain fill none
+		default: "cover", // cover contain fill none
 	},
 	backgroundColor: {
 		// 属性名
 		type: String,
-		default: 'transparent',
+		default: "transparent",
 	},
 	// oss图片格式 不传 默认为原图图片格式
 	ossFormat: {
 		// 属性名
 		type: String,
-		default: '',
+		default: "",
 	},
 	// oss图片宽
 	ossW: {
@@ -106,11 +106,11 @@ const props = defineProps({
 const setOssStr = () => {
 	var src = props.src
 	// 远程图片 || 没有参数的
-	if (!src.startsWith('http') || src.lastIndexOf('?') !== -1) {
+	if (!src.startsWith("http") || src.lastIndexOf("?") !== -1) {
 		info.status = 1
 		return
 	}
-	let srcInfo = src.split('.')
+	let srcInfo = src.split(".")
 	let format = props.ossFormat || srcInfo[srcInfo.length - 1].toLowerCase() // 图片格式
 
 	info.XOssProcess = `?x-oss-process=image/resize,m_lfit,w_${props.ossW}/format,${format}/quality,Q_90`
@@ -143,7 +143,7 @@ setOssStr()
 	justify-content: center;
 	align-items: center;
 	&::after {
-		content: '';
+		content: "";
 		position: absolute;
 		inset: 0 0;
 		background: rgba(0, 0, 0, 0.01);

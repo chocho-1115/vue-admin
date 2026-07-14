@@ -53,10 +53,10 @@
 </template>
 
 <script setup>
-import { ref } from 'vue'
-import { copyText } from '@/core/utils'
-import * as elementIcons from '@element-plus/icons-vue'
-import { iconNameList } from '@/icons'
+import { ref } from "vue"
+import { copyText } from "@/core/utils"
+import * as elementIcons from "@element-plus/icons-vue"
+import { iconNameList } from "@/icons"
 
 const disabled = ref(false)
 
@@ -72,8 +72,8 @@ const handleClipboard = (text) => {
 	disabled.value = true
 	copyText(text, () => {
 		ElMessage({
-			message: 'Copied!',
-			type: 'success',
+			message: "Copied!",
+			type: "success",
 			duration: 2 * 1000,
 			onClose() {
 				disabled.value = false
@@ -93,8 +93,8 @@ aside {
 	line-height: 32px;
 	font-size: 16px;
 	font-family:
-		-apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Fira Sans',
-		'Droid Sans', 'Helvetica Neue', sans-serif;
+		-apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen, Ubuntu, Cantarell, "Fira Sans",
+		"Droid Sans", "Helvetica Neue", sans-serif;
 	color: #2c3e50;
 	-webkit-font-smoothing: antialiased;
 	-moz-osx-font-smoothing: grayscale;

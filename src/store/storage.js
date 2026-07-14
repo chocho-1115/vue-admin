@@ -1,7 +1,7 @@
-const TOKEN_CACHE_KEY = 'VA_token'
-const THEME_CACHE_KEY = 'VA_theme'
-const MINI_SIDEBAR_CACHE_KEY = 'VA_mini-sidebar'
-const TAGS_VIEW_CACHE_KEY = 'VA_tags-view'
+const TOKEN_CACHE_KEY = "VA_token"
+const THEME_CACHE_KEY = "VA_theme"
+const MINI_SIDEBAR_CACHE_KEY = "VA_mini-sidebar"
+const TAGS_VIEW_CACHE_KEY = "VA_tags-view"
 
 export function getToken() {
 	return localStorage.getItem(TOKEN_CACHE_KEY)
@@ -16,7 +16,7 @@ export function removeToken() {
 }
 
 export function getTheme() {
-	return localStorage.getItem(THEME_CACHE_KEY) || ''
+	return localStorage.getItem(THEME_CACHE_KEY) || ""
 }
 
 export function setTheme(tName) {
@@ -34,7 +34,7 @@ export function setMiniSidebar(status) {
 
 export function getTagsView() {
 	try {
-		return JSON.parse(sessionStorage.getItem(TAGS_VIEW_CACHE_KEY) || '[]')
+		return JSON.parse(sessionStorage.getItem(TAGS_VIEW_CACHE_KEY) || "[]")
 	} catch {
 		return []
 	}

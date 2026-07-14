@@ -37,21 +37,21 @@
 	</div>
 </template>
 <script setup>
-import { reactive, useTemplateRef, inject, watch, onMounted, nextTick } from 'vue'
-import { useRouter, useRoute } from 'vue-router'
-import path from 'path-browserify-esm'
+import { reactive, useTemplateRef, inject, watch, onMounted, nextTick } from "vue"
+import { useRouter, useRoute } from "vue-router"
+import path from "path-browserify-esm"
 
-import ScrollPane from './ScrollPane.vue'
-import { dispatch, ctx } from '@/store'
+import ScrollPane from "./ScrollPane.vue"
+import { dispatch, ctx } from "@/store"
 
-const reloadAppMain = inject('reloadAppMain')
+const reloadAppMain = inject("reloadAppMain")
 
 const router = useRouter()
 const route = useRoute()
 
-const tagsDom = useTemplateRef('tagsDom')
-const scrollPaneDom = useTemplateRef('scrollPaneDom')
-const tagsRootDom = useTemplateRef('tagsRootDom')
+const tagsDom = useTemplateRef("tagsDom")
+const scrollPaneDom = useTemplateRef("scrollPaneDom")
+const tagsRootDom = useTemplateRef("tagsRootDom")
 
 const menu = reactive({
 	visible: false,
@@ -73,8 +73,8 @@ watch(
 	() => menu.visible,
 	(value) =>
 		value
-			? document.body.addEventListener('click', closeMenu)
-			: document.body.removeEventListener('click', closeMenu),
+			? document.body.addEventListener("click", closeMenu)
+			: document.body.removeEventListener("click", closeMenu),
 )
 
 onMounted(() => {
@@ -90,7 +90,7 @@ const isAffix = (tag) => {
 	return tag.meta && tag.meta.affix
 }
 
-const filterAffixTags = (routesConfig, basePath = '/') => {
+const filterAffixTags = (routesConfig, basePath = "/") => {
 	let tags = []
 	routesConfig.forEach((route) => {
 		const tagPath = path.join(basePath, route.path)

@@ -8,7 +8,7 @@
 </template>
 
 <script setup>
-import { ref, watch } from 'vue'
+import { ref, watch } from "vue"
 
 const show = ref(false)
 
@@ -17,20 +17,20 @@ watch(show, (val) => {
 		addEventClick()
 	}
 	if (val) {
-		document.body.classList.add('showRightPanel')
+		document.body.classList.add("showRightPanel")
 	} else {
-		document.body.classList.remove('showRightPanel')
+		document.body.classList.remove("showRightPanel")
 	}
 })
 
 const addEventClick = () => {
-	window.addEventListener('click', closeSidebar, true)
+	window.addEventListener("click", closeSidebar, true)
 }
 const closeSidebar = (evt) => {
-	const parent = evt.target.closest('.rightPanel')
+	const parent = evt.target.closest(".rightPanel")
 	if (!parent) {
 		show.value = false
-		window.removeEventListener('click', closeSidebar)
+		window.removeEventListener("click", closeSidebar)
 	}
 }
 

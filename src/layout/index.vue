@@ -16,19 +16,19 @@
 </template>
 
 <script setup>
-import { ref, inject, provide, nextTick, onMounted, onUnmounted, computed } from 'vue'
-import { Sidebar, Navbar, AppMain, TagsView } from './components'
-import { getDevice } from '@/common/layout'
-import { sctx } from '@/store'
+import { ref, inject, provide, nextTick, onMounted, onUnmounted, computed } from "vue"
+import { Sidebar, Navbar, AppMain, TagsView } from "./components"
+import { getDevice } from "@/common/layout"
+import { sctx } from "@/store"
 
-const ctx = inject('context')
+const ctx = inject("context")
 
 const needTagsView = sctx.tagsView
 const fixedHeader = sctx.fixedHeader
 
 const isRouterActive = ref(true)
 
-provide('reloadAppMain', () => {
+provide("reloadAppMain", () => {
 	isRouterActive.value = false
 	nextTick(() => {
 		setTimeout(() => {
@@ -39,8 +39,8 @@ provide('reloadAppMain', () => {
 
 const classObj = computed(() => {
 	return {
-		'mini-sidebar': ctx.sidebar.miniSidebar,
-		mobile: ctx.device === 'mobile',
+		"mini-sidebar": ctx.sidebar.miniSidebar,
+		mobile: ctx.device === "mobile",
 	}
 })
 
@@ -50,11 +50,11 @@ const resizeHandler = () => {
 }
 
 onMounted(() => {
-	window.addEventListener('resize', resizeHandler)
+	window.addEventListener("resize", resizeHandler)
 })
 
 onUnmounted(() => {
-	window.removeEventListener('resize', resizeHandler)
+	window.removeEventListener("resize", resizeHandler)
 })
 </script>
 

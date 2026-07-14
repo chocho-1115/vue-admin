@@ -5,10 +5,10 @@
 </template>
 
 <script setup>
-import { useTemplateRef, computed, onMounted, onBeforeUnmount } from 'vue'
+import { useTemplateRef, computed, onMounted, onBeforeUnmount } from "vue"
 
-const emit = defineEmits(['scroll'])
-const scrollContainer = useTemplateRef('scrollContainer')
+const emit = defineEmits(["scroll"])
+const scrollContainer = useTemplateRef("scrollContainer")
 
 const tagAndTagSpacing = 4 // tagAndTagSpacing
 
@@ -19,14 +19,14 @@ const scrollWrapper = computed(() => {
 })
 
 onMounted(() => {
-	scrollWrapper.value.addEventListener('scroll', emitScroll, true)
+	scrollWrapper.value.addEventListener("scroll", emitScroll, true)
 })
 onBeforeUnmount(() => {
-	scrollWrapper.value.removeEventListener('scroll', emitScroll)
+	scrollWrapper.value.removeEventListener("scroll", emitScroll)
 })
 
 const emitScroll = () => {
-	emit('scroll')
+	emit("scroll")
 }
 defineExpose({
 	moveToTarget: (currentTag, tagsDom) => {

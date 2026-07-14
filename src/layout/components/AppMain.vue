@@ -9,5 +9,5 @@
 </template>
 
 <script setup>
-import keepAliveNames from '@/router/keepAliveNames'
+import keepAliveNames from "@/router/keepAliveNames"
 </script>

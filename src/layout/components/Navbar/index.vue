@@ -97,22 +97,22 @@
 </template>
 
 <script setup>
-import { inject, ref, watch } from 'vue'
-import { useRoute } from 'vue-router'
+import { inject, ref, watch } from "vue"
+import { useRoute } from "vue-router"
 
-import MenuList from '../common/Menu/index.vue'
-import Logo from '../common/Logo.vue'
-import Breadcrumb from './Breadcrumb.vue'
-import Hamburger from './Hamburger.vue'
-import UserCenter from '../common/UserCenter.vue'
+import MenuList from "../common/Menu/index.vue"
+import Logo from "../common/Logo.vue"
+import Breadcrumb from "./Breadcrumb.vue"
+import Hamburger from "./Hamburger.vue"
+import UserCenter from "../common/UserCenter.vue"
 
-import { dispatch } from '@/store'
-import { setTheme, getTheme } from '@/store/storage'
+import { dispatch } from "@/store"
+import { setTheme, getTheme } from "@/store/storage"
 
 const route = useRoute()
-const ctx = inject('context')
+const ctx = inject("context")
 
-const themeDark = ref(getTheme() === 'dark' ? true : false)
+const themeDark = ref(getTheme() === "dark" ? true : false)
 const drawerMenu = ref(false)
 const drawerMessage = ref(false)
 
@@ -129,8 +129,8 @@ const toggleSidebar = () => {
 
 const toggleTheme = () => {
 	themeDark.value = !themeDark.value
-	document.documentElement.classList.toggle('dark')
-	themeDark.value ? setTheme('dark') : setTheme('light')
+	document.documentElement.classList.toggle("dark")
+	themeDark.value ? setTheme("dark") : setTheme("light")
 }
 
 const onOutside = () => {

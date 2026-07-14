@@ -15,7 +15,7 @@
 </template>
 
 <script setup>
-const emit = defineEmits(['toggleClick'])
+const emit = defineEmits(["toggleClick"])
 defineProps({
 	isActive: {
 		type: Boolean,
@@ -24,7 +24,7 @@ defineProps({
 })
 
 const toggleClick = () => {
-	emit('toggleClick')
+	emit("toggleClick")
 }
 </script>
 

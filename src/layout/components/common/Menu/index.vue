@@ -22,16 +22,16 @@
 </template>
 
 <script setup>
-import { computed } from 'vue'
-import { useRouter, useRoute } from 'vue-router'
+import { computed } from "vue"
+import { useRouter, useRoute } from "vue-router"
 // import { onBeforeRouteUpdate } from 'vue-router'
 
-import Item from './Item.vue'
+import Item from "./Item.vue"
 
 const props = defineProps({
 	height: {
 		type: String,
-		default: '100%',
+		default: "100%",
 	},
 	isCollapse: {
 		type: Boolean,

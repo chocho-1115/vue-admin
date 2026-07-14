@@ -6,7 +6,7 @@
 defineProps({
 	htmlContent: {
 		type: String,
-		default: '',
+		default: "",
 	},
 })
 </script>

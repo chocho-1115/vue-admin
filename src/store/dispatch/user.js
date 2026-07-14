@@ -1,6 +1,6 @@
-import { resetRouter } from '@/router'
+import { resetRouter } from "@/router"
 
-import ctx from '../context'
+import ctx from "../context"
 
 const state = ctx.userInfo
 

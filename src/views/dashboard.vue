@@ -5,10 +5,10 @@
 </template>
 
 <script setup>
-import { ctx } from '@/store'
+import { ctx } from "@/store"
 
 defineOptions({
-	name: 'Dashboard', // 必须与keepAliveName一致
+	name: "Dashboard", // 必须与keepAliveName一致
 })
 </script>
 

@@ -5,8 +5,8 @@
 </template>
 
 <script setup>
-import { computed } from 'vue'
-import { isExternal } from '@/common/validate'
+import { computed } from "vue"
+import { isExternal } from "@/common/validate"
 
 const props = defineProps({
 	to: {
@@ -21,17 +21,17 @@ const isExternalValue = computed(() => {
 
 const type = computed(() => {
 	if (isExternalValue.value) {
-		return 'a'
+		return "a"
 	}
-	return 'router-link'
+	return "router-link"
 })
 
 const linkProps = (to) => {
 	if (isExternalValue.value) {
 		return {
 			href: to,
-			target: '_blank',
-			rel: 'noopener',
+			target: "_blank",
+			rel: "noopener",
 		}
 	}
 	return {

@@ -1,7 +1,7 @@
-import router from '@/router'
+import router from "@/router"
 
-import { getToken, saveToken, removeToken } from '../storage'
-import ctx from '../context'
+import { getToken, saveToken, removeToken } from "../storage"
+import ctx from "../context"
 
 const state = ctx.login
 
@@ -15,10 +15,10 @@ export default {
 	},
 	removeToken() {
 		removeToken()
-		state.token = ''
+		state.token = ""
 	},
 	go() {
-		if (router.currentRoute.value.path === '/account/login') return
-		router.push(`/account/login?redirect=${router.currentRoute.value.fullPath || '/'}`)
+		if (router.currentRoute.value.path === "/account/login") return
+		router.push(`/account/login?redirect=${router.currentRoute.value.fullPath || "/"}`)
 	},
 }

@@ -1,4 +1,4 @@
-import { getMiniSidebar } from '../storage'
+import { getMiniSidebar } from "../storage"
 
 export default {
 	miniSidebar: getMiniSidebar(),

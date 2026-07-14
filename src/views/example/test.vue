@@ -46,16 +46,16 @@
 </template>
 
 <script setup>
-import { inject, reactive } from 'vue'
-import { useRouter } from 'vue-router'
+import { inject, reactive } from "vue"
+import { useRouter } from "vue-router"
 // import { ctx as context } from '@/store'
-import { testError } from '@/api/test'
+import { testError } from "@/api/test"
 
 defineOptions({
-	name: 'Test', // 必须与keepAliveName一致
+	name: "Test", // 必须与keepAliveName一致
 })
 
-const context = inject('context') // import store 和 inject的方式是一样的效果
+const context = inject("context") // import store 和 inject的方式是一样的效果
 const router = useRouter()
 
 const obj = { a: 1 }
@@ -63,7 +63,7 @@ const arr = [1]
 const ctx = reactive({
 	o: obj,
 	a: arr,
-	src: '',
+	src: "",
 })
 
 setTimeout(function () {
@@ -83,7 +83,7 @@ let v = 0
 const routerChange = () => {
 	v++
 	router.push({
-		name: 'Form',
+		name: "Form",
 		// 保留当前路径并删除第一个字符，以避免目标 URL 以 `//` 开头。
 		// params: { pathMatch: this.$route.path.substring(1).split('/') },
 		// 保留现有的查询和 hash 值，如果有的话
@@ -92,15 +92,15 @@ const routerChange = () => {
 	})
 }
 
-let avatar = ''
+let avatar = ""
 const avatarChange = () => {
 	if (avatar) {
 		context.userInfo.avatar = avatar
-		avatar = ''
+		avatar = ""
 		ctx.src = undefined
 	} else {
 		avatar = context.userInfo.avatar
-		context.userInfo.avatar = ''
+		context.userInfo.avatar = ""
 		ctx.src = avatar
 	}
 }

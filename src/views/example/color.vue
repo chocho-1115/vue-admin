@@ -22,8 +22,8 @@
 </template>
 
 <script setup>
-import { reactive, ref } from 'vue'
-import { copyText } from '@/core/utils'
+import { reactive, ref } from "vue"
+import { copyText } from "@/core/utils"
 
 const disabled = ref(false)
 const elementColos = reactive([])
@@ -37,35 +37,35 @@ const addColor = (name, variables, cssFactory) => {
 		const value = item ? `--el-${name}-${item}` : `--el-${name}`
 		res.list.push({
 			value,
-			description: value.replace('--el-', ''),
+			description: value.replace("--el-", ""),
 			style: cssFactory(value),
 		})
 	})
 	elementColos.push(res)
 }
 // node_modules/element-plus/theme-chalk/src/dark/var.scss
-const EL_BOX_SHADOW_WEIGHT = ['', 'light', 'lighter', 'dark']
-const EL_BG_WEIGHT = ['page', '', 'overlay']
-const EL_TEXT_WEIGHT = ['primary', 'regular', 'secondary', 'placeholder', 'disabled']
-const EL_BORDER_WEIGHT = ['darker', 'dark', '', 'light', 'lighter', 'extra-light']
-const EL_FILL_WEIGHT = ['darker', 'dark', '', 'light', 'lighter', 'extra-light', 'blank']
-const EL_MASK_WEIGHT = ['', 'extra-light']
+const EL_BOX_SHADOW_WEIGHT = ["", "light", "lighter", "dark"]
+const EL_BG_WEIGHT = ["page", "", "overlay"]
+const EL_TEXT_WEIGHT = ["primary", "regular", "secondary", "placeholder", "disabled"]
+const EL_BORDER_WEIGHT = ["darker", "dark", "", "light", "lighter", "extra-light"]
+const EL_FILL_WEIGHT = ["darker", "dark", "", "light", "lighter", "extra-light", "blank"]
+const EL_MASK_WEIGHT = ["", "extra-light"]
 
-addColor('box-shadow', EL_BOX_SHADOW_WEIGHT, (variables) => ({ boxShadow: `var(${variables})` }))
-addColor('bg-color', EL_BG_WEIGHT, (variables) => ({ backgroundColor: `var(${variables})` }))
-addColor('text-color', EL_TEXT_WEIGHT, (variables) => ({ backgroundColor: `var(${variables})` }))
-addColor('border-color', EL_BORDER_WEIGHT, (variables) => ({
+addColor("box-shadow", EL_BOX_SHADOW_WEIGHT, (variables) => ({ boxShadow: `var(${variables})` }))
+addColor("bg-color", EL_BG_WEIGHT, (variables) => ({ backgroundColor: `var(${variables})` }))
+addColor("text-color", EL_TEXT_WEIGHT, (variables) => ({ backgroundColor: `var(${variables})` }))
+addColor("border-color", EL_BORDER_WEIGHT, (variables) => ({
 	backgroundColor: `var(${variables})`,
 }))
-addColor('fill-color', EL_FILL_WEIGHT, (variables) => ({ backgroundColor: `var(${variables})` }))
-addColor('mask-color', EL_MASK_WEIGHT, (variables) => ({ backgroundColor: `var(${variables})` }))
+addColor("fill-color", EL_FILL_WEIGHT, (variables) => ({ backgroundColor: `var(${variables})` }))
+addColor("mask-color", EL_MASK_WEIGHT, (variables) => ({ backgroundColor: `var(${variables})` }))
 
 const handleClipboard = (text) => {
 	disabled.value = true
 	copyText(text, () => {
 		ElMessage({
-			message: 'Copied!',
-			type: 'success',
+			message: "Copied!",
+			type: "success",
 			duration: 2 * 1000,
 			onClose() {
 				disabled.value = false

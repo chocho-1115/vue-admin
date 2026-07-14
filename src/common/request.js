@@ -1,6 +1,6 @@
-import axios from 'axios'
-import { EventBus } from '@/core/eventBus'
-import { initHttpSubscriber } from '@/common/httpSubscriber.js'
+import axios from "axios"
+import { EventBus } from "@/core/eventBus"
+import { initHttpSubscriber } from "@/common/httpSubscriber.js"
 
 initHttpSubscriber()
 
@@ -34,13 +34,13 @@ service.interceptors.response.use(
 		if (res.code !== 0) {
 			// unauthorized (no token / invalid token), expired
 			if (res.code === 20001) {
-				EventBus.emit('auth:unauthorized', { url, res })
+				EventBus.emit("auth:unauthorized", { url, res })
 			} else if (res.code === 20002) {
-				EventBus.emit('auth:expired', { url, res })
+				EventBus.emit("auth:expired", { url, res })
 			} else {
-				EventBus.emit('request:error', { url, res })
+				EventBus.emit("request:error", { url, res })
 			}
-			const error = new Error(res.msg || res.data?.message || 'Error', { cause: response })
+			const error = new Error(res.msg || res.data?.message || "Error", { cause: response })
 			error.response = response
 			return Promise.reject(error) // 没有catch时 会直接抛出错误 不会执行请求之后的代码
 		} else {
@@ -77,7 +77,7 @@ service.interceptors.response.use(
 		}
 
 		// 对响应错误做点什么
-		EventBus.emit('request:error', errorInfo)
+		EventBus.emit("request:error", errorInfo)
 
 		return Promise.reject(error)
 	},
