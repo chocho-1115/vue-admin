@@ -1,58 +1,58 @@
 @charset "utf-8";
 
-@use './variables.module.scss';
-@use './transition.scss';
-@use './element-ui.scss';
+@use "./variables.module.scss";
+@use "./transition.scss";
+@use "./element-ui.scss";
 
 body {
-  min-height: 100vh;
-  -moz-osx-font-smoothing: grayscale;
-  -webkit-font-smoothing: antialiased;
-  text-rendering: optimizeLegibility;
-  font-family:
-    Helvetica Neue,
-    Helvetica,
-    PingFang SC,
-    Hiragino Sans GB,
-    Microsoft YaHei,
-    Arial,
-    sans-serif;
+	min-height: 100vh;
+	-moz-osx-font-smoothing: grayscale;
+	-webkit-font-smoothing: antialiased;
+	text-rendering: optimizeLegibility;
+	font-family:
+		Helvetica Neue,
+		Helvetica,
+		PingFang SC,
+		Hiragino Sans GB,
+		Microsoft YaHei,
+		Arial,
+		sans-serif;
 }
 
 label {
-  font-weight: 700;
+	font-weight: 700;
 }
 
 html {
-  box-sizing: border-box;
+	box-sizing: border-box;
 }
 
 #app {
-  position: relative;
-  z-index: 1;
+	position: relative;
+	z-index: 1;
 }
 
 *,
 *:before,
 *:after {
-  box-sizing: inherit;
+	box-sizing: inherit;
 }
 
 a:focus,
 a:active {
-  outline: none;
+	outline: none;
 }
 
 a,
 a:focus,
 a:hover {
-  cursor: pointer;
-  color: inherit;
-  text-decoration: none;
+	cursor: pointer;
+	color: inherit;
+	text-decoration: none;
 }
 
 div:focus {
-  outline: none;
+	outline: none;
 }
 
 // .clearfix {
@@ -68,5 +68,5 @@ div:focus {
 
 // main-container global css
 .app-container {
-  padding: 20px;
+	padding: 20px;
 }
