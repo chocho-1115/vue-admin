@@ -1,60 +1,60 @@
 <template>
-  <template v-if="!alwaysShow && theOnlyOneChild && !theOnlyOneChild.children">
-    <el-menu-item :index="resolvePath(theOnlyOneChild.path)" @click="onGotoPage(theOnlyOneChild)">
-      <template v-if="theOnlyOneChild.meta.icon">
-        <el-icon class="el-menu-icon">
-          <svg-icon
-            :icon="theOnlyOneChild.meta.icon"
-            v-if="typeof theOnlyOneChild.meta.icon === 'string'"
-          />
-          <component :is="theOnlyOneChild.meta.icon" v-else />
-        </el-icon>
-      </template>
-      <template #title v-if="theOnlyOneChild.meta.title">
-        <span>{{ theOnlyOneChild.meta.title }}</span>
-      </template>
+	<template v-if="!alwaysShow && theOnlyOneChild && !theOnlyOneChild.children">
+		<el-menu-item :index="resolvePath(theOnlyOneChild.path)" @click="onGotoPage(theOnlyOneChild)">
+			<template v-if="theOnlyOneChild.meta.icon">
+				<el-icon class="el-menu-icon">
+					<svg-icon
+						:icon="theOnlyOneChild.meta.icon"
+						v-if="typeof theOnlyOneChild.meta.icon === 'string'"
+					/>
+					<component :is="theOnlyOneChild.meta.icon" v-else />
+				</el-icon>
+			</template>
+			<template #title v-if="theOnlyOneChild.meta.title">
+				<span>{{ theOnlyOneChild.meta.title }}</span>
+			</template>
 
-      <!-- <Item :icon="theOnlyOneChild.meta.icon" :title="1+theOnlyOneChild.meta.title" /> -->
-    </el-menu-item>
-  </template>
+			<!-- <Item :icon="theOnlyOneChild.meta.icon" :title="1+theOnlyOneChild.meta.title" /> -->
+		</el-menu-item>
+	</template>
 
-  <el-sub-menu
-    :index="resolvePath(info.path)"
-    popper-append-to-body
-    ref="subMenu"
-    popper-style="user-select: none;-webkit-tap-highlight-color: transparent;"
-    v-else
-  >
-    <template #title>
-      <template v-if="info.meta.icon">
-        <el-icon class="el-menu-icon">
-          <svg-icon :icon="info.meta.icon" v-if="typeof info.meta.icon === 'string'" />
-          <component :is="info.meta.icon" v-else />
-        </el-icon>
-      </template>
-      <template v-if="info.meta.title">
-        <span>{{ info.meta.title }}</span>
-      </template>
+	<el-sub-menu
+		:index="resolvePath(info.path)"
+		popper-append-to-body
+		ref="subMenu"
+		popper-style="user-select: none;-webkit-tap-highlight-color: transparent;"
+		v-else
+	>
+		<template #title>
+			<template v-if="info.meta.icon">
+				<el-icon class="el-menu-icon">
+					<svg-icon :icon="info.meta.icon" v-if="typeof info.meta.icon === 'string'" />
+					<component :is="info.meta.icon" v-else />
+				</el-icon>
+			</template>
+			<template v-if="info.meta.title">
+				<span>{{ info.meta.title }}</span>
+			</template>
 
-      <!-- <Item :icon="item.meta.icon" :title="item.meta.title" /> -->
-    </template>
-    <item
-      :base-path="resolvePath(child.path)"
-      :is-nest="true"
-      :info="child"
-      :key="child.path"
-      class="nest-menu"
-      v-for="child in info.children"
-    />
-  </el-sub-menu>
+			<!-- <Item :icon="item.meta.icon" :title="item.meta.title" /> -->
+		</template>
+		<item
+			:base-path="resolvePath(child.path)"
+			:is-nest="true"
+			:info="child"
+			:key="child.path"
+			class="nest-menu"
+			v-for="child in info.children"
+		/>
+	</el-sub-menu>
 </template>
 
 <script setup>
-import path from 'path-browserify-esm'
-import { useTemplateRef } from 'vue'
-import { useRouter } from 'vue-router'
+import path from "path-browserify-esm"
+import { useTemplateRef } from "vue"
+import { useRouter } from "vue-router"
 
-import { isExternal } from '@/common/validate'
+import { isExternal } from "@/common/validate"
 // import AppLink from './Link.vue'
 // import Item from './Item'
 
@@ -62,17 +62,17 @@ const router = useRouter()
 // const ctx = inject('context')
 
 const props = defineProps({
-  info: {
-    type: Object,
-    required: true,
-  },
-  basePath: {
-    type: String,
-    default: '',
-  },
+	info: {
+		type: Object,
+		required: true,
+	},
+	basePath: {
+		type: String,
+		default: "",
+	},
 })
 
-const subMenu = useTemplateRef('subMenu')
+const subMenu = useTemplateRef("subMenu")
 
 // onMounted(() => {
 //   fixBugIniOS()
@@ -86,36 +86,36 @@ const showingChildren = props.info.children?.filter((child) => !child.meta?.hidd
 
 /** 唯一的子菜单项 */
 const theOnlyOneChild = (function () {
-  const number = showingChildren.length
-  switch (true) {
-    case number > 1:
-      return null
-    case number === 1:
-      return showingChildren[0]
-    default:
-      return { ...props.info, path: '' }
-  }
+	const number = showingChildren.length
+	switch (true) {
+		case number > 1:
+			return null
+		case number === 1:
+			return showingChildren[0]
+		default:
+			return { ...props.info, path: "" }
+	}
 })()
 
 const resolvePath = (routePath) => {
-  if (isExternal(routePath)) {
-    return routePath
-  }
-  if (isExternal(props.basePath)) {
-    return props.basePath
-  }
-  // return path.resolve(props.basePath, routePath)
-  return path.join(props.basePath, routePath)
+	if (isExternal(routePath)) {
+		return routePath
+	}
+	if (isExternal(props.basePath)) {
+		return props.basePath
+	}
+	// return path.resolve(props.basePath, routePath)
+	return path.join(props.basePath, routePath)
 }
 
 const onGotoPage = (child) => {
-  if (!child.meta) return
-  const toPath = resolvePath(child.path)
-  if (toPath.startsWith('http')) {
-    window.open(toPath, '_blank')
-  } else {
-    router.push(toPath)
-  }
+	if (!child.meta) return
+	const toPath = resolvePath(child.path)
+	if (toPath.startsWith("http")) {
+		window.open(toPath, "_blank")
+	} else {
+		router.push(toPath)
+	}
 }
 
 // const fixBugIniOS = () => {

@@ -5,9 +5,9 @@ import {
 } from 'vue-router'
 import { Brush, Discount } from '@element-plus/icons-vue'
 
-import Layout from '@/layout/index.vue'
-import nestedRouter from './modules/nested'
-import whiteList from './whiteList'
+import Layout from "@/layout/index.vue"
+import nestedRouter from "./modules/nested"
+import whiteList from "./whiteList"
 
 const router = createRouter({
   history: createWebHashHistory(import.meta.env.VITE_BASE_URL),
@@ -156,17 +156,17 @@ const router = createRouter({
 })
 
 router.beforeEach(async (to) => {
-  // set page title
-  document.title = to.meta.title ? `${to.meta.title} - Vue Admin` : `Vue Admin`
+	// set page title
+	document.title = to.meta.title ? `${to.meta.title} - Vue Admin` : `Vue Admin`
 })
 
 export const resetRouter = () => {
-  // console.log(router)
+	// console.log(router)
 }
 
 export const isWhitePage = (path) => {
-  const route = router.currentRoute.value
-  return !(whiteList.indexOf(path || route.path) === -1)
+	const route = router.currentRoute.value
+	return !(whiteList.indexOf(path || route.path) === -1)
 }
 
 export default router
