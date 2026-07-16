@@ -1,5 +1,5 @@
 # 工作流名称：在 GitHub Actions 页面显示的名称
-name: Build and Deploy to GitHub Pages Repo
+name: Deploy Vue Admin to GitHub Pages Repo
 
 # 触发条件：定义什么时候运行这个工作流
 on:
