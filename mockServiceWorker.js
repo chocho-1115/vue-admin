@@ -6,7 +6,7 @@
  * @see https://github.com/mswjs/msw
  * - Please do NOT modify this file.
  */
-
+const AAAA = true
 const PACKAGE_VERSION = '2.15.0'
 const INTEGRITY_CHECKSUM = '03cb67ac84128e63d7cd722a6e5b7f1e'
 const IS_MOCKED_RESPONSE = Symbol('isMockedResponse')
