@@ -27,7 +27,7 @@ jobs:
       - name: Setup Node.js
         uses: actions/setup-node@v4  # 官方提供的 Node.js 安装 Action
         with:  # with 是传给 Action 的参数
-          node-version: '18'  # 指定 Node.js 版本为 18，改成你项目用的版本
+          node-version: '24'  # 指定 Node.js 版本为 18，改成你项目用的版本
           cache: 'npm'  # 缓存 npm 依赖，下次构建会更快（减少下载时间）
 
       # ===== 第 3 步：安装依赖 =====
@@ -39,7 +39,7 @@ jobs:
 
       # ===== 第 4 步：打包项目 =====
       - name: Build project
-        run: npm run build  # 执行 package.json 里的 build 脚本
+        run: npm run build:prod  # 执行 package.json 里的 build 脚本
         # 通常 Vue/React 项目执行后会生成 dist/ 文件夹
 
       # ===== 第 5 步：部署到 GitHub Pages 仓库 =====
@@ -57,7 +57,7 @@ jobs:
           # 🎯 目标仓库：你要部署到的 GitHub Pages 仓库
           # 格式：用户名/仓库名
           # 比如你的 GitHub 用户名是 zhangsan，GitHub Pages 仓库是 zhangsan.github.io
-          external_repository: your-username/your-username.github.io
+          external_repository: chocho-1115/chocho-1115.github.io
           
           # 🌿 推送分支：GitHub Pages 分支
           # 如果是用户/组织站点，通常用 main 或 master
