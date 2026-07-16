@@ -1,0 +1,82 @@
+# 工作流名称：在 GitHub Actions 页面显示的名称
+name: Build and Deploy to GitHub Pages Repo
+
+# 触发条件：定义什么时候运行这个工作流
+on:
+  push:  # 当执行 git push 操作时触发
+    branches: [main]  # 只监听 main 分支的推送，如果是 master 分支就改成 master
+
+# 作业（Job）：定义要执行的任务
+jobs:
+  # 作业 ID，可以自定义，这里叫 build-and-deploy
+  build-and-deploy:
+    # 运行环境：指定使用 Ubuntu 最新版的虚拟机来执行
+    runs-on: ubuntu-latest
+
+    # 步骤：定义这个作业要依次执行的每一步
+    steps:
+      # ===== 第 1 步：拉取代码 =====
+      - name: Checkout source code  # 步骤名称，会在日志里显示
+        # uses 表示使用别人写好的 Action（相当于插件）
+        # actions/checkout@v4 是官方提供的拉取代码的 Action
+        # @v4 表示版本号，用 v4 稳定版
+        uses: actions/checkout@v4
+        # 这一步会把你的 GitHub 仓库代码下载到虚拟机的当前目录
+
+      # ===== 第 2 步：安装 Node.js =====
+      - name: Setup Node.js
+        uses: actions/setup-node@v4  # 官方提供的 Node.js 安装 Action
+        with:  # with 是传给 Action 的参数
+          node-version: '18'  # 指定 Node.js 版本为 18，改成你项目用的版本
+          cache: 'npm'  # 缓存 npm 依赖，下次构建会更快（减少下载时间）
+
+      # ===== 第 3 步：安装依赖 =====
+      - name: Install dependencies
+        # run 表示直接在虚拟机的终端里执行命令
+        run: npm ci  # npm ci 比 npm install 更快更稳定
+        # npm ci 会严格按照 package-lock.json 安装，适合 CI 环境
+        # 如果锁文件不存在，请改用 npm install
+
+      # ===== 第 4 步：打包项目 =====
+      - name: Build project
+        run: npm run build  # 执行 package.json 里的 build 脚本
+        # 通常 Vue/React 项目执行后会生成 dist/ 文件夹
+
+      # ===== 第 5 步：部署到 GitHub Pages 仓库 =====
+      - name: Deploy to GitHub Pages repo
+        # peaceiris/actions-gh-pages@v3 是社区流行的部署到 GitHub Pages 的 Action
+        uses: peaceiris/actions-gh-pages@v3
+        with:
+          # 🔑 重要：这里是 Personal Access Token（个人访问令牌）
+          # 不是 GITHUB_TOKEN（GITHUB_TOKEN 只能访问当前仓库）
+          # 因为要推送到另一个仓库，必须用有写入权限的 Personal Token
+          # 这个 token 需要你在 GitHub Settings → Developer settings → Personal access tokens 生成
+          # 然后在你当前仓库的 Settings → Secrets and variables → Actions 里添加为 DEPLOY_TOKEN
+          personal_token: ${{ secrets.DEPLOY_TOKEN }}
+          
+          # 🎯 目标仓库：你要部署到的 GitHub Pages 仓库
+          # 格式：用户名/仓库名
+          # 比如你的 GitHub 用户名是 zhangsan，GitHub Pages 仓库是 zhangsan.github.io
+          external_repository: your-username/your-username.github.io
+          
+          # 🌿 推送分支：GitHub Pages 分支
+          # 如果是用户/组织站点，通常用 main 或 master
+          # 如果是项目站点（Project Site），可以用 gh-pages 分支
+          publish_branch: main
+          
+          # 📁 推送目录：要部署哪个文件夹的内容
+          publish_dir: ./dist  # 就是上一步 build 生成的 dist 文件夹
+          
+          # 📂 目标子目录：推送到目标仓库的哪个子目录
+          # 这样你的页面访问地址就是：https://your-username.github.io/vue-admin/
+          destination_dir: vue-admin
+          # 如果不填，默认推到仓库根目录，访问地址就是 https://your-username.github.io/
+          
+          # 💾 保留历史提交记录
+          keep_files: false  # false 表示每次覆盖（只保留最新文件）
+          # 改成 true 表示保留目标仓库里已有的文件（不覆盖删除）
+          
+          # 📝 提交信息：Git 提交时记录的消息
+          # ${{ github.repository }} 是当前仓库名（如 user/my-project）
+          # ${{ github.sha }} 是当前提交的 commit hash（唯一标识）
+          commit_message: 'Deploy from ${{ github.repository }}@${{ github.sha }}'
