@@ -5,7 +5,7 @@
 </p>
 <p align="center">
     <a href="https://github.com/vitejs/vite">
-        <img src="https://img.shields.io/badge/vite-8.1.0-brightgreen.svg">
+        <img src="https://img.shields.io/badge/vite-8.1.4-brightgreen.svg">
     </a>
     <a href="https://github.com/vuejs/core">
         <img src="https://img.shields.io/badge/vue-3.5.39-brightgreen.svg">
@@ -17,7 +17,7 @@
         <img src="https://img.shields.io/badge/axios-1.18.1-brightgreen.svg">
     </a>
     <a href="https://github.com/mswjs/msw">
-        <img src="https://img.shields.io/badge/msw-2.14.6-brightgreen.svg">
+        <img src="https://img.shields.io/badge/msw-2.15.0-brightgreen.svg">
     </a>
     <a href="https://github.com/faker-js/faker">
         <img src="https://img.shields.io/badge/faker-10.5.0-brightgreen.svg">
