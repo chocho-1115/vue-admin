@@ -4,7 +4,7 @@ name: Build and Deploy to GitHub Pages Repo
 # 触发条件：定义什么时候运行这个工作流
 on:
   push:  # 当执行 git push 操作时触发
-    branches: [main]  # 只监听 main 分支的推送，如果是 master 分支就改成 master
+    branches: [site]  # 只监听 site 分支的推送，如果是 master 分支就改成 master
 
 # 作业（Job）：定义要执行的任务
 jobs:
