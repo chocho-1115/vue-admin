@@ -1,0 +1,53 @@
+# 工作流名称：在 GitHub Actions 页面显示的名称
+name: Deploy Mock Service Worker to GitHub Pages Repo
+
+# 触发条件：当 site 分支有 push 时触发
+on:
+  push:
+    branches: [site]
+    # 优化：只有 mockServiceWorker.js 文件变化时才触发
+    paths:
+      - 'mockServiceWorker.js'
+
+# 作业（Job）：定义要执行的任务
+jobs:
+  # 作业 ID，可以自定义
+  deploy-mock-sw:
+    # 运行环境：使用 Ubuntu 最新版
+    runs-on: ubuntu-latest
+
+    # 步骤：定义要依次执行的每一步
+    steps:
+      # ===== 第 1 步：拉取代码 =====
+      - name: Checkout source code
+        uses: actions/checkout@v4
+        # 这一步会把你的仓库代码下载到虚拟机的当前目录
+
+      # ===== 第 2 步：部署 mockServiceWorker.js 到 GitHub Pages 根目录 =====
+      - name: Deploy mockServiceWorker.js to GitHub Pages root
+        uses: peaceiris/actions-gh-pages@v3
+        with:
+          # 使用 Personal Access Token（和 deploy-vue-admin.yml 用同一个）
+          personal_token: ${{ secrets.DEPLOY_TOKEN }}
+          
+          # 目标仓库：你的 GitHub Pages 仓库
+          external_repository: chocho-1115/chocho-1115.github.io
+          
+          # 🌿 推送分支：GitHub Pages 分支
+          publish_branch: main
+          
+          # 推送目录：当前仓库的根目录
+          publish_dir: ./
+          
+          # 目标目录：Pages 仓库的根目录
+          destination_dir: ./
+          
+          # 保留已有文件（不删除其他项目）
+          keep_files: true
+          
+          # 只推送 mockServiceWorker.js 这一个文件
+          # 其他文件不会被推送
+          only: mockServiceWorker.js
+          
+          # 提交信息
+          commit_message: 'Update mockServiceWorker.js from ${{ github.repository }}@${{ github.sha }}'

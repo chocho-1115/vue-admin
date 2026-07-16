@@ -73,7 +73,7 @@ jobs:
           # 如果不填，默认推到仓库根目录，访问地址就是 https://your-username.github.io/
           
           # 💾 保留历史提交记录
-          keep_files: false  # false 表示每次覆盖（只保留最新文件）
+          keep_files: false  # false 表示每次覆盖（只保留最新文件）这里每次自动部署会清空GitHub Pages 里的 vue-admin目录
           # 改成 true 表示保留目标仓库里已有的文件（不覆盖删除）
           
           # 📝 提交信息：Git 提交时记录的消息
