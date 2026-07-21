@@ -47,4 +47,3 @@ msw在本地执行`npx msw init ./mack --save`命令，生成mockServiceWorker.j
 
 之后更新了msw后，会自动生成mockServiceWorker.js
 
-### path > path-browserify-esm

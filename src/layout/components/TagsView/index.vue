@@ -39,10 +39,10 @@
 <script setup>
 import { reactive, useTemplateRef, inject, watch, onMounted, nextTick } from "vue"
 import { useRouter, useRoute } from "vue-router"
-import path from "path-browserify-esm"
 
 import ScrollPane from "./ScrollPane.vue"
 import { dispatch, ctx } from "@/store"
+import { joinPath } from '@/core/utils'
 
 const reloadAppMain = inject("reloadAppMain")
 
@@ -93,7 +93,7 @@ const isAffix = (tag) => {
 const filterAffixTags = (routesConfig, basePath = "/") => {
 	let tags = []
 	routesConfig.forEach((route) => {
-		const tagPath = path.join(basePath, route.path)
+		const tagPath = joinPath(basePath, route.path)
 		if (route.children) {
 			const tempTags = filterAffixTags(route.children, tagPath)
 			if (tempTags.length >= 1) {

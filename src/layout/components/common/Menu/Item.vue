@@ -50,11 +50,12 @@
 </template>
 
 <script setup>
-import path from "path-browserify-esm"
 import { useTemplateRef } from "vue"
 import { useRouter } from "vue-router"
 
 import { isExternal } from "@/common/validate"
+import { joinPath } from '@/core/utils'
+
 // import AppLink from './Link.vue'
 // import Item from './Item'
 
@@ -104,8 +105,7 @@ const resolvePath = (routePath) => {
 	if (isExternal(props.basePath)) {
 		return props.basePath
 	}
-	// return path.resolve(props.basePath, routePath)
-	return path.join(props.basePath, routePath)
+	return joinPath(props.basePath, routePath)
 }
 
 const onGotoPage = (child) => {

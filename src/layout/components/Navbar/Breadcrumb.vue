@@ -17,9 +17,6 @@
 import { reactive, onMounted, watch } from "vue"
 import { useRoute, useRouter } from "vue-router"
 
-// import pathToRegexp from 'path-to-regexp'
-// import path from 'path-browserify-esm'
-
 const route = useRoute()
 const router = useRouter()
 const level = reactive({
@@ -56,11 +53,7 @@ const isDashboard = (route) => {
 	}
 	return name.trim().toLocaleLowerCase() === "Dashboard".toLocaleLowerCase()
 }
-// const pathCompile = (path) => {
-//     const { params } = route
-//     var toPath = pathToRegexp.compile(path)
-//     return toPath(params)
-// }
+
 const handleLink = (item) => {
 	const { redirect, path } = item
 	if (redirect) {
@@ -68,7 +61,6 @@ const handleLink = (item) => {
 		return
 	}
 	router.push(path)
-	// router.push(pathCompile(path))
 }
 </script>
 
