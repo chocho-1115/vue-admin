@@ -10,7 +10,7 @@ import {
 } from './common/config.js'
 import {
   formatTime
-} from '@/core/utils/index.js'
+} from '@/core/utils'
 
 function createRandomUser() {
   return {

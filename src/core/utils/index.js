@@ -7,5 +7,16 @@ import queryString from "./queryString"
 import throttle from "./throttle"
 import debounce from "./debounce"
 import delay from "./delay"
+import joinPath from "./joinPath"
 
-export { getRandomNum, getRandomStr, copyText, formatTime, queryString, throttle, debounce, delay }
+export {
+	getRandomNum,
+	getRandomStr,
+	copyText,
+	formatTime,
+	queryString,
+	throttle,
+	debounce,
+	delay,
+	joinPath,
+}
