@@ -28,7 +28,7 @@
 </p>
 
 <p align="center">
-  <a href="./README.md">中文</a> | <b>English</b>
+  <b>English</b> | <a href="./README_zh.md">中文</a>
 </p>
 
 ## Introduction
