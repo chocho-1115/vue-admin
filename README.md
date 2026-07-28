@@ -11,7 +11,7 @@
         <img src="https://img.shields.io/badge/vue-3.5.39-brightgreen.svg">
     </a>
     <a href="https://github.com/element-plus/element-plus">
-        <img src="https://img.shields.io/badge/elemnet--plus-2.14.2-brightgreen.svg">
+        <img src="https://img.shields.io/badge/element--plus-2.14.2-brightgreen.svg">
     </a>
     <a href="https://github.com/axios/axios">
         <img src="https://img.shields.io/badge/axios-1.18.1-brightgreen.svg">
@@ -27,52 +27,107 @@
     </a>
 </p>
 
+<p align="center">
+  <b>English</b> | <a href="./README_zh.md">中文</a>
+</p>
 
-## 简介
+## Introduction
 
-本项目提供一个轻量级、UI极简的 Vue admin 后台，采用最新稳定依赖，减少升级维护成本，让开发者更专注于业务逻辑。
+A lightweight, minimalist Vue admin dashboard built with the latest stable dependencies, reducing upgrade and maintenance costs so developers can focus on business logic.
 
 **Demo:** <https://chocho-1115.github.io/vue-admin/>
 
 > [!NOTE]
-> 项目前期ui参考了 [vue-admin-template](https://github.com/PanJiaChen/vue-admin-template)
+> UI design is inspired by [vue-admin-template](https://github.com/PanJiaChen/vue-admin-template)
 
-## 🎉 技术栈
+## Why This Project?
 
-**项目使用[create-vue 3.x](https://github.com/vuejs/create-vue)从零开始创建，基于 `vite 8.x` 进行版本构建，建议 [Node.js](https://nodejs.org/) 使用较新版本。**
+The ideal frontend admin dashboard should be:
 
-主要集成了以下技术栈：
+- All dependencies are the latest stable versions, so you'll see "All dependencies match the latest package versions :)" when installing
+- Every dependency is actively maintained, reducing upgrade and maintenance costs
+- Only necessary dependencies are included, no bloat
+- Minimalist functionality and UI design
+- Wide applicability
 
-- 💪 [vue3](https://vuejs.org/) + [vite8](https://vite.dev/)
-- 💅 [vue-router](https://router.vuejs.org/)
-- 💅 [element plus](https://element-plus.org/zh-CN/)
-- 🌍 [mswjs](https://mswjs.io/) + [fakerjs](https://fakerjs.dev/)
-- 👏 [axios](http://www.axios-js.com/)
-- 🥳 [sass](https://sass-lang.com/)
+This project was built to meet these goals.
+
+## ✨ Features
+
+Lightweight, minimal UI, ready to use out of the box. Built with Vue 3 + Vite 8 + Element Plus.
+
+| Keyword | Description |
+|---------|-------------|
+| **Authentication** | Login/Logout, Token management, localStorage persistence, Route permission guards |
+| **Layout** | Sidebar collapse/expand, Mobile drawer adaptation, Breadcrumbs, Tab view with right-click menu |
+| **Theme** | Dark/Light mode switching, localStorage caching |
+| **Router** | Nested routes (3 levels), Whitelist, KeepAlive caching, 404 fallback |
+| **HTTP** | Axios encapsulation, Unified error handling, EventBus decoupling |
+| **Mock** | MSW + Faker.js, Unified response status codes |
+| **Icons** | Dual solution: SVG sprite + Element Plus icons |
+| **Others** | NProgress loading bar, Markdown rendering |
+
+> 💬 Have ideas for features? [Join the discussion](https://github.com/chocho-1115/vue-admin/discussions/14) to share your thoughts!
+
+## 🎉 Tech Stack
+
+**Created from scratch using [create-vue 3.x](https://github.com/vuejs/create-vue), built with `vite 8.x`, requires [Node.js](https://nodejs.org/) >= 22.16.0.**
+
+Main dependencies:
+
+- 💪 [Vue 3](https://vuejs.org/) + [Vite 8](https://vite.dev/)
+- 💅 [Vue Router](https://router.vuejs.org/)
+- 💅 [Element Plus](https://element-plus.org/zh-CN/)
+- 🌍 [MSW](https://mswjs.io/) + [Faker.js](https://fakerjs.dev/)
+- 👏 [Axios](http://www.axios-js.com/)
+- 🥳 [Sass](https://sass-lang.com/)
 - 🚀 [ES6](http://es6.ruanyifeng.com/)
-- 📦️ [element plus icon](https://icon-sets.iconify.design/ep/) + 自定义[svg icon雪碧图](https://spiriitlabs.github.io/vite-plugin-svg-spritemap/)（建议优先使用element plus icon）
+- 📦️ [Element Plus Icon](https://icon-sets.iconify.design/ep/) + Custom [SVG Icon Sprite](https://spiriitlabs.github.io/vite-plugin-svg-spritemap/) (Element Plus Icon recommended)
 
+## Quick Start
 
-## 快速开始
+### Prerequisites
 
-### 安装
+- [Node.js](https://nodejs.org/) >= 22.16.0
+- [npm](https://www.npmjs.com/) / [pnpm](https://pnpm.io/) / [yarn](https://yarnpkg.com/)
 
-```
-# 克隆项目
+### Installation
+
+```bash
+# Clone the repository
 git clone https://github.com/chocho-1115/vue-admin.git
 
-# 进入项目目录
+# Enter project directory
 cd vue-admin
 
-# 安装依赖
+# Install dependencies
 npm install
 
-# 启动服务
+# Start development server
 npm run dev
+```
+
+### Other Commands
+
+```bash
+# Build for production
+npm run build:prod
+
+# Build for staging
+npm run build:stage
+
+# Preview build output
+npm run preview
+
+# Format code
+npm run format
+
+# Lint and fix code
+npm run lint
 ```
 
 ## License
 
 [MIT](https://github.com/chocho-1115/vue-admin/blob/main/LICENSE)
 
-Copyright (c) 2025 chocho-1115
+Copyright (c) 2025-2026 chocho-1115
