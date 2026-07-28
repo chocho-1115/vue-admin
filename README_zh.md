@@ -40,17 +40,39 @@
 > [!NOTE]
 > 项目前期UI参考了 [vue-admin-template](https://github.com/PanJiaChen/vue-admin-template)
 
+## 为什么做这个项目
+
+理想的前端后台管理系统应该是：
+
+- 依赖全部为最新稳定版本，安装时看到 "All dependencies match the latest package versions :)"
+- 每个依赖都处于活跃维护期，减少升级维护成本
+- 只包含必要的依赖，没有冗余
+- 功能与UI设计极简
+- 广泛适用于各种业务场景
+
+本项目正是为了实现这些目标而创建的。
+
 ## ✨ 功能特性
 
-- 📦 基于 Vue 3 + Vite 8 + Element Plus 构建
-- 🎨 极简UI设计，开箱即用
-- 🔐 登录/登出功能
-- 📄 动态路由与权限控制
-- 🧩 嵌套菜单布局
-- 📊 表格、表单、图标等常用组件示例
-- 🌐 使用 MSW + Faker.js 模拟API数据
-- 🎯 SVG图标雪碧图支持
-- 🚀 支持 staging / production 多环境构建
+轻量级、UI极简、开箱即用。基于 Vue 3 + Vite 8 + Element Plus 构建。
+
+- 🚀 依赖全部为最新稳定版本
+- 🎨 极简UI设计
+- 🔐 内置认证与权限控制
+- 🌐 使用 MSW + Faker.js 模拟API
+
+| 关键词 | 说明 |
+|--------|------|
+| **认证** | 登录/登出、Token管理、localStorage持久化、路由权限守卫 |
+| **布局** | 侧边栏折叠/展开、移动端抽屉适配、面包屑、标签页视图(右键菜单) |
+| **主题** | 深色/浅色切换、localStorage缓存 |
+| **路由** | 嵌套路由(3层)、白名单、KeepAlive缓存、404兜底 |
+| **HTTP** | Axios封装、统一错误处理、EventBus解耦 |
+| **Mock** | MSW + Faker.js、统一响应状态码 |
+| **图标** | SVG雪碧图 + Element Plus图标双方案 |
+| **其他** | NProgress进度条、Markdown渲染 |
+
+> 💬 有功能想法？[参与讨论](https://github.com/chocho-1115/vue-admin/discussions/14)，分享你的建议！
 
 ## 🎉 技术栈
 

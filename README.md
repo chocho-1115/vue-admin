@@ -40,17 +40,39 @@ A lightweight, minimalist Vue admin dashboard built with the latest stable depen
 > [!NOTE]
 > UI design is inspired by [vue-admin-template](https://github.com/PanJiaChen/vue-admin-template)
 
+## Why This Project?
+
+The ideal frontend admin dashboard should be:
+
+- All dependencies are the latest stable versions, so you'll see "All dependencies match the latest package versions :)" when installing
+- Every dependency is actively maintained, reducing upgrade and maintenance costs
+- Only necessary dependencies are included, no bloat
+- Minimalist functionality and UI design
+- Wide applicability for various business scenarios
+
+This project was built to meet these goals.
+
 ## ✨ Features
 
-- 📦 Built with Vue 3 + Vite 8 + Element Plus
-- 🎨 Minimalist UI design, ready to use out of the box
-- 🔐 Login/Logout functionality
-- 📄 Dynamic routing and permission control
-- 🧩 Nested menu layout
-- 📊 Examples of table, form, icon and other common components
-- 🌐 API data simulation using MSW + Faker.js
-- 🎯 SVG icon sprite map support
-- 🚀 Multi-environment build support (staging / production)
+Lightweight, minimal UI, ready to use out of the box. Built with Vue 3 + Vite 8 + Element Plus.
+
+- 🚀 Latest stable dependencies
+- 🎨 Minimalist design
+- 🔐 Built-in auth & permission
+- 🌐 Mock API with MSW + Faker.js
+
+| Keyword | Description |
+|---------|-------------|
+| **Authentication** | Login/Logout, Token management, localStorage persistence, Route permission guards |
+| **Layout** | Sidebar collapse/expand, Mobile drawer adaptation, Breadcrumbs, Tab view with right-click menu |
+| **Theme** | Dark/Light mode switching, localStorage caching |
+| **Router** | Nested routes (3 levels), Whitelist, KeepAlive caching, 404 fallback |
+| **HTTP** | Axios encapsulation, Unified error handling, EventBus decoupling |
+| **Mock** | MSW + Faker.js, Unified response status codes |
+| **Icons** | Dual solution: SVG sprite + Element Plus icons |
+| **Others** | NProgress loading bar, Markdown rendering |
+
+> 💬 Have ideas for features? [Join the discussion](https://github.com/chocho-1115/vue-admin/discussions/14) to share your thoughts!
 
 ## 🎉 Tech Stack
 
