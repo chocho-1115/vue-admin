@@ -48,7 +48,7 @@ The ideal frontend admin dashboard should be:
 - Every dependency is actively maintained, reducing upgrade and maintenance costs
 - Only necessary dependencies are included, no bloat
 - Minimalist functionality and UI design
-- Wide applicability for various business scenarios
+- Wide applicability
 
 This project was built to meet these goals.
 
