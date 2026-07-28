@@ -56,11 +56,6 @@ This project was built to meet these goals.
 
 Lightweight, minimal UI, ready to use out of the box. Built with Vue 3 + Vite 8 + Element Plus.
 
-- 🚀 Latest stable dependencies
-- 🎨 Minimalist design
-- 🔐 Built-in auth & permission
-- 🌐 Mock API with MSW + Faker.js
-
 | Keyword | Description |
 |---------|-------------|
 | **Authentication** | Login/Logout, Token management, localStorage persistence, Route permission guards |
