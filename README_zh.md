@@ -28,84 +28,84 @@
 </p>
 
 <p align="center">
-  <a href="./README.md">中文</a> | <b>English</b>
+  <b>中文</b> | <a href="./README.md">English</a>
 </p>
 
-## Introduction
+## 简介
 
-A lightweight, minimalist Vue admin dashboard built with the latest stable dependencies, reducing upgrade and maintenance costs so developers can focus on business logic.
+本项目提供一个轻量级、UI极简的 Vue admin 后台，依赖最新稳定版本，减少升级维护成本，让开发者更专注于业务逻辑。
 
 **Demo:** <https://chocho-1115.github.io/vue-admin/>
 
 > [!NOTE]
-> UI design is inspired by [vue-admin-template](https://github.com/PanJiaChen/vue-admin-template)
+> 项目前期UI参考了 [vue-admin-template](https://github.com/PanJiaChen/vue-admin-template)
 
-## ✨ Features
+## ✨ 功能特性
 
-- 📦 Built with Vue 3 + Vite 8 + Element Plus
-- 🎨 Minimalist UI design, ready to use out of the box
-- 🔐 Login/Logout functionality
-- 📄 Dynamic routing and permission control
-- 🧩 Nested menu layout
-- 📊 Examples of table, form, icon and other common components
-- 🌐 API data simulation using MSW + Faker.js
-- 🎯 SVG icon sprite map support
-- 🚀 Multi-environment build support (staging / production)
+- 📦 基于 Vue 3 + Vite 8 + Element Plus 构建
+- 🎨 极简UI设计，开箱即用
+- 🔐 登录/登出功能
+- 📄 动态路由与权限控制
+- 🧩 嵌套菜单布局
+- 📊 表格、表单、图标等常用组件示例
+- 🌐 使用 MSW + Faker.js 模拟API数据
+- 🎯 SVG图标雪碧图支持
+- 🚀 支持 staging / production 多环境构建
 
-## 🎉 Tech Stack
+## 🎉 技术栈
 
-**Created from scratch using [create-vue 3.x](https://github.com/vuejs/create-vue), built with `vite 8.x`, requires [Node.js](https://nodejs.org/) >= 22.16.0.**
+**项目使用 [create-vue 3.x](https://github.com/vuejs/create-vue) 从零开始创建，基于 `vite 8.x` 进行构建，要求 [Node.js](https://nodejs.org/) >= 22.16.0。**
 
-Main dependencies:
+主要包含以下技术栈：
 
-- 💪 [Vue 3](https://vuejs.org/) + [Vite 8](https://vite.dev/)
-- 💅 [Vue Router](https://router.vuejs.org/)
-- 💅 [Element Plus](https://element-plus.org/zh-CN/)
-- 🌍 [MSW](https://mswjs.io/) + [Faker.js](https://fakerjs.dev/)
-- 👏 [Axios](http://www.axios-js.com/)
-- 🥳 [Sass](https://sass-lang.com/)
+- 💪 [vue3](https://vuejs.org/) + [vite8](https://vite.dev/)
+- 💅 [vue-router](https://router.vuejs.org/)
+- 💅 [element plus](https://element-plus.org/zh-CN/)
+- 🌍 [mswjs](https://mswjs.io/) + [fakerjs](https://fakerjs.dev/)
+- 👏 [axios](http://www.axios-js.com/)
+- 🥳 [sass](https://sass-lang.com/)
 - 🚀 [ES6](http://es6.ruanyifeng.com/)
-- 📦️ [Element Plus Icon](https://icon-sets.iconify.design/ep/) + Custom [SVG Icon Sprite](https://spiriitlabs.github.io/vite-plugin-svg-spritemap/) (Element Plus Icon recommended)
+- 📦️ [element plus icon](https://icon-sets.iconify.design/ep/) + 自定义 [svg icon 雪碧图](https://spiriitlabs.github.io/vite-plugin-svg-spritemap/)（建议优先使用 element plus icon）
 
-## Quick Start
+## 快速开始
 
-### Prerequisites
+### 环境要求
 
 - [Node.js](https://nodejs.org/) >= 22.16.0
 - [npm](https://www.npmjs.com/) / [pnpm](https://pnpm.io/) / [yarn](https://yarnpkg.com/)
 
-### Installation
+### 安装运行
 
 ```bash
-# Clone the repository
+# 克隆项目
 git clone https://github.com/chocho-1115/vue-admin.git
 
-# Enter project directory
+# 进入项目目录
 cd vue-admin
 
-# Install dependencies
+# 安装依赖
 npm install
 
-# Start development server
+# 启动开发服务
 npm run dev
 ```
 
-### Other Commands
+### 其他命令
 
 ```bash
-# Build for production
+# 构建生产版本
 npm run build:prod
 
-# Build for staging
+# 构建测试版本
 npm run build:stage
 
-# Preview build output
+# 预览构建结果
 npm run preview
 
-# Format code
+# 代码格式化
 npm run format
 
-# Lint and fix code
+# 代码检查与修复
 npm run lint
 ```
 
