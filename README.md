@@ -81,7 +81,6 @@ Main dependencies:
 - 🌍 [MSW](https://mswjs.io/) + [Faker.js](https://fakerjs.dev/)
 - 👏 [Axios](http://www.axios-js.com/)
 - 🥳 [Sass](https://sass-lang.com/)
-- 🚀 [ES6](http://es6.ruanyifeng.com/)
 - 📦️ [Element Plus Icon](https://icon-sets.iconify.design/ep/) + Custom [SVG Icon Sprite](https://spiriitlabs.github.io/vite-plugin-svg-spritemap/) (Element Plus Icon recommended)
 
 ## Quick Start

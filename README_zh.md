@@ -81,7 +81,6 @@
 - 🌍 [mswjs](https://mswjs.io/) + [fakerjs](https://fakerjs.dev/)
 - 👏 [axios](http://www.axios-js.com/)
 - 🥳 [sass](https://sass-lang.com/)
-- 🚀 [ES6](http://es6.ruanyifeng.com/)
 - 📦️ [element plus icon](https://icon-sets.iconify.design/ep/) + 自定义 [svg icon 雪碧图](https://spiriitlabs.github.io/vite-plugin-svg-spritemap/)（建议优先使用 element plus icon）
 
 ## 快速开始
