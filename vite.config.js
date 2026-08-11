@@ -1,9 +1,4 @@
-// import path from 'path'
-
-import {
-  fileURLToPath,
-  URL
-} from 'node:url'
+import path from 'node:path'
 
 import {
   defineConfig,
@@ -34,7 +29,7 @@ export default defineConfig(({
     base: env.VITE_BASE_URL,
     resolve: {
       alias: {
-        '@': fileURLToPath(new URL('./src', import.meta.url))
+        '@': path.join(import.meta.dirname, "./src")
       },
     },
     css: {
