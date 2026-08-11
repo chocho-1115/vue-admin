@@ -8,7 +8,7 @@
 		</p>
 		<el-divider />
 
-		<el-form :model="form" style="max-width: 600px">
+		<el-form :model="form" style="max-width: 600px" label-width="auto">
 			<el-form-item label="Activity name">
 				<el-input v-model="form.name" />
 			</el-form-item>
@@ -92,3 +92,12 @@ const onCancel = () => {
 	})
 }
 </script>
+<style scoped>
+.text-center {
+  text-align: center;
+}
+
+.text-gray-500 {
+  color: #6b7280;
+}
+</style>
