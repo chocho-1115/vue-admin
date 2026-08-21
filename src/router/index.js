@@ -9,6 +9,15 @@ import Layout from "@/layout/index.vue"
 import nestedRouter from "./modules/nested"
 import whiteList from "./whiteList"
 
+/**
+ * 路由 meta 参数说明：
+ * - title:      菜单及页面标题
+ * - icon:       菜单图标（svg 图标名或 Element Plus 图标组件）
+ * - hidden:     为 true 时不在侧边栏显示
+ * - affix:      为 true 时固定在标签栏
+ * - alwaysShow: 当路由只有一个可见子菜单时，是否仍显示父级菜单分组。
+ *               false/不设置时会"拍平"，只显示那一个子菜单项
+ */
 const router = createRouter({
 	history: createWebHistory(import.meta.env.VITE_BASE_URL),
 	routes: [
