@@ -79,7 +79,12 @@ const subMenu = useTemplateRef("subMenu")
 //   fixBugIniOS()
 // })
 
-/** 是否始终显示根菜单 */
+/**
+ * 是否始终显示父级菜单（取自路由 meta.alwaysShow）
+ * 仅当路由只有一个可见子菜单时才有区别：
+ * - false / 未设置：菜单被"拍平"，只渲染该子菜单项，不显示父级层级
+ * - true：强制保留父级，以 el-sub-menu 分组形式展示两级菜单
+ */
 const alwaysShow = props.info.meta?.alwaysShow
 
 /** 显示的子菜单 */
