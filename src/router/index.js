@@ -119,15 +119,6 @@ const router = createRouter({
 					component: () => import("@/views/example/form.vue"),
 				},
 				{
-					path: "mark",
-					name: "Mark",
-					meta: {
-						title: "Mark",
-						icon: "mark",
-					},
-					component: () => import("@/views/example/mark.vue"),
-				},
-				{
 					path: "test",
 					name: "Test",
 					component: () => import("@/views/example/test.vue"),
