@@ -2,6 +2,7 @@ let watermarkNode = null
 let observer = null
 let pendingOptions = null
 let currentOptions = null
+let baselineCss = null
 
 const defaultOptions = {
 	text: "请勿外传",
@@ -75,22 +76,25 @@ function ensureObserver() {
 			const options = pendingOptions
 			pendingOptions = null
 			watermarkNode = createWatermarkNode(options)
+			baselineCss = watermarkNode.style.cssText
 			container.appendChild(watermarkNode)
 			return
 		}
 
-		// 常规防篡改：水印被删或样式被改则重建
-		if (watermarkNode && container && !container.contains(watermarkNode)) {
-			watermarkNode.remove()
-			watermarkNode = createWatermarkNode(currentOptions)
-			container.appendChild(watermarkNode)
-			return
-		}
-		if (watermarkNode && container && watermarkNode.style.display === "none") {
-			watermarkNode.remove()
-			watermarkNode = createWatermarkNode(currentOptions)
-			container.appendChild(watermarkNode)
-		}
+	// 常规防篡改：水印被删或内联样式被改则重建
+	if (watermarkNode && container && !container.contains(watermarkNode)) {
+		watermarkNode.remove()
+		watermarkNode = createWatermarkNode(currentOptions)
+		baselineCss = watermarkNode.style.cssText
+		container.appendChild(watermarkNode)
+		return
+	}
+	if (watermarkNode && container && baselineCss && watermarkNode.style.cssText !== baselineCss) {
+		watermarkNode.remove()
+		watermarkNode = createWatermarkNode(currentOptions)
+		baselineCss = watermarkNode.style.cssText
+		container.appendChild(watermarkNode)
+	}
 	})
 
 	observer.observe(document.body, {
@@ -116,6 +120,7 @@ export function setWatermark(custom = {}) {
 
 	if (container) {
 		watermarkNode = createWatermarkNode(options)
+		baselineCss = watermarkNode.style.cssText
 		container.appendChild(watermarkNode)
 	} else {
 		// main 尚未挂载（如整页刷新时 afterEach 触发过早），待其出现后补挂
@@ -128,6 +133,7 @@ export function setWatermark(custom = {}) {
 export function clearWatermark() {
 	pendingOptions = null
 	currentOptions = null
+	baselineCss = null
 	if (watermarkNode) {
 		watermarkNode.remove()
 		watermarkNode = null
