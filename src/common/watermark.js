@@ -1,6 +1,7 @@
 let watermarkNode = null
 let observer = null
 let pendingOptions = null
+let currentOptions = null
 
 const defaultOptions = {
 	text: "请勿外传",
@@ -52,6 +53,13 @@ function createWatermarkNode(options) {
 	return el
 }
 
+function destroyObserver() {
+	if (observer) {
+		observer.disconnect()
+		observer = null
+	}
+}
+
 // 建立全局观察器，负责：1) main 出现后补挂水印 2) 水印被删/改后重建
 function ensureObserver() {
 	if (observer) return
@@ -73,9 +81,14 @@ function ensureObserver() {
 
 		// 常规防篡改：水印被删或样式被改则重建
 		if (watermarkNode && container && !container.contains(watermarkNode)) {
-			const options = current
 			watermarkNode.remove()
-			watermarkNode = createWatermarkNode(options)
+			watermarkNode = createWatermarkNode(currentOptions)
+			container.appendChild(watermarkNode)
+			return
+		}
+		if (watermarkNode && container && watermarkNode.style.display === "none") {
+			watermarkNode.remove()
+			watermarkNode = createWatermarkNode(currentOptions)
 			container.appendChild(watermarkNode)
 		}
 	})
@@ -88,20 +101,18 @@ function ensureObserver() {
 	})
 }
 
-let current = null
-
 export function setWatermark(custom = {}) {
 	const options = { ...defaultOptions, ...custom }
 	const container = document.querySelector("main")
 
 	// 已挂载且配置一致则跳过
-	if (watermarkNode && current && JSON.stringify(current) === JSON.stringify(options)) {
+	if (watermarkNode && currentOptions && JSON.stringify(currentOptions) === JSON.stringify(options)) {
 		return
 	}
 
-	// 确有差异，先清理旧状态
+	// 确有差异，先清理旧状态（会断开旧 observer，随后重建）
 	clearWatermark()
-	current = options
+	currentOptions = options
 
 	if (container) {
 		watermarkNode = createWatermarkNode(options)
@@ -116,9 +127,10 @@ export function setWatermark(custom = {}) {
 
 export function clearWatermark() {
 	pendingOptions = null
-	current = null
+	currentOptions = null
 	if (watermarkNode) {
 		watermarkNode.remove()
 		watermarkNode = null
 	}
+	destroyObserver()
 }
