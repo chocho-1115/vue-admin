@@ -18,7 +18,8 @@ import { setWatermark, clearWatermark } from "@/common/watermark"
  * - affix:      为 true 时固定在标签栏
  * - alwaysShow: 当路由只有一个可见子菜单时，是否仍显示父级菜单分组。
  *               false/不设置时会"拍平"，只显示那一个子菜单项
- * - watermark:  为 true 时会添加水印
+ * - watermark:  添加水印。为 true 时使用默认样式；
+ *               也可传对象覆盖参数：{ text, fontSize, color, rotate, gapX, gapY, zIndex }
  */
 const router = createRouter({
 	history: createWebHistory(import.meta.env.VITE_BASE_URL),
