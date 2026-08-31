@@ -17,6 +17,7 @@ import whiteList from "./whiteList"
  * - affix:      为 true 时固定在标签栏
  * - alwaysShow: 当路由只有一个可见子菜单时，是否仍显示父级菜单分组。
  *               false/不设置时会"拍平"，只显示那一个子菜单项
+ * - watermark:  为 true 时会添加水印
  */
 const router = createRouter({
 	history: createWebHistory(import.meta.env.VITE_BASE_URL),
@@ -107,6 +108,7 @@ const router = createRouter({
 					meta: {
 						title: "Table",
 						icon: "table",
+						watermark: true,
 					},
 				},
 				{
