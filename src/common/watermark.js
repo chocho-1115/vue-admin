@@ -1,6 +1,6 @@
 let watermarkNode = null
 let observer = null
-let currentOptions = null
+let pendingOptions = null
 
 const defaultOptions = {
 	text: "请勿外传",
@@ -52,20 +52,34 @@ function createWatermarkNode(options) {
 	return el
 }
 
-function observeTamper(options) {
-	if (!observer) {
-		observer = new MutationObserver(() => {
-			const container = document.querySelector("main")
-			if (!container) return
-			// 水印节点被删除或样式被改动，则重建
-			if (!container.contains(watermarkNode) || watermarkNode.style.display === "none") {
-				watermarkNode.remove()
-				watermarkNode = createWatermarkNode(options)
-				container.appendChild(watermarkNode)
-			}
-		})
-	}
-	observer.disconnect()
+// 建立全局观察器，负责：1) main 出现后补挂水印 2) 水印被删/改后重建
+function ensureObserver() {
+	if (observer) return
+
+	observer = new MutationObserver(() => {
+		const container = document.querySelector("main")
+
+		// 有待挂载需求但 main 尚不存在 -> 等待下一次
+		if (pendingOptions && !container) return
+
+		// main 已出现且有待挂载需求 -> 补挂
+		if (pendingOptions && container) {
+			const options = pendingOptions
+			pendingOptions = null
+			watermarkNode = createWatermarkNode(options)
+			container.appendChild(watermarkNode)
+			return
+		}
+
+		// 常规防篡改：水印被删或样式被改则重建
+		if (watermarkNode && container && !container.contains(watermarkNode)) {
+			const options = current
+			watermarkNode.remove()
+			watermarkNode = createWatermarkNode(options)
+			container.appendChild(watermarkNode)
+		}
+	})
+
 	observer.observe(document.body, {
 		childList: true,
 		subtree: true,
@@ -74,37 +88,37 @@ function observeTamper(options) {
 	})
 }
 
+let current = null
+
 export function setWatermark(custom = {}) {
 	const options = { ...defaultOptions, ...custom }
 	const container = document.querySelector("main")
-	if (!container) return
 
 	// 已挂载且配置一致则跳过
-	if (
-		watermarkNode &&
-		currentOptions &&
-		JSON.stringify(currentOptions) === JSON.stringify(options)
-	) {
+	if (watermarkNode && current && JSON.stringify(current) === JSON.stringify(options)) {
 		return
 	}
 
+	// 确有差异，先清理旧状态
 	clearWatermark()
+	current = options
 
-	watermarkNode = createWatermarkNode(options)
-	container.appendChild(watermarkNode)
-	currentOptions = options
+	if (container) {
+		watermarkNode = createWatermarkNode(options)
+		container.appendChild(watermarkNode)
+	} else {
+		// main 尚未挂载（如整页刷新时 afterEach 触发过早），待其出现后补挂
+		pendingOptions = options
+	}
 
-	observeTamper(options)
+	ensureObserver()
 }
 
 export function clearWatermark() {
-	if (observer) {
-		observer.disconnect()
-		observer = null
-	}
+	pendingOptions = null
+	current = null
 	if (watermarkNode) {
 		watermarkNode.remove()
 		watermarkNode = null
 	}
-	currentOptions = null
 }
