@@ -54,7 +54,7 @@ import { useTemplateRef } from "vue"
 import { useRouter } from "vue-router"
 
 import { isExternal } from "@/common/validate"
-import { joinPath } from '@/core/utils'
+import { joinPath } from "@/core/utils"
 
 // import AppLink from './Link.vue'
 // import Item from './Item'

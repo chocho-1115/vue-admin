@@ -94,10 +94,10 @@ const onCancel = () => {
 </script>
 <style scoped>
 .text-center {
-  text-align: center;
+	text-align: center;
 }
 
 .text-gray-500 {
-  color: #6b7280;
+	color: #6b7280;
 }
 </style>
