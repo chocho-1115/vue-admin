@@ -1,5 +1,9 @@
 import { getThemeName } from "@/store/storage"
+
+const name = getThemeName()
+
 export default {
-	name: getThemeName(),
+	name,
+	isDark: name === "dark" ? true : false
 	// color: "",
 }

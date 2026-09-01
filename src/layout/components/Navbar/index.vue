@@ -32,7 +32,7 @@
 			</div>
 			<div class="icon-button hover-effect" @click="toggleTheme" v-if="ctx.device !== 'mobile'">
 				<el-icon>
-					<i-ep-Sunny v-if="!isThemeDark" />
+					<i-ep-Sunny v-if="!ctx.theme.isDark" />
 					<i-ep-Moon v-else />
 				</el-icon>
 			</div>
@@ -71,7 +71,7 @@
 							</div>
 							<div class="icon-button hover-effect" @click="toggleTheme">
 								<el-icon>
-									<i-ep-Sunny v-if="!isThemeDark" />
+									<i-ep-Sunny v-if="!ctx.theme.isDark" />
 									<i-ep-Moon v-else />
 								</el-icon>
 							</div>
@@ -110,7 +110,6 @@ import { dispatch, ctx } from "@/store"
 
 const route = useRoute()
 
-const isThemeDark = ref(ctx.theme.name === "dark" ? true : false)
 const drawerMenu = ref(false)
 const drawerMessage = ref(false)
 
@@ -126,7 +125,6 @@ const toggleSidebar = () => {
 }
 
 const toggleTheme = () => {
-	isThemeDark.value = !isThemeDark.value
 	dispatch.theme.toggle()
 }
 

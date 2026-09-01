@@ -9,7 +9,8 @@ export default {
 		if (getThemeName() === "dark") document.documentElement.classList.add("dark")
 	},
 	toggle() {
-		state.name = state.name === "dark" ? "light" : "dark"
+		state.isDark = getThemeName() !== "dark"
+		state.name = state.isDark ? "dark" : "light"
 		setThemeName(state.name)
 		document.documentElement.classList.toggle("dark")
 	},
