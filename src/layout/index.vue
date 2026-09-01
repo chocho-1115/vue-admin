@@ -74,6 +74,7 @@ onUnmounted(() => {
 	margin-left: var(--sidebar-width);
 	position: relative;
 	z-index: 1;
+	overflow: hidden; // 页面切换动画 & main的margin 都需要此样式
 }
 
 .sidebar {
@@ -147,14 +148,13 @@ main {
 	min-height: calc(100vh - 50px);
 	width: 100%;
 	position: relative;
-	overflow: hidden;
-	// box-sizing: content-box;
+	// overflow: hidden;
 	z-index: 1;
 	// background: var(--el-bg-color-page);
 }
 
 .fixed-header + main {
-	padding-top: 50px;
+	margin-top: 50px;
 }
 
 .hasTagsView {
@@ -162,9 +162,8 @@ main {
 		/* 84 = navbar + tags-view = 50 + 34 */
 		min-height: calc(100vh - 84px);
 	}
-
 	.fixed-header + main {
-		padding-top: 84px;
+		margin-top: 84px;
 	}
 }
 </style>
