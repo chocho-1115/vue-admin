@@ -11,11 +11,11 @@ import App from "./App.vue"
 import router from "./router"
 import SvgIcon from "./components/SvgIcon.vue"
 import { ctx } from "./store"
-import { getTheme } from "@/store/storage"
+import { dispatch } from "@/store"
 import "./permission"
 
 // set theme
-if (getTheme() === "dark") document.documentElement.classList.add("dark")
+dispatch.theme.init()
 
 async function enableMocking() {
 	if (import.meta.env.MODE !== "development") {

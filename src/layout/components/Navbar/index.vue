@@ -32,7 +32,7 @@
 			</div>
 			<div class="icon-button hover-effect" @click="toggleTheme" v-if="ctx.device !== 'mobile'">
 				<el-icon>
-					<i-ep-Sunny v-if="!themeDark" />
+					<i-ep-Sunny v-if="!isThemeDark" />
 					<i-ep-Moon v-else />
 				</el-icon>
 			</div>
@@ -71,7 +71,7 @@
 							</div>
 							<div class="icon-button hover-effect" @click="toggleTheme">
 								<el-icon>
-									<i-ep-Sunny v-if="!themeDark" />
+									<i-ep-Sunny v-if="!isThemeDark" />
 									<i-ep-Moon v-else />
 								</el-icon>
 							</div>
@@ -97,7 +97,7 @@
 </template>
 
 <script setup>
-import { inject, ref, watch } from "vue"
+import { ref, watch } from "vue"
 import { useRoute } from "vue-router"
 
 import MenuList from "../common/Menu/index.vue"
@@ -106,13 +106,11 @@ import Breadcrumb from "./Breadcrumb.vue"
 import Hamburger from "./Hamburger.vue"
 import UserCenter from "../common/UserCenter.vue"
 
-import { dispatch } from "@/store"
-import { setTheme, getTheme } from "@/store/storage"
+import { dispatch, ctx } from "@/store"
 
 const route = useRoute()
-const ctx = inject("context")
 
-const themeDark = ref(getTheme() === "dark" ? true : false)
+const isThemeDark = ref(ctx.theme.name === "dark" ? true : false)
 const drawerMenu = ref(false)
 const drawerMessage = ref(false)
 
@@ -128,9 +126,8 @@ const toggleSidebar = () => {
 }
 
 const toggleTheme = () => {
-	themeDark.value = !themeDark.value
-	document.documentElement.classList.toggle("dark")
-	themeDark.value ? setTheme("dark") : setTheme("light")
+	isThemeDark.value = !isThemeDark.value
+	dispatch.theme.toggle()
 }
 
 const onOutside = () => {
