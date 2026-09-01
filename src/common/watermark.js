@@ -81,20 +81,20 @@ function ensureObserver() {
 			return
 		}
 
-	// 常规防篡改：水印被删或内联样式被改则重建
-	if (watermarkNode && container && !container.contains(watermarkNode)) {
-		watermarkNode.remove()
-		watermarkNode = createWatermarkNode(currentOptions)
-		baselineCss = watermarkNode.style.cssText
-		container.appendChild(watermarkNode)
-		return
-	}
-	if (watermarkNode && container && baselineCss && watermarkNode.style.cssText !== baselineCss) {
-		watermarkNode.remove()
-		watermarkNode = createWatermarkNode(currentOptions)
-		baselineCss = watermarkNode.style.cssText
-		container.appendChild(watermarkNode)
-	}
+		// 常规防篡改：水印被删或内联样式被改则重建
+		if (watermarkNode && container && !container.contains(watermarkNode)) {
+			watermarkNode.remove()
+			watermarkNode = createWatermarkNode(currentOptions)
+			baselineCss = watermarkNode.style.cssText
+			container.appendChild(watermarkNode)
+			return
+		}
+		if (watermarkNode && container && baselineCss && watermarkNode.style.cssText !== baselineCss) {
+			watermarkNode.remove()
+			watermarkNode = createWatermarkNode(currentOptions)
+			baselineCss = watermarkNode.style.cssText
+			container.appendChild(watermarkNode)
+		}
 	})
 
 	observer.observe(document.body, {
