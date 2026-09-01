@@ -1,15 +1,15 @@
 <script setup>
 import { reactive, watch } from 'vue'
-import { isDark } from '~/composables/dark'
+import { ctx } from "@/store"
 
 const font = reactive({
   color: 'rgba(0, 0, 0, .15)',
 })
 
 watch(
-  isDark,
-  () => {
-    font.color = isDark.value
+  ctx.theme.isDark,
+  (v) => {
+    font.color = v
       ? 'rgba(255, 255, 255, .15)'
       : 'rgba(0, 0, 0, .15)'
   },
