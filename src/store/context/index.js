@@ -5,6 +5,7 @@ import login from "./login"
 import userInfo from "./user"
 import sidebar from "./sidebar"
 import tagsView from "./tagsView"
+import theme from "./theme"
 
 export default reactive({
 	device: getDevice(),
@@ -12,4 +13,5 @@ export default reactive({
 	userInfo,
 	sidebar,
 	tagsView,
+	theme,
 })

@@ -42,7 +42,7 @@ import { useRouter, useRoute } from "vue-router"
 
 import ScrollPane from "./ScrollPane.vue"
 import { dispatch, ctx } from "@/store"
-import { joinPath } from '@/core/utils'
+import { joinPath } from "@/core/utils"
 
 const reloadAppMain = inject("reloadAppMain")
 
