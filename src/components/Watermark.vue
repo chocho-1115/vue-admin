@@ -7,7 +7,7 @@ const font = reactive({
 })
 
 watch(
-  ctx.theme.isDark,
+  () => ctx.theme.isDark,
   (v) => {
     font.color = v
       ? 'rgba(255, 255, 255, .15)'
@@ -21,6 +21,6 @@ watch(
 
 <template>
   <el-watermark :font="font">
-    <div style="height: 500px" />
+    <slot/>
   </el-watermark>
 </template>
