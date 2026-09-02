@@ -5,7 +5,7 @@ let currentOptions = null
 let baselineCss = null
 
 const defaultOptions = {
-	text: "请勿外传",
+	text: "Confidential",
 	fontSize: 16,
 	color: "rgba(0, 0, 0, 0.12)",
 	rotate: -15,
