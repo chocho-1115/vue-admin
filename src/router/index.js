@@ -109,6 +109,7 @@ const router = createRouter({
           meta: {
             title: 'Table',
             icon: 'table',
+						watermark: true,
           },
         },
         {
@@ -136,6 +137,7 @@ const router = createRouter({
           meta: {
             title: 'Test',
             icon: 'test',
+						watermark: true,
           },
         },
       ],
