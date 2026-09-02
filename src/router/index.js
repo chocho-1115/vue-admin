@@ -8,6 +8,7 @@ import { Brush, Discount } from "@element-plus/icons-vue"
 import Layout from "@/layout/index.vue"
 import nestedRouter from "./modules/nested"
 import whiteList from "./whiteList"
+import { setWatermark, clearWatermark } from "@/common/watermark"
 
 /**
  * 路由 meta 参数说明：
@@ -172,6 +173,16 @@ const router = createRouter({
 router.afterEach(async (to) => {
 	// set page title
 	document.title = to.meta.title ? `${to.meta.title} - Vue Admin` : `Vue Admin`
+
+	// apply or clear watermark based on route meta
+	// watermark: true -> default style; object -> override params
+	if (to.meta.watermark) {
+		const wm =
+			typeof to.meta.watermark === "object" ? to.meta.watermark : {}
+		setWatermark(wm)
+	} else {
+		clearWatermark()
+	}
 })
 
 export const resetRouter = () => {
