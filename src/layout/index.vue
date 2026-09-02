@@ -147,7 +147,7 @@ main {
 	min-height: calc(100vh - 50px);
 	width: 100%;
 	position: relative;
-	// overflow: hidden;
+	overflow: hidden;
 	z-index: 1;
 	// background: var(--el-bg-color-page);
 }
