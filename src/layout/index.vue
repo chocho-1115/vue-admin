@@ -59,7 +59,6 @@ onUnmounted(() => {
 </script>
 
 <style lang="scss" scoped>
-// @use '@/styles/mixin.scss' as *;
 
 .app-wrapper {
 	// @include clearfix;
