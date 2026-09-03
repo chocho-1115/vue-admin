@@ -8,7 +8,6 @@ import { Brush, Discount } from "@element-plus/icons-vue"
 import Layout from "@/layout/index.vue"
 import nestedRouter from "./modules/nested"
 import whiteList from "./whiteList"
-import { setWatermark, clearWatermark } from "@/common/watermark"
 
 /**
  * Route `meta` options:
@@ -18,8 +17,6 @@ import { setWatermark, clearWatermark } from "@/common/watermark"
  * - affix:      pin to the tags view when true
  * - alwaysShow: show the parent menu group when it has only one visible child.
  *               When false / unset, the route is "flattened" to show that child.
- * - watermark:  add a watermark. `true` uses default styles, or pass an
- *               object to override: { text, fontSize, color, rotate, gapX, gapY, zIndex }
  */
 const router = createRouter({
 	history: createWebHistory(import.meta.env.VITE_BASE_URL),
@@ -110,7 +107,6 @@ const router = createRouter({
 					meta: {
 						title: "Table",
 						icon: "table",
-						watermark: true,
 					},
 				},
 				{
@@ -138,7 +134,6 @@ const router = createRouter({
 					meta: {
 						title: "Test",
 						icon: "test",
-						watermark: true,
 					},
 				},
 			],
@@ -174,15 +169,6 @@ router.afterEach(async (to) => {
 	// set page title
 	document.title = to.meta.title ? `${to.meta.title} - Vue Admin` : `Vue Admin`
 
-	// apply or clear watermark based on route meta
-	// watermark: true -> default style; object -> override params
-	if (to.meta.watermark) {
-		const wm =
-			typeof to.meta.watermark === "object" ? to.meta.watermark : {}
-		setWatermark(wm)
-	} else {
-		clearWatermark()
-	}
 })
 
 export const resetRouter = () => {
