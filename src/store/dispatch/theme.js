@@ -14,5 +14,4 @@ export default {
 		setThemeName(state.name)
 		document.documentElement.classList.toggle("dark")
 	},
-
 }

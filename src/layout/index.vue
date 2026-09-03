@@ -59,7 +59,6 @@ onUnmounted(() => {
 </script>
 
 <style lang="scss" scoped>
-
 .app-wrapper {
 	position: relative;
 	min-height: 100vh;

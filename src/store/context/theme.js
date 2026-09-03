@@ -4,6 +4,6 @@ const name = getThemeName()
 
 export default {
 	name,
-	isDark: name === "dark" ? true : false
+	isDark: name === "dark" ? true : false,
 	// color: "",
 }
