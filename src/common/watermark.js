@@ -110,7 +110,11 @@ export function setWatermark(custom = {}) {
 	const container = document.querySelector("main")
 
 	// 已挂载且配置一致则跳过
-	if (watermarkNode && currentOptions && JSON.stringify(currentOptions) === JSON.stringify(options)) {
+	if (
+		watermarkNode &&
+		currentOptions &&
+		JSON.stringify(currentOptions) === JSON.stringify(options)
+	) {
 		return
 	}
 
