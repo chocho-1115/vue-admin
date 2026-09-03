@@ -63,6 +63,7 @@ export default defineConfig(({
 
       }),
       Components({
+        dirs: [], // 新增：关闭 src/components 自动扫描
         resolvers: [
           // 自动导入 element plus 组件
           ElementPlusResolver({
