@@ -8,7 +8,6 @@ import { Brush, Discount } from '@element-plus/icons-vue'
 import Layout from "@/layout/index.vue"
 import nestedRouter from "./modules/nested"
 import whiteList from "./whiteList"
-import { setWatermark, clearWatermark } from "@/common/watermark"
 
 /**
  * Route `meta` options:
@@ -18,170 +17,158 @@ import { setWatermark, clearWatermark } from "@/common/watermark"
  * - affix:      pin to the tags view when true
  * - alwaysShow: show the parent menu group when it has only one visible child.
  *               When false / unset, the route is "flattened" to show that child.
- * - watermark:  add a watermark. `true` uses default styles, or pass an
- *               object to override: { text, fontSize, color, rotate, gapX, gapY, zIndex }
  */
 const router = createRouter({
   history: createWebHashHistory(import.meta.env.VITE_BASE_URL),
-  routes: [{
-      path: '/account/login',
-      name: 'login',
-      hidden: true,
-      component: () => import('@/views/account/login.vue'),
-    },
-    {
-      path: '/',
-      component: Layout,
-      redirect: '/dashboard',
-      children: [
-        {
-          path: 'dashboard',
-          name: 'Dashboard',
-          component: () => import('@/views/dashboard.vue'),
-          meta: {
-            title: 'Dashboard',
-            icon: 'home',
-            affix: true,
-          },
-        },
-      ],
-    },
-    {
-      path: '/about',
-      component: Layout,
-      redirect: '/about/readme',
-      meta: {
-        alwaysShow: true,
-        title: 'About',
-        icon: 'about',
-      },
-      children: [
-        {
-          path: 'readme',
-          name: 'Readme',
-          component: () => import('@/views/about/readme.vue'),
-          meta: {
-            title: 'Readme',
-          },
-        },
-        {
-          path: 'changelog',
-          name: 'Changelog',
-          component: () => import('@/views/about/changelog.vue'),
-          meta: {
-            title: 'Changelog',
-          },
-        },
-      ],
-    },
-    {
-      path: '/example',
-      component: Layout,
-      redirect: '/example/icon',
-      meta: {
-        alwaysShow: true,
-        title: 'Example',
-        icon: 'example',
-      },
-      children: [
-        {
-          path: 'icon',
-          name: 'Icons',
-          component: () => import('@/views/example/icon.vue'),
-          meta: {
-            title: 'Icon',
-            icon: Discount,
-          },
-        },
-        {
-          path: 'color',
-          name: 'Color',
-          component: () => import('@/views/example/color.vue'),
-          meta: {
-            title: 'Color',
-            icon: Brush,
-          },
-        },
-        {
-          path: 'table',
-          name: 'Table',
-          component: () => import('@/views/example/table.vue'),
-          meta: {
-            title: 'Table',
-            icon: 'table',
-						watermark: true,
-          },
-        },
-        {
-          path: 'tree',
-          name: 'Tree',
-          meta: {
-            title: 'Tree',
-            icon: 'tree',
-          },
-          component: () => import('@/views/example/tree.vue'),
-        },
-        {
-          path: 'form',
-          name: 'Form',
-          meta: {
-            title: 'Form',
-            icon: 'form',
-          },
-          component: () => import('@/views/example/form.vue'),
-        },
-        {
-          path: 'test',
-          name: 'Test',
-          component: () => import('@/views/example/test.vue'),
-          meta: {
-            title: 'Test',
-            icon: 'test',
-						watermark: true,
-          },
-        },
-      ],
-    },
-    nestedRouter,
-    {
-      path: '/external-link',
-      component: Layout,
-      children: [
-        {
-          path: 'https://github.com/chocho-1115/vue-admin',
-          meta: {
-            title: 'External Link',
-            icon: 'link',
-          },
-        },
-      ],
-    },
-    {
-      path: '/404',
-      component: () => import('@/views/404.vue'),
-      hidden: true,
-    },
-    {
-      path: '/:pathMatch(.*)*',
-      redirect: '/404',
-      hidden: true,
-    },
-  ],
+	routes: [
+		{
+			path: "/account/login",
+			name: "login",
+			hidden: true,
+			component: () => import("@/views/account/login.vue"),
+		},
+		{
+			path: "/",
+			component: Layout,
+			redirect: "/dashboard",
+			children: [
+				{
+					path: "dashboard",
+					name: "Dashboard",
+					component: () => import("@/views/dashboard.vue"),
+					meta: {
+						title: "Dashboard",
+						icon: "home",
+						affix: true,
+					},
+				},
+			],
+		},
+		{
+			path: "/about",
+			component: Layout,
+			redirect: "/about/readme",
+			meta: {
+				alwaysShow: true,
+				title: "About",
+				icon: "about",
+			},
+			children: [
+				{
+					path: "readme",
+					name: "Readme",
+					component: () => import("@/views/about/readme.vue"),
+					meta: {
+						title: "Readme",
+					},
+				},
+				{
+					path: "changelog",
+					name: "Changelog",
+					component: () => import("@/views/about/changelog.vue"),
+					meta: {
+						title: "Changelog",
+					},
+				},
+			],
+		},
+		{
+			path: "/example",
+			component: Layout,
+			redirect: "/example/icon",
+			meta: {
+				alwaysShow: true,
+				title: "Example",
+				icon: "example",
+			},
+			children: [
+				{
+					path: "icon",
+					name: "Icons",
+					component: () => import("@/views/example/icon.vue"),
+					meta: {
+						title: "Icon",
+						icon: Discount,
+					},
+				},
+				{
+					path: "color",
+					name: "Color",
+					component: () => import("@/views/example/color.vue"),
+					meta: {
+						title: "Color",
+						icon: Brush,
+					},
+				},
+				{
+					path: "table",
+					name: "Table",
+					component: () => import("@/views/example/table.vue"),
+					meta: {
+						title: "Table",
+						icon: "table",
+					},
+				},
+				{
+					path: "tree",
+					name: "Tree",
+					meta: {
+						title: "Tree",
+						icon: "tree",
+					},
+					component: () => import("@/views/example/tree.vue"),
+				},
+				{
+					path: "form",
+					name: "Form",
+					meta: {
+						title: "Form",
+						icon: "form",
+					},
+					component: () => import("@/views/example/form.vue"),
+				},
+				{
+					path: "test",
+					name: "Test",
+					component: () => import("@/views/example/test.vue"),
+					meta: {
+						title: "Test",
+						icon: "test",
+					},
+				},
+			],
+		},
+		nestedRouter,
+		{
+			path: "/external-link",
+			component: Layout,
+			children: [
+				{
+					path: "https://github.com/chocho-1115/vue-admin",
+					meta: {
+						title: "External Link",
+						icon: "link",
+					},
+				},
+			],
+		},
+		{
+			path: "/404",
+			component: () => import("@/views/404.vue"),
+			hidden: true,
+		},
+		{
+			path: "/:pathMatch(.*)*",
+			redirect: "/404",
+			hidden: true,
+		},
+	],
 })
 
 router.afterEach(async (to) => {
 	// set page title
 	document.title = to.meta.title ? `${to.meta.title} - Vue Admin` : `Vue Admin`
 
-	// apply or clear watermark based on route meta
-	// watermark: true -> default style; object -> override params
-	if (to.meta.watermark) {
-		const wm =
-			typeof to.meta.watermark === "object" ? to.meta.watermark : {}
-		setWatermark(wm)
-	} else {
-		clearWatermark()
-	}
 })
 
 export const resetRouter = () => {

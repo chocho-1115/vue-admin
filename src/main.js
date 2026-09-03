@@ -9,10 +9,13 @@ import "element-plus/theme-chalk/src/dark/css-vars.scss"
 import { createApp } from "vue"
 import App from "./App.vue"
 import router from "./router"
-import SvgIcon from "./components/SvgIcon.vue"
 import { ctx } from "./store"
 import { dispatch } from "@/store"
 import "./permission"
+
+// global components
+import SvgIcon from "./components/SvgIcon.vue"
+import ImgLoad from "./components/ImgLoad.vue"
 
 // set theme
 dispatch.theme.init()
@@ -51,6 +54,7 @@ enableMocking().then(async () => {
 
 	app.provide("context", ctx)
 	app.component("svg-icon", SvgIcon)
+	app.component("img-load", ImgLoad)
 
 	app.mount("#app")
 })
