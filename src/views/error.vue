@@ -4,16 +4,16 @@
 			<div class="title">
 				{{ current.title }}<sup>{{ code }}</sup>
 			</div>
-
 			<div class="info">{{ current.info }}</div>
 			<div class="tips">{{ current.tips }}</div>
-			<a class="btn-home" href="/">Back to home</a>
+			<span class="btn-home" @click="onBack">Back to home</span>
 		</div>
 	</div>
 </template>
 <script setup>
-import { useRoute } from "vue-router"
+import { useRoute, useRouter } from "vue-router"
 const route = useRoute()
+const router = useRouter()
 
 const code = route.params.code || "404"
 
@@ -36,6 +36,10 @@ const messages = {
 }
 
 const current = messages[code]
+
+const onBack = () => {
+	router.push("/")
+}
 </script>
 <style lang="scss" scoped>
 .container {
