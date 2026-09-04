@@ -1,7 +1,7 @@
 <template>
 	<div class="container">
 		<div class="bullshit">
-			<div class="title">OOPS!</div>
+			<div class="title">OOPS<sup>{{ code }}</sup></div>
 
 			<div class="info">The webmaster said that you can not enter this page...</div>
 			<div class="tips">
@@ -12,7 +12,13 @@
 		</div>
 	</div>
 </template>
+<script setup>
+import { useRoute } from 'vue-router'
+const route = useRoute()
 
+const code = route.params.code || '000'
+
+</script>
 <style lang="scss" scoped>
 .container {
 	min-height: 100vh;
@@ -24,13 +30,20 @@
 .bullshit {
 	max-width: 400px;
 	padding: 80px 50px;
+
 	.title {
 		font-size: 32px;
 		font-weight: bold;
 		line-height: 1.3em;
 		color: var(--el-color-primary);
 		margin-bottom: 20px;
+		sup {
+			font-size: 12px;
+			vertical-align: super;
+			margin-left:4px;
+		}
 	}
+
 	.info {
 		font-size: 20px;
 		line-height: 1.3em;
@@ -38,12 +51,14 @@
 		font-weight: bold;
 		margin-bottom: 10px;
 	}
+
 	.tips {
 		font-size: 13px;
 		line-height: 1.4em;
 		color: var(--el-text-color-secondary);
 		margin-bottom: 30px;
 	}
+
 	.btn-home {
 		display: block;
 		width: 110px;

@@ -153,13 +153,13 @@ const router = createRouter({
 			],
 		},
 		{
-			path: "/404",
-			component: () => import("@/views/404.vue"),
+			path: "/error/:code",
+			component: () => import("@/views/error.vue"),
 			hidden: true,
 		},
 		{
 			path: "/:pathMatch(.*)*",
-			redirect: "/404",
+			redirect: "/error/404",
 			hidden: true,
 		},
 	],
