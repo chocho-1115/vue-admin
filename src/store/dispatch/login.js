@@ -1,9 +1,9 @@
 import router from "@/router"
 
 import { getToken, saveToken, removeToken } from "../storage"
-import ctx from "../context"
+import session from "../session"
 
-const state = ctx.login
+const state = session.login
 
 export default {
 	getTokenStorage() {

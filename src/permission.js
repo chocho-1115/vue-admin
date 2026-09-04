@@ -1,7 +1,7 @@
 import router, { isWhitePage } from "./router"
 import { getInfo } from "./api/user"
 import { checkToken } from "./api/login"
-import { ctx, dispatch } from "./store"
+import { ctx, session, dispatch } from "./store"
 import NProgress from "nprogress"
 import "nprogress/nprogress.css"
 
@@ -13,7 +13,7 @@ router.beforeEach(async (to) => {
 	// start progress bar
 	NProgress.start()
 	// store token
-	const token = ctx.login.token
+	const token = session.login.token
 	if (token) return
 
 	// cache token
@@ -34,13 +34,13 @@ router.beforeEach(async (to) => {
 
 	if (!needLogin) {
 		// 后台异步验证票据（不阻塞路由）
-		checkToken().then(() => (ctx.login.token = cahceToken)) // code == 200 才会执行then
+		checkToken().then(() => (session.login.token = cahceToken)) // code == 200 才会执行then
 		return // ✅ 立即跳转，不阻塞
 	}
 
 	try {
 		await checkToken()
-		ctx.login.token = cahceToken
+		session.login.token = cahceToken
 		// 跳转页面
 		if (to.path === "/account/login") {
 			return { path: to.query.redirect || "/" } // 这里不需要考虑 redirect === /account/login 因为不会这样设置，如果有也只是停留在登录页而已
