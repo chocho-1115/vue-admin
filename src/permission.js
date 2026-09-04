@@ -13,11 +13,11 @@ router.beforeEach(async (to) => {
 	// start progress bar
 	NProgress.start()
 	// store token
-	const token = session.login.token
+	const token = session.login.getToken()
 	if (token) return
 
 	// cache token
-	const cahceToken = dispatch.login.getTokenStorage()
+	const cahceToken = session.login.getTokenStorage()
 	const needLogin = !isWhitePage(to.path)
 
 	if (!cahceToken) {
@@ -34,13 +34,13 @@ router.beforeEach(async (to) => {
 
 	if (!needLogin) {
 		// 后台异步验证票据（不阻塞路由）
-		checkToken().then(() => (session.login.token = cahceToken)) // code == 200 才会执行then
+		checkToken().then(() => (session.login.saveToken(cahceToken))) // code == 200 才会执行then
 		return // ✅ 立即跳转，不阻塞
 	}
 
 	try {
 		await checkToken()
-		session.login.token = cahceToken
+		session.login.saveToken(cahceToken)
 		// 跳转页面
 		if (to.path === "/account/login") {
 			return { path: to.query.redirect || "/" } // 这里不需要考虑 redirect === /account/login 因为不会这样设置，如果有也只是停留在登录页而已
@@ -66,7 +66,7 @@ router.afterEach(async () => {
 	NProgress.done()
 
 	const hasUserInfo = ctx.userInfo.userId
-	const cahceToken = dispatch.login.getTokenStorage()
+	const cahceToken = session.login.getTokenStorage()
 
 	if (!hasUserInfo && cahceToken) {
 		const { data } = await getInfo()

@@ -1,5 +1,5 @@
 import request from "@/common/request"
-import { dispatch } from "@/store"
+import { session } from "@/store"
 
 export function login(data) {
 	return request({
@@ -12,7 +12,7 @@ export function login(data) {
 export function logout() {
 	return request({
 		url: "/login/logout",
-		headers: { token: dispatch.login.getTokenStorage() },
+		headers: { token: session.login.getTokenStorage() },
 		method: "post",
 	})
 }
@@ -20,7 +20,7 @@ export function logout() {
 export function checkToken(params) {
 	return request({
 		url: "/login/checkToken",
-		headers: { token: dispatch.login.getTokenStorage() },
+		headers: { token: session.login.getTokenStorage() },
 		method: "get",
 		params,
 	})

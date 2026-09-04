@@ -1,5 +1,5 @@
-import { dispatch } from "@/store"
-import { isWhitePage } from "@/router"
+import { dispatch, session } from "@/store"
+import router, { isWhitePage } from "@/router"
 
 import { EventBus } from "@/core/eventBus"
 
@@ -14,21 +14,28 @@ import { EventBus } from "@/core/eventBus"
 //   location.reload()
 // })
 
+const goLogin = () => {
+	if (router.currentRoute.value.path === "/account/login") return
+	router.push(`/account/login?redirect=${router.currentRoute.value.fullPath || "/"}`)
+}
+
 export function initHttpSubscriber() {
 	// unauthorized (no token / invalid token)
 	EventBus.on("auth:unauthorized", () => {
-		dispatch.login.removeToken()
+		session.login.removeToken()
+		session.login.removeTokenStorage()
 		dispatch.user.removeInfo()
 		if (!isWhitePage()) {
-			dispatch.login.go()
+			goLogin()
 		}
 	})
 	// expired
 	EventBus.on("auth:expired", () => {
-		dispatch.login.removeToken()
+		session.login.removeToken()
+		session.login.removeTokenStorage()
 		dispatch.user.removeInfo()
 		if (!isWhitePage()) {
-			dispatch.login.go()
+			goLogin()
 		}
 	})
 
