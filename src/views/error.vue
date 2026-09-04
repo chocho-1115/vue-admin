@@ -1,7 +1,9 @@
 <template>
 	<div class="container">
 		<div class="bullshit">
-			<div class="title">{{ current.title }}<sup>{{ code }}</sup></div>
+			<div class="title">
+				{{ current.title }}<sup>{{ code }}</sup>
+			</div>
 
 			<div class="info">{{ current.info }}</div>
 			<div class="tips">{{ current.tips }}</div>
@@ -10,31 +12,30 @@
 	</div>
 </template>
 <script setup>
-import { useRoute } from 'vue-router'
+import { useRoute } from "vue-router"
 const route = useRoute()
 
-const code = route.params.code || '404'
+const code = route.params.code || "404"
 
 const messages = {
-  403: {
-    title: 'Forbidden',
-    info: "Sorry, you don't have permission to access this page.",
-    tips: 'Please contact the administrator if you believe this is a mistake.',
-  },
-  404: {
-    title: 'Not Found',
-    info: 'Sorry, the page you visited does not exist.',
-    tips: 'Please check the URL, or click the button below to return home.',
-  },
-  500: {
-    title: 'Server Error',
-    info: 'Sorry, something went wrong on our end.',
-    tips: 'Please try again later, or contact the administrator.',
-  },
+	403: {
+		title: "Forbidden",
+		info: "Sorry, you don't have permission to access this page.",
+		tips: "Please contact the administrator if you believe this is a mistake.",
+	},
+	404: {
+		title: "Not Found",
+		info: "Sorry, the page you visited does not exist.",
+		tips: "Please check the URL, or click the button below to return home.",
+	},
+	500: {
+		title: "Server Error",
+		info: "Sorry, something went wrong on our end.",
+		tips: "Please try again later, or contact the administrator.",
+	},
 }
 
 const current = messages[code]
-
 </script>
 <style lang="scss" scoped>
 .container {
@@ -57,7 +58,7 @@ const current = messages[code]
 		sup {
 			font-size: 12px;
 			vertical-align: super;
-			margin-left:4px;
+			margin-left: 4px;
 		}
 	}
 

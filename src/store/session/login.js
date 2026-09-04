@@ -1,6 +1,10 @@
-import { getToken as getTokenStorage, saveToken as saveTokenStorage, removeToken as removeTokenStorage } from "../storage"
+import {
+	getToken as getTokenStorage,
+	saveToken as saveTokenStorage,
+	removeToken as removeTokenStorage,
+} from "../storage"
 
-let token = ''
+let token = ""
 
 export default {
 	getTokenStorage,

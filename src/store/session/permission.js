@@ -2,9 +2,9 @@
 let permission = { roles: [], permissions: [], routes: [] }
 
 export default {
-  permission: {
-    get: () => permission,
-    set: (v) => Object.assign(permission, v),
-    clear: () => (permission = { roles: [], permissions: [], routes: [] }),
-  },
+	permission: {
+		get: () => permission,
+		set: (v) => Object.assign(permission, v),
+		clear: () => (permission = { roles: [], permissions: [], routes: [] }),
+	},
 }

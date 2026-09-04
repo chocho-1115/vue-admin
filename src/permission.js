@@ -34,7 +34,7 @@ router.beforeEach(async (to) => {
 
 	if (!needLogin) {
 		// 后台异步验证票据（不阻塞路由）
-		checkToken().then(() => (session.login.saveToken(cahceToken))) // code == 200 才会执行then
+		checkToken().then(() => session.login.saveToken(cahceToken)) // code == 200 才会执行then
 		return // ✅ 立即跳转，不阻塞
 	}
 
