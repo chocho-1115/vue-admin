@@ -1,8 +1,6 @@
-import {
-	createRouter,
-} from "vue-router"
+import { createRouter } from "vue-router"
 
-import { setupGuards } from './guards'
+import { setupGuards } from "./guards"
 import { config, whiteList } from "./config"
 
 const router = createRouter(config)

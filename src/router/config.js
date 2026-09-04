@@ -166,7 +166,6 @@ const config = {
 	],
 }
 
-
 const nestedRouter = {
 	path: "/nested",
 	component: Layout,

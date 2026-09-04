@@ -9,7 +9,6 @@ NProgress.configure({
 })
 
 export const setupAuthGuard = (router) => {
-
 	router.beforeEach(async (to) => {
 		// start progress bar
 		NProgress.start()
@@ -66,5 +65,4 @@ export const setupAuthGuard = (router) => {
 	router.afterEach(async () => {
 		NProgress.done()
 	})
-
 }
