@@ -91,7 +91,7 @@ import { useRouter, useRoute } from "vue-router"
 
 import { validUsername } from "@/common/validate"
 import { login } from "@/api/login"
-import { dispatch } from "@/store"
+import { session } from "@/store"
 
 const router = useRouter()
 const route = useRoute()
@@ -143,7 +143,8 @@ const handleLogin = () => {
 			loading.value = true
 			login(loginForm)
 				.then((res) => {
-					dispatch.login.saveToken(res.data.token)
+					session.login.saveToken(res.data.token)
+					session.login.saveTokenStorage(res.data.token)
 					router.push(redirect)
 					loading.value = false
 				})

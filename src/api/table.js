@@ -1,11 +1,11 @@
 import request from "@/common/request"
-import { dispatch } from "@/store"
+import { session } from "@/store"
 
 export function getList(params) {
 	return request({
 		url: "/table/list",
 		method: "get",
-		headers: { token: dispatch.login.getTokenStorage() },
+		headers: { token: session.login.getToken() },
 		params,
 	})
 }

@@ -11,7 +11,6 @@ import App from "./App.vue"
 import router from "./router"
 import { ctx } from "./store"
 import { dispatch } from "@/store"
-import "./permission"
 
 // global components
 import SvgIcon from "./components/SvgIcon.vue"

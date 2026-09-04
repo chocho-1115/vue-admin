@@ -1,10 +1,10 @@
 import request from "@/common/request"
-import { dispatch } from "@/store"
+import { session } from "@/store"
 
 export function getInfo() {
 	return request({
 		url: "/user/info",
-		headers: { token: dispatch.login.getTokenStorage() },
+		headers: { token: session.login.getTokenStorage() },
 		method: "get",
 	})
 }

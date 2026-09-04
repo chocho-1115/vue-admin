@@ -1,4 +1,4 @@
-import { getThemeName } from "@/store/storage"
+import { getThemeName } from "../storage"
 
 const name = getThemeName()
 

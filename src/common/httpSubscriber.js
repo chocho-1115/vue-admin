@@ -1,5 +1,5 @@
-import { dispatch } from "@/store"
-import { isWhitePage } from "@/router"
+import { dispatch, session } from "@/store"
+import { isWhitePage, goLogin } from "@/router"
 
 import { EventBus } from "@/core/eventBus"
 
@@ -17,18 +17,20 @@ import { EventBus } from "@/core/eventBus"
 export function initHttpSubscriber() {
 	// unauthorized (no token / invalid token)
 	EventBus.on("auth:unauthorized", () => {
-		dispatch.login.removeToken()
+		session.login.removeToken()
+		session.login.removeTokenStorage()
 		dispatch.user.removeInfo()
 		if (!isWhitePage()) {
-			dispatch.login.go()
+			goLogin()
 		}
 	})
 	// expired
 	EventBus.on("auth:expired", () => {
-		dispatch.login.removeToken()
+		session.login.removeToken()
+		session.login.removeTokenStorage()
 		dispatch.user.removeInfo()
 		if (!isWhitePage()) {
-			dispatch.login.go()
+			goLogin()
 		}
 	})
 
