@@ -20,9 +20,9 @@ import ImgLoad from "./components/ImgLoad.vue"
 dispatch.theme.init()
 
 async function enableMocking() {
-	if (import.meta.env.MODE !== "development") {
-		return
-	}
+  // if (import.meta.env.MODE !== 'development') {
+  //   return
+  // }
 
 	const { worker } = await import("../mocks/browser")
 
