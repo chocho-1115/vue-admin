@@ -5,7 +5,7 @@ export function getList(params) {
 	return request({
 		url: "/table/list",
 		method: "get",
-		headers: { token: session.login.getTokenStorage() },
+		headers: { token: session.login.getToken() },
 		params,
 	})
 }
