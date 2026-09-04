@@ -1,5 +1,5 @@
 import { dispatch, session } from "@/store"
-import router, { isWhitePage } from "@/router"
+import { isWhitePage, goLogin } from "@/router"
 
 import { EventBus } from "@/core/eventBus"
 
@@ -13,11 +13,6 @@ import { EventBus } from "@/core/eventBus"
 //   }).then(() => {
 //   location.reload()
 // })
-
-const goLogin = () => {
-	if (router.currentRoute.value.path === "/account/login") return
-	router.push(`/account/login?redirect=${router.currentRoute.value.fullPath || "/"}`)
-}
 
 export function initHttpSubscriber() {
 	// unauthorized (no token / invalid token)

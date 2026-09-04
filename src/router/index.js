@@ -1,182 +1,22 @@
 import {
 	createRouter,
-	createWebHistory,
-	// createWebHashHistory
 } from "vue-router"
-import { Brush, Discount } from "@element-plus/icons-vue"
 
-import Layout from "@/layout/index.vue"
-import nestedRouter from "./modules/nested"
-import whiteList from "./whiteList"
+import { setupGuards } from './guards'
+import { config, whiteList } from "./config"
 
-/**
- * Route `meta` options:
- * - title:      menu and page title
- * - icon:       menu icon (SVG icon name or an Element Plus icon component)
- * - hidden:     hide from the sidebar when true
- * - affix:      pin to the tags view when true
- * - alwaysShow: show the parent menu group when it has only one visible child.
- *               When false / unset, the route is "flattened" to show that child.
- */
-const router = createRouter({
-	history: createWebHistory(import.meta.env.VITE_BASE_URL),
-	routes: [
-		{
-			path: "/account/login",
-			name: "login",
-			hidden: true,
-			component: () => import("@/views/account/login.vue"),
-		},
-		{
-			path: "/",
-			component: Layout,
-			redirect: "/dashboard",
-			children: [
-				{
-					path: "dashboard",
-					name: "Dashboard",
-					component: () => import("@/views/dashboard.vue"),
-					meta: {
-						title: "Dashboard",
-						icon: "home",
-						affix: true,
-					},
-				},
-			],
-		},
-		{
-			path: "/about",
-			component: Layout,
-			redirect: "/about/readme",
-			meta: {
-				alwaysShow: true,
-				title: "About",
-				icon: "about",
-			},
-			children: [
-				{
-					path: "readme",
-					name: "Readme",
-					component: () => import("@/views/about/readme.vue"),
-					meta: {
-						title: "Readme",
-					},
-				},
-				{
-					path: "changelog",
-					name: "Changelog",
-					component: () => import("@/views/about/changelog.vue"),
-					meta: {
-						title: "Changelog",
-					},
-				},
-			],
-		},
-		{
-			path: "/example",
-			component: Layout,
-			redirect: "/example/icon",
-			meta: {
-				alwaysShow: true,
-				title: "Example",
-				icon: "example",
-			},
-			children: [
-				{
-					path: "icon",
-					name: "Icons",
-					component: () => import("@/views/example/icon.vue"),
-					meta: {
-						title: "Icon",
-						icon: Discount,
-					},
-				},
-				{
-					path: "color",
-					name: "Color",
-					component: () => import("@/views/example/color.vue"),
-					meta: {
-						title: "Color",
-						icon: Brush,
-					},
-				},
-				{
-					path: "table",
-					name: "Table",
-					component: () => import("@/views/example/table.vue"),
-					meta: {
-						title: "Table",
-						icon: "table",
-					},
-				},
-				{
-					path: "tree",
-					name: "Tree",
-					meta: {
-						title: "Tree",
-						icon: "tree",
-					},
-					component: () => import("@/views/example/tree.vue"),
-				},
-				{
-					path: "form",
-					name: "Form",
-					meta: {
-						title: "Form",
-						icon: "form",
-					},
-					component: () => import("@/views/example/form.vue"),
-				},
-				{
-					path: "test",
-					name: "Test",
-					component: () => import("@/views/example/test.vue"),
-					meta: {
-						title: "Test",
-						icon: "test",
-					},
-				},
-			],
-		},
-		nestedRouter,
-		{
-			path: "/external-link",
-			component: Layout,
-			children: [
-				{
-					path: "https://github.com/chocho-1115/vue-admin",
-					meta: {
-						title: "External Link",
-						icon: "link",
-					},
-				},
-			],
-		},
-		{
-			path: "/error/:code",
-			component: () => import("@/views/error.vue"),
-			hidden: true,
-		},
-		{
-			path: "/:pathMatch(.*)*",
-			redirect: "/error/404",
-			hidden: true,
-		},
-	],
-})
+const router = createRouter(config)
 
-router.afterEach(async (to) => {
-	// set page title
-	document.title = to.meta.title ? `${to.meta.title} - Vue Admin` : `Vue Admin`
-})
+setupGuards(router)
 
-export const resetRouter = () => {
-	// console.log(router)
-}
+export default router
 
 export const isWhitePage = (path) => {
-	const route = router.currentRoute.value
+	const route = router.currentRoute.value.path
 	return !(whiteList.indexOf(path || route.path) === -1)
 }
 
-export default router
+export const goLogin = () => {
+	if (router.currentRoute.value.path === "/account/login") return
+	router.push(`/account/login?redirect=${router.currentRoute.value.fullPath || "/"}`)
+}
