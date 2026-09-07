@@ -7,7 +7,7 @@ export function getToken() {
 	return localStorage.getItem(TOKEN_CACHE_KEY)
 }
 
-export function saveToken(token) {
+export function setToken(token) {
 	return localStorage.setItem(TOKEN_CACHE_KEY, token)
 }
 

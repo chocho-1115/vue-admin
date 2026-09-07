@@ -1,6 +1,6 @@
 import {
 	getToken as getTokenStorage,
-	saveToken as saveTokenStorage,
+	setToken as setTokenStorage,
 	removeToken as removeTokenStorage,
 } from "../storage"
 
@@ -8,12 +8,12 @@ let token = ""
 
 export default {
 	getTokenStorage,
-	saveTokenStorage,
+	setTokenStorage,
 	removeTokenStorage,
 	getToken() {
 		return token
 	},
-	saveToken(value) {
+	setToken(value) {
 		token = value
 	},
 	removeToken() {
