@@ -38,12 +38,12 @@ export const setupAuthGuard = (router) => {
 		// start progress bar
 		NProgress.start()
 		// store token（内存态：已登录，直接校验角色后放行）
-		const token = session.login.getToken()
+		const token = session.token.get()
 		console.log(withPermission(to))
 		if (token) return withPermission(to)
 
 		// cache token
-		const cacheToken = session.login.getTokenStorage()
+		const cacheToken = session.token.getStorage()
 		const needLogin = !isWhitePage(to.path)
 
 		if (!cacheToken) {
@@ -60,13 +60,13 @@ export const setupAuthGuard = (router) => {
 
 		if (!needLogin) {
 			// 后台异步验证票据（不阻塞路由）
-			checkToken().then(() => session.login.setToken(cacheToken)) // code == 200 才会执行then
+			checkToken().then(() => session.token.set(cacheToken)) // code == 200 才会执行then
 			return // ✅ 立即跳转，不阻塞
 		}
 
 		try {
 			await checkToken()
-			session.login.setToken(cacheToken)
+			session.token.set(cacheToken)
 			// 跳转页面
 			if (to.path === "/account/login") {
 				return { path: to.query.redirect || "/" } // 这里不需要考虑 redirect === /account/login 因为不会这样设置，如果有也只是停留在登录页而已

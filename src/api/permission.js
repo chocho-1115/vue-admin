@@ -4,7 +4,7 @@ import { session } from "@/store"
 export function getPermission() {
 	return request({
 		url: "/permission",
-		headers: { token: session.login.getTokenStorage() },
+		headers: { token: session.token.getStorage() },
 		method: "get",
 	})
 }

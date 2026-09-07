@@ -12,7 +12,7 @@ export function login(data) {
 export function logout() {
 	return request({
 		url: "/login/logout",
-		headers: { token: session.login.getTokenStorage() },
+		headers: { token: session.token.getStorage() },
 		method: "post",
 	})
 }
@@ -20,7 +20,7 @@ export function logout() {
 export function checkToken(params) {
 	return request({
 		url: "/login/checkToken",
-		headers: { token: session.login.getTokenStorage() },
+		headers: { token: session.token.getStorage() },
 		method: "get",
 		params,
 	})
