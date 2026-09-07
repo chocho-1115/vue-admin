@@ -3,7 +3,8 @@ import {
 	// createWebHashHistory
 } from "vue-router"
 import { Brush, Discount } from "@element-plus/icons-vue"
-import Layout from "@/layout/index.vue"
+
+const Layout = () => import("@/layout/index.vue")
 
 const keepAliveNames = ["Test", "Dashboard"]
 
