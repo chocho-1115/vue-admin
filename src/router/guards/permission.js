@@ -20,6 +20,11 @@ async function ensurePermission() {
 export const setupPermissionGuard = (router) => {
 	router.beforeEach(async (to) => {
 		const token = session.token.get()
+		// Defensive guard: this runs right after the auth guard, which either redirects
+		// to login on unauthenticated navigation (aborting this chain) or has already
+		// restored the token into memory. A missing token here only happens for
+		// white-listed pages (login / error), which have no meta.roles to enforce, so
+		// letting them through is correct.
 		if (!token) return
 		await ensurePermission().catch(() => {}) // 拉取失败不阻断导航，交由下方兜底
 		if (to.meta?.roles && !hasRole(to.meta.roles)) {
