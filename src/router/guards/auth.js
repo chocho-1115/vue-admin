@@ -30,7 +30,6 @@ async function withPermission(to) {
 	if (to.meta?.roles && !hasRole(to.meta.roles)) {
 		return { path: "/error/403" }
 	}
-	// return true
 }
 
 export const setupAuthGuard = (router) => {
@@ -39,7 +38,6 @@ export const setupAuthGuard = (router) => {
 		NProgress.start()
 		// store token（内存态：已登录，直接校验角色后放行）
 		const token = session.token.get()
-		console.log(withPermission(to))
 		if (token) return withPermission(to)
 
 		// cache token
