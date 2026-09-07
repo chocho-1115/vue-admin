@@ -44,7 +44,7 @@
 			:info="child"
 			:key="child.path"
 			class="nest-menu"
-			v-for="child in info.children"
+			v-for="child in showingChildren"
 		/>
 	</el-sub-menu>
 </template>
