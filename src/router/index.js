@@ -1,20 +1,12 @@
 import { createRouter } from "vue-router"
 
+import { setRouter } from "./runtime"
 import { setupGuards } from "./guards"
-import { config, whiteList } from "./config"
+import { config } from "./config"
 
 const router = createRouter(config)
-
+setRouter(router)   // 在 setupGuards 之前或之后都行
 setupGuards(router)
 
 export default router
 
-export const isWhitePage = (path) => {
-	const route = router.currentRoute.value.path
-	return !(whiteList.indexOf(path || route.path) === -1)
-}
-
-export const goLogin = () => {
-	if (router.currentRoute.value.path === "/account/login") return
-	router.push(`/account/login?redirect=${router.currentRoute.value.fullPath || "/"}`)
-}

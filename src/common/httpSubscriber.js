@@ -1,5 +1,5 @@
 import { dispatch, session } from "@/store"
-import { isWhitePage, goLogin } from "@/router"
+import { isWhitePage, goLogin } from "@/router/helpers"
 
 import { EventBus } from "@/core/eventBus"
 

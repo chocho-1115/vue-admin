@@ -3,12 +3,13 @@ import {
 	createWebHashHistory
 } from "vue-router"
 import { Brush, Discount } from "@element-plus/icons-vue"
-import Layout from "@/layout/index.vue"
+
+const Layout = () => import("@/layout/index.vue")
 
 const keepAliveNames = ["Test", "Dashboard"]
 
 // no redirect whitelist
-const whiteList = ["/account/login", "/error"]
+const whiteList = ["/account/login", "/error/*"]
 
 /**
  * Route `meta` options:
