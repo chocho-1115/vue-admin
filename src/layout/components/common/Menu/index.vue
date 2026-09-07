@@ -15,7 +15,7 @@
 			mode="vertical"
 		>
 			<template :key="route.path" v-for="route in routes">
-				<item :base-path="route.path" :info="route" v-if="!route.hidden" />
+				<item :base-path="route.path" :info="route" v-if="!route.hidden && hasRole(route.meta?.roles)" />
 			</template>
 		</el-menu>
 	</el-scrollbar>
@@ -26,6 +26,7 @@ import { computed } from "vue"
 import { useRouter, useRoute } from "vue-router"
 // import { onBeforeRouteUpdate } from 'vue-router'
 
+import { hasRole } from "@/common/permission"
 import Item from "./Item.vue"
 
 const props = defineProps({

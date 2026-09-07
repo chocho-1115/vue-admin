@@ -55,6 +55,7 @@ const onLogout = async () => {
 	logout().then(() => {
 		session.login.removeToken()
 		session.login.removeTokenStorage()
+		session.permission.clear()
 		dispatch.user.removeInfo()
 		router.push(`/account/login?redirect=${redirect}`)
 	})

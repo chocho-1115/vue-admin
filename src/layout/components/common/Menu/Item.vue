@@ -54,6 +54,7 @@ import { useTemplateRef } from "vue"
 import { useRouter } from "vue-router"
 
 import { isExternal } from "@/common/validate"
+import { hasRole } from "@/common/permission"
 import { joinPath } from "@/core/utils"
 
 // import AppLink from './Link.vue'
@@ -88,7 +89,7 @@ const subMenu = useTemplateRef("subMenu")
 const alwaysShow = props.info.meta?.alwaysShow
 
 /** 显示的子菜单 */
-const showingChildren = props.info.children?.filter((child) => !child.meta?.hidden) ?? []
+const showingChildren = props.info.children?.filter((child) => !child.meta?.hidden && hasRole(child.meta?.roles)) ?? []
 
 /** 唯一的子菜单项 */
 const theOnlyOneChild = (function () {
