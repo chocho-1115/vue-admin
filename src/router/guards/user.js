@@ -4,9 +4,9 @@ import { getInfo } from "@/api/user"
 export const setupUserGuard = (router) => {
 	router.afterEach(async () => {
 		const hasUserInfo = ctx.userInfo.userId
-		const cahceToken = session.login.getTokenStorage()
+		const cacheToken = session.login.getTokenStorage()
 
-		if (!hasUserInfo && cahceToken) {
+		if (!hasUserInfo && cacheToken) {
 			const { data } = await getInfo()
 			dispatch.user.saveInfo(data)
 		}

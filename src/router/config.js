@@ -8,7 +8,7 @@ import Layout from "@/layout/index.vue"
 const keepAliveNames = ["Test", "Dashboard"]
 
 // no redirect whitelist
-const whiteList = ["/account/login", "/error"]
+const whiteList = ["/account/login", "/error/*"]
 
 /**
  * Route `meta` options:
