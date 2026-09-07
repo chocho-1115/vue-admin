@@ -139,6 +139,16 @@ const config = {
 						icon: "test",
 					},
 				},
+				{
+					path: "permission",
+					name: "Permission",
+					component: () => import("@/views/example/permission.vue"),
+					meta: {
+						title: "Permission",
+						icon: "test",
+						roles: ["admin"],
+					},
+				},
 			],
 		},
 		{
