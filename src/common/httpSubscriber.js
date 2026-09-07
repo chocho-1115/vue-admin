@@ -19,6 +19,7 @@ export function initHttpSubscriber() {
 	EventBus.on("auth:unauthorized", () => {
 		session.login.removeToken()
 		session.login.removeTokenStorage()
+		session.permission.clear()
 		dispatch.user.removeInfo()
 		if (!isWhitePage()) {
 			goLogin()
@@ -28,6 +29,7 @@ export function initHttpSubscriber() {
 	EventBus.on("auth:expired", () => {
 		session.login.removeToken()
 		session.login.removeTokenStorage()
+		session.permission.clear()
 		dispatch.user.removeInfo()
 		if (!isWhitePage()) {
 			goLogin()
