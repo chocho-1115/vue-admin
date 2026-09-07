@@ -20,4 +20,18 @@ export const users = {
     name: 'Normal Editor',
     userId: 2
   }
+} 
+
+// routes 为动态路由预留字段
+export const permissions = {
+  'admin-token': {
+    roles: ['admin'],
+    permissions: ['example:create', 'example:edit', 'example:delete', 'example:view'],
+    routes: [],
+  },
+  'editor-token': {
+    roles: ['editor'],
+    permissions: ['example:view'],
+    routes: [],
+  },
 }
