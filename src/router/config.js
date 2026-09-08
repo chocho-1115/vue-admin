@@ -79,6 +79,22 @@ const config = {
 			],
 		},
 		{
+			path: "/",
+			component: Layout,
+			children: [
+				{
+					path: "permission",
+					name: "Permission",
+					hidden: true,
+					component: () => import("@/views/permission.vue"),
+					meta: {
+						title: "Permission",
+						icon: "test",
+					},
+				},
+			],
+		},
+		{
 			path: "/example",
 			component: Layout,
 			redirect: "/example/icon",
@@ -141,15 +157,6 @@ const config = {
 						title: "Test",
 						icon: "test",
 						roles: ["admin"],
-					},
-				},
-				{
-					path: "permission",
-					name: "Permission",
-					component: () => import("@/views/example/permission.vue"),
-					meta: {
-						title: "Permission",
-						icon: "test",
 					},
 				},
 			],
@@ -245,6 +252,6 @@ const nestedRouter = {
 	],
 }
 
-config.routes.push(nestedRouter)
+config.routes.splice(-3, 0, nestedRouter)
 
 export { config, whiteList, keepAliveNames }
