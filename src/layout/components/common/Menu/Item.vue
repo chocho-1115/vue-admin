@@ -1,4 +1,5 @@
 <template>
+	<!-- Child Menu -->
 	<template v-if="!alwaysShow && theOnlyOneChild && !theOnlyOneChild.children">
 		<el-menu-item :index="resolvePath(theOnlyOneChild.path)" @click="onGotoPage(theOnlyOneChild)">
 			<template v-if="theOnlyOneChild.meta.icon">
@@ -18,6 +19,7 @@
 		</el-menu-item>
 	</template>
 
+	<!-- Parent Menu -->
 	<el-sub-menu
 		:index="resolvePath(info.path)"
 		popper-append-to-body
