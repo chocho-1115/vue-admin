@@ -49,7 +49,6 @@
 	</div>
 
 	<Teleport defer to="body">
-		<div @click="onOutside" class="drawer-bg" v-if="drawerMenu === true"></div>
 		<!-- drawer-menu-container元素是为了:deep样式生效 -->
 		<div class="drawer-menu-container">
 			<el-drawer v-model="drawerMenu" size="min(400px, max(30%, 240px))" :show-close="false">
@@ -128,9 +127,6 @@ const toggleTheme = () => {
 	dispatch.theme.toggle()
 }
 
-const onOutside = () => {
-	drawerMenu.value = false
-}
 </script>
 
 <style lang="scss" scoped>
@@ -169,16 +165,6 @@ const onOutside = () => {
 			margin-right: 8px;
 		}
 	}
-}
-
-.drawer-bg {
-	background: #000;
-	opacity: 0.3;
-	width: 100%;
-	top: 0;
-	height: 100%;
-	position: absolute;
-	z-index: 2;
 }
 
 .menu-header {
