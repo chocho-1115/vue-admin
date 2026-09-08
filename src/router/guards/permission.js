@@ -26,7 +26,7 @@ export const setupPermissionGuard = (router) => {
 		// white-listed pages (login / error), which have no meta.roles to enforce, so
 		// letting them through is correct.
 		if (!token) return
-		await ensurePermission().catch(() => {}) // 拉取失败不阻断导航，交由下方兜底
+		await ensurePermission().catch((e) => console.error("Load permission failed", e)) // 拉取失败不阻断导航，交由下方兜底
 		if (to.meta?.roles && !hasRole(to.meta.roles)) {
 			return { path: "/error/403" }
 		}
