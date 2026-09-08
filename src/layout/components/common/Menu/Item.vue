@@ -25,7 +25,7 @@
 		popper-append-to-body
 		ref="subMenu"
 		popper-style="user-select: none;-webkit-tap-highlight-color: transparent;"
-		v-else
+		v-else-if="showingChildren.length > 0"
 	>
 		<template #title>
 			<template v-if="info.meta.icon">
