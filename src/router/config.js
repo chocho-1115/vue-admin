@@ -81,11 +81,11 @@ const config = {
 			],
 		},
 		{
-			path: "/",
+			path: "/permission",
 			component: Layout,
 			children: [
 				{
-					path: "permission",
+					path: "",
 					name: "Permission",
 					component: () => import("@/views/permission.vue"),
 					meta: {
