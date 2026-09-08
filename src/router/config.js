@@ -19,6 +19,9 @@ const whiteList = ["/account/login", "/error/*"]
  * - affix:      pin to the tags view when true
  * - alwaysShow: show the parent menu group when it has only one visible child.
  *               When false / unset, the route is "flattened" to show that child.
+ * - roles:      roles allowed to access this route. Empty / unset = public.
+ *               Enforced by the permission guard (redirects to /error/403) and the
+ *               sidebar menu filter (hides the route). E.g. roles: ['admin'].
  */
 
 const config = {
