@@ -4,7 +4,7 @@ import { session } from "@/store"
 export function getInfo() {
 	return request({
 		url: "/user/info",
-		headers: { token: session.login.getTokenStorage() },
+		headers: { token: session.token.getStorage() },
 		method: "get",
 	})
 }

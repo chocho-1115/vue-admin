@@ -1,4 +1,5 @@
 <template>
+	<!-- Child Menu -->
 	<template v-if="!alwaysShow && theOnlyOneChild && !theOnlyOneChild.children">
 		<el-menu-item :index="resolvePath(theOnlyOneChild.path)" @click="onGotoPage(theOnlyOneChild)">
 			<template v-if="theOnlyOneChild.meta.icon">
@@ -18,12 +19,13 @@
 		</el-menu-item>
 	</template>
 
+	<!-- Parent Menu -->
 	<el-sub-menu
 		:index="resolvePath(info.path)"
 		popper-append-to-body
 		ref="subMenu"
 		popper-style="user-select: none;-webkit-tap-highlight-color: transparent;"
-		v-else
+		v-else-if="showingChildren.length > 0"
 	>
 		<template #title>
 			<template v-if="info.meta.icon">
@@ -44,7 +46,7 @@
 			:info="child"
 			:key="child.path"
 			class="nest-menu"
-			v-for="child in info.children"
+			v-for="child in showingChildren"
 		/>
 	</el-sub-menu>
 </template>
@@ -54,6 +56,7 @@ import { useTemplateRef } from "vue"
 import { useRouter } from "vue-router"
 
 import { isExternal } from "@/common/validate"
+import { hasRole } from "@/common/permission"
 import { joinPath } from "@/core/utils"
 
 // import AppLink from './Link.vue'
@@ -88,7 +91,7 @@ const subMenu = useTemplateRef("subMenu")
 const alwaysShow = props.info.meta?.alwaysShow
 
 /** 显示的子菜单 */
-const showingChildren = props.info.children?.filter((child) => !child.meta?.hidden) ?? []
+const showingChildren = props.info.children?.filter((child) => !child.meta?.hidden && hasRole(child.meta?.roles)) ?? []
 
 /** 唯一的子菜单项 */
 const theOnlyOneChild = (function () {

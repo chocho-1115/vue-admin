@@ -15,10 +15,13 @@ const whiteList = ["/account/login", "/error/*"]
  * Route `meta` options:
  * - title:      menu and page title
  * - icon:       menu icon (SVG icon name or an Element Plus icon component)
- * - hidden:     hide from the sidebar when true
+ * - hidden:     hide from the sidebar when true. 
  * - affix:      pin to the tags view when true
  * - alwaysShow: show the parent menu group when it has only one visible child.
  *               When false / unset, the route is "flattened" to show that child.
+ * - roles:      roles allowed to access this route. Empty / unset = public.
+ *               Enforced by the permission guard (redirects to /error/403) and the
+ *               sidebar menu filter (hides the route). E.g. roles: ['admin'].
  */
 
 const config = {
@@ -27,8 +30,10 @@ const config = {
 		{
 			path: "/account/login",
 			name: "login",
-			hidden: true,
 			component: () => import("@/views/account/login.vue"),
+			meta: {
+				hidden: true,
+			},
 		},
 		{
 			path: "/",
@@ -71,6 +76,21 @@ const config = {
 					component: () => import("@/views/about/changelog.vue"),
 					meta: {
 						title: "Changelog",
+					},
+				},
+			],
+		},
+		{
+			path: "/permission",
+			component: Layout,
+			children: [
+				{
+					path: "",
+					name: "Permission",
+					component: () => import("@/views/permission.vue"),
+					meta: {
+						title: "Permission",
+						icon: "test",
 					},
 				},
 			],
@@ -137,6 +157,7 @@ const config = {
 					meta: {
 						title: "Test",
 						icon: "test",
+						roles: ["admin"],
 					},
 				},
 			],
@@ -157,12 +178,16 @@ const config = {
 		{
 			path: "/error/:code",
 			component: () => import("@/views/error.vue"),
-			hidden: true,
+			meta: {
+				hidden: true,
+			},
 		},
 		{
 			path: "/:pathMatch(.*)*",
 			redirect: "/error/404",
-			hidden: true,
+			meta: {
+				hidden: true,
+			},
 		},
 	],
 }
@@ -232,6 +257,6 @@ const nestedRouter = {
 	],
 }
 
-config.routes.push(nestedRouter)
+config.routes.splice(-3, 0, nestedRouter)
 
 export { config, whiteList, keepAliveNames }

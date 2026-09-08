@@ -1,5 +1,7 @@
-import login from "./login"
+import token from "./token"
+import permission from "./permission"
 
 export default {
-	login,
+	token,
+	permission,
 }

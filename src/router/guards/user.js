@@ -4,7 +4,7 @@ import { getInfo } from "@/api/user"
 export const setupUserGuard = (router) => {
 	router.afterEach(async () => {
 		const hasUserInfo = ctx.userInfo.userId
-		const cacheToken = session.login.getTokenStorage()
+		const cacheToken = session.token.getStorage()
 
 		if (!hasUserInfo && cacheToken) {
 			const { data } = await getInfo()

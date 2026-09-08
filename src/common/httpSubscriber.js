@@ -17,8 +17,9 @@ import { EventBus } from "@/core/eventBus"
 export function initHttpSubscriber() {
 	// unauthorized (no token / invalid token)
 	EventBus.on("auth:unauthorized", () => {
-		session.login.removeToken()
-		session.login.removeTokenStorage()
+		session.token.clear()
+		session.token.removeStorage()
+		session.permission.clear()
 		dispatch.user.removeInfo()
 		if (!isWhitePage()) {
 			goLogin()
@@ -26,8 +27,9 @@ export function initHttpSubscriber() {
 	})
 	// expired
 	EventBus.on("auth:expired", () => {
-		session.login.removeToken()
-		session.login.removeTokenStorage()
+		session.token.clear()
+		session.token.removeStorage()
+		session.permission.clear()
 		dispatch.user.removeInfo()
 		if (!isWhitePage()) {
 			goLogin()

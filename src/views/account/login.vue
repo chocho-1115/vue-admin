@@ -143,8 +143,8 @@ const handleLogin = () => {
 			loading.value = true
 			login(loginForm)
 				.then((res) => {
-					session.login.saveToken(res.data.token)
-					session.login.saveTokenStorage(res.data.token)
+					session.token.set(res.data.token)
+					session.token.setStorage(res.data.token)
 					router.push(redirect)
 					loading.value = false
 				})

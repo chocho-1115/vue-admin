@@ -1,11 +1,10 @@
 import request from "@/common/request"
 import { session } from "@/store"
 
-export function getList(params) {
+export function getPermission() {
 	return request({
-		url: "/table/list",
-		method: "get",
+		url: "/permission",
 		headers: { token: session.token.getStorage() },
-		params,
+		method: "get",
 	})
 }
