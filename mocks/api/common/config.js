@@ -16,7 +16,7 @@ export const users = {
   },
   'editor-token': {
     introduction: 'I am an editor',
-    avatar: 'https://avatars.githubusercontent.com/u/9276835?s=400&u=c7dc09e69d8bec0b056ee69e084131b5dd81fbcd&v=4',
+    avatar: '',
     name: 'Normal Editor',
     userId: 2
   }
