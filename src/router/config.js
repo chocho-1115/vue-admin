@@ -140,6 +140,7 @@ const config = {
 					meta: {
 						title: "Test",
 						icon: "test",
+						roles: ["admin"],
 					},
 				},
 				{
@@ -149,7 +150,6 @@ const config = {
 					meta: {
 						title: "Permission",
 						icon: "test",
-						roles: ["admin"],
 					},
 				},
 			],

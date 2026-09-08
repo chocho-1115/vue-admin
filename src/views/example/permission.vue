@@ -10,8 +10,9 @@
 			<div class="checks">
 				<el-tag :type="isAdmin() ? 'success' : 'info'">isAdmin() = {{ isAdmin() }}</el-tag>
 				<el-tag :type="hasRole(['admin', 'editor']) ? 'success' : 'info'">hasRole(['admin','editor']) = {{ hasRole(['admin', 'editor']) }}</el-tag>
+				<el-tag :type="hasRole(['superadmin']) ? 'success' : 'info'">hasRole(['superadmin']) = {{ hasRole(['superadmin']) }}</el-tag>
 			</div>
-			<p class="tips">角色数据来自 <code>/permission</code>（store/session/permission），本页路由 meta.roles: ['admin'] 仅 admin 可见</p>
+			<p class="tips">角色数据来自 <code>/permission</code>（store/session/permission）。本页无 meta.roles，admin / editor 均可访问，用于直观对比按钮级差异。</p>
 		</div>
 
 		<!-- 按钮权限点演示 -->
@@ -23,7 +24,7 @@
 				<el-button type="danger" v-if="hasPerm('example:delete')">example:delete</el-button>
 				<el-button type="info" v-if="hasPerm('example:view')">example:view</el-button>
 			</div>
-			<p class="tips">admin 拥有全部 4 个点；editor 仅 example:view</p>
+			<p class="tips">admin: create / edit / delete / view 全部可见；editor 仅有 view，其余三个按钮因 v-if 判定为 false 而隐藏。切换账号登录可直观看到差异。示例页为 test 路由（roles: ['admin']），editor 访问将被 403 拦截（路由级守卫演示）。</p>
 		</div>
 
 		<!-- 数组聚合模式演示 -->
@@ -36,23 +37,31 @@
 				<el-tag :type="hasPerm(['example:create', 'example:edit'], { mode: 'all' }) ? 'success' : 'info'">
 					all(['example:create','example:edit'])
 				</el-tag>
+				<el-tag :type="hasPerm('example:export') ? 'success' : 'info'">未分配点 example:export = {{ hasPerm('example:export') }}</el-tag>
 			</div>
+			<p class="tips">any 命中任一即通过；all 需全部命中。example:export 未在接口返回，用于演示校验失败态。</p>
+		</div>
+
+		<!-- 原始权限数据 -->
+		<div class="block">
+			<div class="block-title">store/session/permission 原始数据</div>
+			<pre class="raw">{{ JSON.stringify(session.permission.get(), null, 2) }}</pre>
+			<p class="tips">roles 驱动路由级权限与菜单过滤，permissions 驱动按钮级显隐，routes 为动态路由预留字段。</p>
 		</div>
 	</div>
 </template>
 
 <script setup>
-import { computed } from "vue"
+import { session } from "@/store"
 
 import { hasPerm, hasRole, isAdmin } from "@/common/permission"
-import { session } from "@/store"
 
 defineOptions({
 	name: "Permission",
 })
 
-/** 当前角色列表（响应式：session.permission 非响应式，此页由路由守卫保证进入前已加载） */
-const curRoles = computed(() => session.permission.get().roles)
+/** 当前角色列表（session/permission 为非响应式容器，进入页面时由 permission 守卫前置加载完成） */
+const curRoles = session.permission.get().roles
 </script>
 
 <style lang="scss" scoped>
@@ -90,6 +99,15 @@ const curRoles = computed(() => session.permission.get().roles)
 		background: var(--el-fill-color-light);
 		padding: 0 4px;
 		border-radius: 4px;
+	}
+	.raw {
+		background: var(--el-fill-color-light);
+		padding: 12px 16px;
+		border-radius: 6px;
+		font-size: 13px;
+		line-height: 1.5;
+		overflow-x: auto;
+		margin: 0;
 	}
 }
 </style>

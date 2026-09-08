@@ -31,7 +31,7 @@ export const permissions = {
   },
   'editor-token': {
     roles: ['editor'],
-    permissions: ['example:view'],
+    permissions: ['example:create', 'example:edit', 'example:view'],
     routes: [],
   },
 }
