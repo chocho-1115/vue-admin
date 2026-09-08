@@ -47,7 +47,7 @@
 				<el-button type="warning" @click="onOpenTest">前往 Test 演示页（admin-only）</el-button>
 			</div>
 			<p class="tips">
-				test 路由配置 meta.roles: ['admin']，且已从 editor 的菜单过滤。admin 点击可正常进入；editor 点击后由权限守卫重定向到 /error/403（新窗格打开，原页面保留）。此按钮仅作演示，业务中此类入口本身不会存在。
+				test 路由配置 meta.roles: ['admin']，且已从 editor 的菜单过滤。admin 点击可正常进入；editor 点击后由权限守卫重定向到 /error/403。
 			</p>
 		</div>
 
