@@ -4,15 +4,14 @@
 		<div class="block">
 			<div class="block-title">当前角色 hasRole / isAdmin</div>
 			<div class="role-list">
-				<el-tag v-for="role in curRoles" :key="role" type="primary" class="role-tag">{{ role }}</el-tag>
+				<el-tag v-for="role in curRoles" :key="role" type="primary">{{ role }}</el-tag>
 				<el-tag v-if="!curRoles.length" type="info">无角色</el-tag>
 			</div>
 			<div class="checks">
 				<el-tag :type="isAdmin() ? 'success' : 'info'">isAdmin() = {{ isAdmin() }}</el-tag>
 				<el-tag :type="hasRole(['admin', 'editor']) ? 'success' : 'info'">hasRole(['admin','editor']) = {{ hasRole(['admin', 'editor']) }}</el-tag>
-				<el-tag :type="hasRole(['superadmin']) ? 'success' : 'info'">hasRole(['superadmin']) = {{ hasRole(['superadmin']) }}</el-tag>
 			</div>
-			<p class="tips">角色数据来自 <code>/permission</code>（store/session/permission）。本页无 meta.roles，admin / editor 均可访问，用于直观对比按钮级差异。</p>
+			<p class="tips">角色来自 <code>/permission</code>；本页 admin / editor 均可访问，用于对比按钮级差异。</p>
 		</div>
 
 		<!-- 按钮权限点演示 -->
@@ -24,7 +23,7 @@
 				<el-button type="danger" v-if="hasPerm('example:delete')">example:delete</el-button>
 				<el-button type="info" v-if="hasPerm('example:view')">example:view</el-button>
 			</div>
-			<p class="tips">admin: create / edit / delete / view 全部可见；editor 无 delete，该按钮因 v-if 判定为 false 而隐藏。切换账号登录可直观看到差异。</p>
+			<p class="tips">admin 全 4 个点可见；editor 无 delete，该按钮隐藏。</p>
 		</div>
 
 		<!-- 数组聚合模式演示 -->
@@ -37,9 +36,8 @@
 				<el-tag :type="hasPerm(['example:create', 'example:delete'], { mode: 'all' }) ? 'success' : 'info'">
 					all(['example:create','example:delete'])
 				</el-tag>
-				<el-tag :type="hasPerm('example:export') ? 'success' : 'info'">未分配点 example:export = {{ hasPerm('example:export') }}</el-tag>
 			</div>
-			<p class="tips">any 命中任一即通过；all 需全部命中（此例 admin 为 true、editor 为 false，因 editor 无 delete）。example:export 未在接口返回，用于演示校验失败态。</p>
+			<p class="tips">any 任一命中即通过；all 需全部命中（本例 admin 为 true、editor 为 false）。</p>
 		</div>
 
 		<!-- 路由级守卫演示 -->
