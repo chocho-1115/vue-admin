@@ -15,7 +15,7 @@
 			mode="vertical"
 		>
 			<template :key="route.path" v-for="route in routes">
-				<item :base-path="route.path" :info="route" v-if="!route.hidden && hasRole(route.meta?.roles)" />
+				<item :base-path="route.path" :info="route" v-if="!route.meta?.hidden && hasRole(route.meta?.roles)" />
 			</template>
 		</el-menu>
 	</el-scrollbar>
