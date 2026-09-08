@@ -24,7 +24,7 @@
 				<el-button type="danger" v-if="hasPerm('example:delete')">example:delete</el-button>
 				<el-button type="info" v-if="hasPerm('example:view')">example:view</el-button>
 			</div>
-			<p class="tips">admin: create / edit / delete / view 全部可见；editor 仅有 view，其余三个按钮因 v-if 判定为 false 而隐藏。切换账号登录可直观看到差异。示例页为 test 路由（roles: ['admin']），editor 访问将被 403 拦截（路由级守卫演示）。</p>
+			<p class="tips">admin: create / edit / delete / view 全部可见；editor 无 delete，该按钮因 v-if 判定为 false 而隐藏。切换账号登录可直观看到差异。</p>
 		</div>
 
 		<!-- 数组聚合模式演示 -->
@@ -34,12 +34,23 @@
 				<el-tag :type="hasPerm(['example:create', 'example:view'], { mode: 'any' }) ? 'success' : 'info'">
 					any(['example:create','example:view'])
 				</el-tag>
-				<el-tag :type="hasPerm(['example:create', 'example:edit'], { mode: 'all' }) ? 'success' : 'info'">
-					all(['example:create','example:edit'])
+				<el-tag :type="hasPerm(['example:create', 'example:delete'], { mode: 'all' }) ? 'success' : 'info'">
+					all(['example:create','example:delete'])
 				</el-tag>
 				<el-tag :type="hasPerm('example:export') ? 'success' : 'info'">未分配点 example:export = {{ hasPerm('example:export') }}</el-tag>
 			</div>
-			<p class="tips">any 命中任一即通过；all 需全部命中。example:export 未在接口返回，用于演示校验失败态。</p>
+			<p class="tips">any 命中任一即通过；all 需全部命中（此例 admin 为 true、editor 为 false，因 editor 无 delete）。example:export 未在接口返回，用于演示校验失败态。</p>
+		</div>
+
+		<!-- 路由级守卫演示 -->
+		<div class="block">
+			<div class="block-title">路由级守卫 meta.roles（新窗格演示）</div>
+			<div class="btn-list">
+				<el-button type="warning" @click="onOpenTest">前往 Test 演示页（admin-only）</el-button>
+			</div>
+			<p class="tips">
+				test 路由配置 meta.roles: ['admin']，且已从 editor 的菜单过滤。admin 点击可正常进入；editor 点击后由权限守卫重定向到 /error/403（新窗格打开，原页面保留）。此按钮仅作演示，业务中此类入口本身不会存在。
+			</p>
 		</div>
 
 		<!-- 原始权限数据 -->
@@ -62,6 +73,10 @@ defineOptions({
 
 /** 当前角色列表（session/permission 为非响应式容器，进入页面时由 permission 守卫前置加载完成） */
 const curRoles = session.permission.get().roles
+
+/** 新窗格打开 test 页：admin 正常进入，editor 被路由守卫重定向到 /error/403 */
+const TEST_PATH = "/example/test"
+const onOpenTest = () => window.open(TEST_PATH, "_blank")
 </script>
 
 <style lang="scss" scoped>
