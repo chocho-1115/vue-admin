@@ -67,10 +67,6 @@ import { session } from "@/store"
 
 import { hasPerm, hasRole, isAdmin } from "@/common/permission"
 
-defineOptions({
-	name: "Permission",
-})
-
 /** 当前角色列表（session/permission 为非响应式容器，进入页面时由 permission 守卫前置加载完成） */
 const curRoles = session.permission.get().roles
 
