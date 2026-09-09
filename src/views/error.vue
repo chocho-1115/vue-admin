@@ -6,11 +6,15 @@
 			</div>
 			<div class="info">{{ current.info }}</div>
 			<div class="tips">{{ current.tips }}</div>
-			<span class="btn-home" @click="onBack">Back to home</span>
+			<div class="btn-row">
+				<span v-if="hasBack" @click="onBack">Back</span>
+				<span @click="onGoHome">Back to home</span>
+			</div>
 		</div>
 	</div>
 </template>
 <script setup>
+import { computed } from "vue"
 import { useRoute, useRouter } from "vue-router"
 const route = useRoute()
 const router = useRouter()
@@ -37,8 +41,15 @@ const messages = {
 
 const current = messages[code]
 
-const onBack = () => {
+const onGoHome = () => {
 	router.push("/")
+}
+
+// vue-router 4 history.state.back: null on direct open / no history, otherwise the previous path
+const hasBack = computed(() => !!window.history.state?.back)
+
+const onBack = () => {
+	router.back()
 }
 </script>
 <style lang="scss" scoped>
@@ -81,17 +92,31 @@ const onBack = () => {
 		margin-bottom: 30px;
 	}
 
-	.btn-home {
-		display: block;
-		width: 110px;
-		height: 36px;
-		line-height: 36px;
-		background: var(--el-color-primary);
-		border-radius: 100px;
-		text-align: center;
-		color: #fff;
-		font-size: 14px;
-		cursor: pointer;
+	.btn-row {
+		display: flex;
+		gap: 12px;
+
+		span {
+			display: block;
+			width: 110px;
+			height: 36px;
+			line-height: 36px;
+			background: var(--el-color-primary);
+			border-radius: 100px;
+			text-align: center;
+			color: #fff;
+			font-size: 14px;
+			cursor: pointer;
+
+			&:not(:first-child) {
+				color: var(--el-text-color-secondary);
+				background: transparent;
+
+				&:hover {
+					text-decoration: underline;
+				}
+			}
+		}
 	}
 }
 </style>
