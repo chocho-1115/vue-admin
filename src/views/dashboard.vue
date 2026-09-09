@@ -7,7 +7,7 @@
 				<el-avatar :size="56" v-else>
 					<el-icon :size="28"><UserFilled /></el-icon>
 				</el-avatar>
-				<div class="welcome-text">
+				<div>
 					<h3 class="welcome-title">{{ greeting }}, {{ ctx.userInfo.name || 'Guest' }}</h3>
 					<p class="welcome-sub">{{ ctx.userInfo.introduction || 'Welcome back' }}</p>
 				</div>
@@ -17,12 +17,12 @@
 		<!-- Overview stats -->
 		<el-row :gutter="16" class="stats-row">
 			<el-col v-for="item in stats" :key="item.label" :span="6" :xs="12">
-				<el-card class="stat-card" shadow="hover">
+				<el-card shadow="hover">
 					<div class="stat">
-						<el-icon :size="28" class="stat-icon" :class="`c-${item.color}`">
+						<el-icon :size="28" class="stat-icon" :style="{ color: `var(--el-color-${item.color})` }">
 							<component :is="item.icon" />
 						</el-icon>
-						<div class="stat-body">
+						<div>
 							<div class="stat-value">{{ item.value }}</div>
 							<div class="stat-label">{{ item.label }}</div>
 						</div>
@@ -36,18 +36,11 @@
 			<template #header>
 				<span class="card-title">Permissions</span>
 			</template>
-			<div class="perm-row">
-				<span class="perm-label">Roles</span>
+			<div class="perm-row" v-for="group in permGroups" :key="group.label">
+				<span class="perm-label">{{ group.label }}</span>
 				<div class="perm-tags">
-					<el-tag v-for="r in roles" :key="r" type="primary">{{ r }}</el-tag>
-					<el-tag v-if="!roles.length" type="info">none</el-tag>
-				</div>
-			</div>
-			<div class="perm-row">
-				<span class="perm-label">Perms</span>
-				<div class="perm-tags">
-					<el-tag v-for="p in permissions" :key="p" type="success" effect="plain">{{ p }}</el-tag>
-					<el-tag v-if="!permissions.length" type="info">none</el-tag>
+					<el-tag v-for="item in group.items" :key="item" :type="group.type" :plain="group.plain">{{ item }}</el-tag>
+					<el-tag v-if="!group.items.length" type="info">none</el-tag>
 				</div>
 			</div>
 		</el-card>
@@ -93,6 +86,11 @@ const router = useRouter()
 const roles = session.permission.get().roles
 const permissions = session.permission.get().permissions
 
+const permGroups = [
+	{ label: "Roles", items: roles, type: "primary" },
+	{ label: "Perms", items: permissions, type: "success", plain: true },
+]
+
 const greeting = computed(() => {
 	const hour = new Date().getHours()
 	if (hour < 6) return "Good night"
@@ -124,17 +122,14 @@ const onOpen = (link) => {
 </script>
 
 <style lang="scss" scoped>
-.welcome-card {
+.welcome-card,
+.stats-row,
+.section-card {
 	margin-bottom: 16px;
 }
 
 .stats-row {
-	margin-bottom: 16px;
 	row-gap: 16px; // 换行时的行间间距（手机端 2×2）
-}
-
-.section-card {
-	margin-bottom: 16px;
 }
 
 .welcome {
@@ -163,21 +158,8 @@ const onOpen = (link) => {
 		flex-shrink: 0;
 	}
 
-	.c-primary {
-		color: var(--el-color-primary);
-	}
-	.c-success {
-		color: var(--el-color-success);
-	}
-	.c-warning {
-		color: var(--el-color-warning);
-	}
-	.c-info {
-		color: var(--el-color-info);
-	}
-
 	.stat-value {
-		font-size: 22px;
+		font-size: 18px;
 		font-weight: 600;
 		line-height: 1.2;
 	}
