@@ -1,6 +1,9 @@
 <template>
 	<div class="dashboard-container">
-		<div class="dashboard-text">name: {{ ctx.userInfo.name }}</div>
+		<div class="dashboard-text">
+			name: {{ ctx.userInfo.name }}<br/>
+			introduction: {{ ctx.userInfo.introduction }}
+		</div>
 	</div>
 </template>
 
