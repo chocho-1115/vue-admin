@@ -14,7 +14,6 @@
 	</div>
 </template>
 <script setup>
-import { computed } from "vue"
 import { useRoute, useRouter } from "vue-router"
 const route = useRoute()
 const router = useRouter()
@@ -46,7 +45,7 @@ const onGoHome = () => {
 }
 
 // vue-router 4 history.state.back: null on direct open / no history, otherwise the previous path
-const hasBack = computed(() => !!window.history.state?.back)
+const hasBack = !!window.history.state?.back
 
 const onBack = () => {
 	router.back()
