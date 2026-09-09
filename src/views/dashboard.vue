@@ -1,5 +1,5 @@
 <template>
-	<div class="dashboard-container">
+	<div class="app-container">
 		<!-- Welcome -->
 		<el-card class="welcome-card" shadow="never">
 			<div class="welcome">
@@ -124,10 +124,6 @@ const onOpen = (link) => {
 </script>
 
 <style lang="scss" scoped>
-.dashboard-container {
-	padding: min(30px, 3vh) min(30px, 3vw);
-}
-
 .welcome-card,
 .stats-row {
 	margin-bottom: 16px;
