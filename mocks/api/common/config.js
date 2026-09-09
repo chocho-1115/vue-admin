@@ -9,9 +9,9 @@ export const tokens = {
 
 export const users = {
   'admin-token': {
-    introduction: 'I am a super administrator',
+    introduction: 'I am an administrator',
     avatar: 'https://avatars.githubusercontent.com/u/9276835?s=400&u=c7dc09e69d8bec0b056ee69e084131b5dd81fbcd&v=4',
-    name: 'Super Admin',
+    name: 'Admin',
     userId: 1
   },
   'editor-token': {
