@@ -71,10 +71,11 @@ const router = useRouter()
 /** 当前角色列表（session/permission 为非响应式容器，进入页面时由 permission 守卫前置加载完成） */
 const curRoles = session.permission.get().roles
 
-/** 新窗格打开 test 页：admin 正常进入，editor 被路由守卫重定向到 /error/403 */
-const TEST_PATH = "/example/test"
+/** admin 正常进入，editor 被路由守卫重定向到 /error/403 */
+const onOpenTest = () => router.push("/example/test")
+
 /** router.resolve 的 href 会拼接 createWebHistory 的 base，部署在 /admin 下也能正确打开 */
-const onOpenTest = () => window.open(router.resolve(TEST_PATH).href, "_blank")
+// const onOpenTest = () => window.open(router.resolve(TEST_PATH).href, "_blank")
 </script>
 
 <style lang="scss" scoped>
