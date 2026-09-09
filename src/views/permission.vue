@@ -44,7 +44,7 @@
 		<div class="block">
 			<div class="block-title">路由级守卫 meta.roles（新窗格演示）</div>
 			<div class="btn-list">
-				<el-button type="warning" @click="onOpenTest">前往 Test 演示页（admin-only）</el-button>
+				<el-button type="warning" @click="onOpenTest">前往 Test 演示页（目标路由仅 admin 可访问）</el-button>
 			</div>
 			<p class="tips">
 				test 路由配置 meta.roles: ['admin']，且已从 editor 的菜单过滤。admin 点击可正常进入；editor 点击后由权限守卫重定向到 /error/403。
@@ -61,16 +61,20 @@
 </template>
 
 <script setup>
+import { useRouter } from "vue-router"
 import { session } from "@/store"
 
 import { hasPerm, hasRole, isAdmin } from "@/common/permission"
+
+const router = useRouter()
 
 /** 当前角色列表（session/permission 为非响应式容器，进入页面时由 permission 守卫前置加载完成） */
 const curRoles = session.permission.get().roles
 
 /** 新窗格打开 test 页：admin 正常进入，editor 被路由守卫重定向到 /error/403 */
 const TEST_PATH = "/example/test"
-const onOpenTest = () => window.open(TEST_PATH, "_blank")
+/** router.resolve 的 href 会拼接 createWebHistory 的 base，部署在 /admin 下也能正确打开 */
+const onOpenTest = () => window.open(router.resolve(TEST_PATH).href, "_blank")
 </script>
 
 <style lang="scss" scoped>
