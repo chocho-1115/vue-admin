@@ -145,7 +145,7 @@ const handleLogin = () => {
 				.then((res) => {
 					session.token.set(res.data.token)
 					session.token.setStorage(res.data.token)
-					router.push(redirect)
+					router.replace(redirect)
 					loading.value = false
 				})
 				.catch(() => {
