@@ -1,5 +1,5 @@
 <template>
-	<div class="content" v-html="htmlContent"></div>
+	<div class="wrapper" v-html="htmlContent"></div>
 </template>
 
 <script setup>
@@ -12,7 +12,7 @@ defineProps({
 </script>
 
 <style lang="scss" scoped>
-.content {
+.wrapper {
 	margin: 30px;
 	font-size: 14px;
 	line-height: 1.6em;
