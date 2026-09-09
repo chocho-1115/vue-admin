@@ -53,5 +53,5 @@ div:focus {
 
 // main-container global css
 .app-container {
-	padding: 30px;
+	padding: min(30px, 3vh) min(30px, 3vw);
 }
