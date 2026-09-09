@@ -124,9 +124,13 @@ const onOpen = (link) => {
 </script>
 
 <style lang="scss" scoped>
-.welcome-card,
+.welcome-card {
+	margin-bottom: 16px;
+}
+
 .stats-row {
 	margin-bottom: 16px;
+	row-gap: 16px; // 换行时的行间间距（手机端 2×2）
 }
 
 .section-card {
