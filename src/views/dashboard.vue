@@ -15,7 +15,7 @@
 		</el-card>
 
 		<!-- Overview stats -->
-		<el-row :gutter="16" class="stats-row">
+		<el-row :gutter="8" class="stats-row">
 			<el-col v-for="item in stats" :key="item.label" :span="6" :xs="12">
 				<el-card shadow="hover">
 					<div class="stat">
@@ -122,6 +122,9 @@ const onOpen = (link) => {
 </script>
 
 <style lang="scss" scoped>
+.app-container{
+	// max-width: 1600px
+}
 .welcome-card,
 .stats-row,
 .section-card {
@@ -152,21 +155,22 @@ const onOpen = (link) => {
 .stat {
 	display: flex;
 	align-items: center;
-	gap: 14px;
+	gap: 8px;
 
 	.stat-icon {
 		flex-shrink: 0;
 	}
 
 	.stat-value {
-		font-size: 18px;
+		font-size: clamp(15px, 2vw, 22px);
 		font-weight: 600;
 		line-height: 1.2;
 	}
 
 	.stat-label {
-		font-size: 13px;
+		font-size: 12px;
 		color: var(--el-text-color-secondary);
+		white-space: nowrap;
 	}
 }
 
