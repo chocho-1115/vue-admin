@@ -1,5 +1,5 @@
 <template>
-	<div class="permission-page">
+	<div class="app-container">
 		<!-- 角色展示 -->
 		<div class="block">
 			<div class="block-title">当前角色 hasRole / isAdmin</div>
@@ -79,9 +79,6 @@ const onOpenTest = () => router.push("/example/test")
 </script>
 
 <style lang="scss" scoped>
-.permission-page {
-	padding: 20px 30px;
-}
 .block {
 	margin-bottom: 24px;
 	.block-title {
