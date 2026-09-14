@@ -37,9 +37,6 @@ A lightweight, minimalist Vue admin dashboard built with the latest stable depen
 
 **Demo:** <https://chocho-1115.github.io/vue-admin/>
 
-> [!NOTE]
-> UI design is inspired by [vue-admin-template](https://github.com/PanJiaChen/vue-admin-template)
-
 ## Why This Project?
 
 The ideal frontend admin dashboard should be:
