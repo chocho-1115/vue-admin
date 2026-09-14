@@ -122,9 +122,6 @@ const onOpen = (link) => {
 </script>
 
 <style lang="scss" scoped>
-.app-container{
-	// max-width: 1600px
-}
 .welcome-card,
 .stats-row,
 .section-card {
