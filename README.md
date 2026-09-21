@@ -5,27 +5,30 @@
 </p>
 <p align="center">
     <a href="https://github.com/vitejs/vite">
-        <img src="https://img.shields.io/badge/vite-8.1.4-brightgreen.svg">
+        <img src="https://img.shields.io/badge/vite-8.3.0-brightgreen.svg">
     </a>
     <a href="https://github.com/vuejs/core">
-        <img src="https://img.shields.io/badge/vue-3.5.39-brightgreen.svg">
+        <img src="https://img.shields.io/badge/vue-3.5.43-brightgreen.svg">
     </a>
     <a href="https://github.com/element-plus/element-plus">
-        <img src="https://img.shields.io/badge/element--plus-2.14.2-brightgreen.svg">
+        <img src="https://img.shields.io/badge/element--plus-2.14.6-brightgreen.svg">
     </a>
     <a href="https://github.com/axios/axios">
-        <img src="https://img.shields.io/badge/axios-1.18.1-brightgreen.svg">
+        <img src="https://img.shields.io/badge/axios-1.20.0-brightgreen.svg">
     </a>
     <a href="https://github.com/mswjs/msw">
         <img src="https://img.shields.io/badge/msw-2.15.0-brightgreen.svg">
     </a>
     <a href="https://github.com/faker-js/faker">
-        <img src="https://img.shields.io/badge/faker-10.5.0-brightgreen.svg">
+        <img src="https://img.shields.io/badge/faker-10.6.0-brightgreen.svg">
     </a>
     <a href="https://github.com/chocho-1115/vue-admin">
         <img src="https://img.shields.io/badge/license-MIT-brightgreen.svg">
     </a>
 </p>
+<div align="center">
+    <sub>版本以 <code>package.json</code> 为准；徽章仅供快速浏览，可能滞后。</sub>
+</div>
 
 <p align="center">
   <b>English</b> | <a href="./README_zh.md">中文</a>

@@ -27,7 +27,7 @@ jobs:
       - name: Setup Node.js
         uses: actions/setup-node@v4  # 官方提供的 Node.js 安装 Action
         with:  # with 是传给 Action 的参数
-          node-version: '24'  # 指定 Node.js 版本为 18，改成你项目用的版本
+          node-version-file: .nvmrc  # Node 版本以仓库根 .nvmrc 为准（唯一版本源，避免 multi处漂移）
           cache: 'npm'  # 缓存 npm 依赖，下次构建会更快（减少下载时间）
 
       # ===== 第 3 步：安装依赖 =====
