@@ -59,9 +59,6 @@ import { isExternal } from "@/common/validate"
 import { hasRole } from "@/common/permission"
 import { joinPath } from "@/core/utils"
 
-// import AppLink from './Link.vue'
-// import Item from './Item'
-
 const router = useRouter()
 // const ctx = inject('context')
 
