@@ -90,7 +90,7 @@ const config = {
 					component: () => import("@/views/permission.vue"),
 					meta: {
 						title: "Permission",
-						icon: "test",
+						icon: "permission",
 					},
 				},
 			],
