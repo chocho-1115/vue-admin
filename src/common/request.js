@@ -11,18 +11,6 @@ const service = axios.create({
 	timeout: 5000, // request timeout
 })
 
-// Add a request interceptor
-axios.interceptors.request.use(
-	function (config) {
-		// Do something before request is sent
-		return config
-	},
-	function (error) {
-		// Do something with request error
-		return Promise.reject(error)
-	},
-)
-
 // Add a response interceptor
 service.interceptors.response.use(
 	// Any status code that lie within the range of 2xx cause this function to trigger
