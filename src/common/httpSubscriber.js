@@ -2,6 +2,7 @@ import { dispatch, session } from "@/store"
 import { isWhitePage, goLogin } from "@/router/helpers"
 
 import { EventBus } from "@/core/eventBus"
+import { collectErrorLog } from "./errorLog.js"
 
 // to re-login
 // ElMessageBox.confirm(
@@ -37,6 +38,11 @@ export function initHttpSubscriber() {
 	})
 
 	EventBus.on("request:error", (errorInfo) => {
+		collectErrorLog("http", {
+			url: errorInfo?.url,
+			msg: errorInfo?.message || errorInfo?.msg,
+			status: errorInfo?.status,
+		})
 		console.log("Unified error log reporting:", errorInfo)
 		ElMessage({
 			message: errorInfo.message || "Error",

@@ -11,6 +11,7 @@ import App from "./App.vue"
 import router from "./router"
 import { ctx } from "./store"
 import { dispatch } from "@/store"
+import { collectErrorLog } from "./common/errorLog.js"
 
 // global components
 import SvgIcon from "./components/SvgIcon.vue"
@@ -50,6 +51,17 @@ enableMocking().then(async () => {
 
 	const app = createApp(App)
 	app.use(router) // It must be after the enablemock function
+
+	// 全局兜底：Vue 组件内错误 + 窗口级 onerror + Promise 未处理 —— 全收进错误日志抽屉
+	app.config.errorHandler = (err, instance, info) => {
+		collectErrorLog("vue", { msg: err?.message || String(err), stack: err?.stack, info, route: router.currentRoute.value?.fullPath })
+	}
+	window.addEventListener("error", (event) => {
+		collectErrorLog("window", { msg: event.message, url: event.filename, status: event.lineno, route: router.currentRoute.value?.fullPath })
+	})
+	window.addEventListener("unhandledrejection", (event) => {
+		collectErrorLog("promise", { msg: String(event.reason?.message ?? event.reason), route: router.currentRoute.value?.fullPath })
+	})
 
 	app.provide("context", ctx)
 	app.component("svg-icon", SvgIcon)
