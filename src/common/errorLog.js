@@ -1,6 +1,7 @@
 // src/common/errorLog.js —— 错误日志收集器（只收集，不弹列表）
 //
-// 全仓唯一认识 "error" 的文件。职责 = 收 + 洗 + 环形缓冲 + 防抖落盘。
+// 全仓唯一认识 "error" 的文件。职责 = 布线 + 收 + 洗 + 环形缓冲 + 防抖落盘。
+// 布线：setupErrorCapture 在这里接 Vue errorHandler / window error / unhandledrejection。
 // 落盘走 idb.js 的通用工厂（本文件只负责给错误日志开一张抽屉）。
 // 三点纪律：
 //   - 入口即白名单清洗，config.headers(token) 在 httpSubscriber 入口就被撕掉
@@ -18,6 +19,22 @@ const SAFE_FIELDS = ["type", "url", "msg", "status", "route", "time"]
 
 const ring = []
 let flushTimer = null
+
+/**
+ * 全局兜底接线：Vue 组件错误 + window error + 未处理 Promise 拒绝，全部收进日志抽屉。
+ * 在 createApp 后、mount 前调一次；getRoute 返回当前路由路径（延迟求值，避免硬依赖 router）。
+ */
+export function setupErrorCapture(app, getRoute = () => "") {
+	app.config.errorHandler = (err, instance, info) => {
+		collectErrorLog("vue", { msg: err?.message || String(err), stack: err?.stack, info, route: getRoute() })
+	}
+	window.addEventListener("error", (event) => {
+		collectErrorLog("window", { msg: event.message, url: event.filename, status: event.lineno, route: getRoute() })
+	})
+	window.addEventListener("unhandledrejection", (event) => {
+		collectErrorLog("promise", { msg: String(event.reason?.message ?? event.reason), route: getRoute() })
+	})
+}
 
 /** 主入口：收集一条错误。 */
 export function collectErrorLog(type, payload = {}) {
@@ -74,4 +91,5 @@ export default {
 	collectErrorLog,
 	clearErrorLog,
 	reportErrorLog,
+	setupErrorCapture,
 }
