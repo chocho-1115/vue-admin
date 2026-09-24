@@ -13,12 +13,12 @@ import { openIDBStore } from "./idb.js"
 // autoIncrement：主键自增，避免同毫秒多条错误撞 key 相互覆盖；读取仍按插入序倒排
 const logStore = openIDBStore({ dbName: "VA_error-log", storeName: "error-log", autoIncrement: true })
 
-const RING_LIMIT = 50
-const FLUSH_DEBOUNCE_MS = 3000
-const SAFE_FIELDS = ["type", "url", "msg", "status", "route", "time"]
+const RING_LIMIT = 50 // 环形缓冲区上限：超过则丢最旧的，防止错误风暴拖垮内存
+const FLUSH_DEBOUNCE_MS = 3000 // 防抖落盘间隔：最后一条错误后 3s 才批量写入
+const SAFE_FIELDS = ["type", "url", "msg", "status", "route", "time"] // 落盘白名单，只保留这些字段
 
-const ring = []
-let flushTimer = null
+const ring = [] // 内存环形缓冲：待落盘的错误条目，防抖到点后 splice 清空
+let flushTimer = null // 防抖定时器句柄：scheduleFlush 里判空避免重复起定时器
 
 /**
  * 全局兜底接线：Vue 组件错误 + window error + 未处理 Promise 拒绝，全部收进日志抽屉。
@@ -46,6 +46,7 @@ export function collectErrorLog(type, payload = {}) {
 	scheduleFlush()
 }
 
+/** 数据清洗：只留 SAFE_FIELDS 里 payload 真正带上的字段，撕掉 token、密码等敏感信息。 */
 function pickSafeFields(payload) {
 	const clean = {}
 	for (const field of SAFE_FIELDS) {
