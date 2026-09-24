@@ -25,6 +25,8 @@ let flushTimer = null
  * 在 createApp 后、mount 前调一次；getRoute 返回当前路由路径（延迟求值，避免硬依赖 router）。
  */
 export function setupErrorCapture(app, getRoute = () => "") {
+	// 
+	// 一旦配置了 app.config.errorHandler，Vue 就把错误吞了，根本不冒泡到 window
 	app.config.errorHandler = (err, instance, info) => {
 		collectErrorLog("vue", { msg: err?.message || String(err), stack: err?.stack, info, route: getRoute() })
 	}
