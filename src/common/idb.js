@@ -11,8 +11,9 @@
 // 纪律：
 //   - 同 (dbName|version) 只开一条连接，操作完不关，页面卸载自动收尾
 //   - 建 store 只在 onupgradeneeded 里（若改 schema，请整体升 version 并重建抽屉）
-//   - 同库多 store：共用同一 version，且首次 open 前都调一遍 openIDBStore，一次升级全建出
-//   - 别人升了版本：本页自动关旧连接，绝不阻塞对方
+//   - 同库多 store：共用同一 version，首次 open 前把各 openIDBStore 构造完毕（构造即在蓝图登记），
+//     一次升级全建出；open 之后才构造的店不会自动建，请手动升 version
+//   - 别人升了版本：本页自动断连并清连接缓存，绝不阻塞对方；旧抽屉要继续用需按新版重建
 //   - 接正式日志系统：setIDBLogger(fn) 覆盖默认 console.error 打点
 
 const dbs = new Map() // `${dbName}|${version}` → Promise<IDBDatabase>
@@ -25,13 +26,9 @@ export function setIDBLogger(logger) {
 	report = typeof logger === "function" ? logger : report
 }
 
-/** 打开/复用连接；onupgradeneeded 里把该版本注册过的 store 一次建齐。 */
-function openDB({ dbName, storeName, keyPath, autoIncrement, version }) {
+/** 打开/复用连接；upgrade 里按蓝图（schemas）把该版本注册过的 store 一次建齐。 */
+function openDB({ dbName, version }) {
 	const vkey = `${dbName}|${version}`
-	if (!schemas.has(vkey)) schemas.set(vkey, new Map())
-	// 设置内层Map
-	schemas.get(vkey).set(storeName, autoIncrement ? { autoIncrement: true } : { keyPath })
-
 	if (dbs.has(vkey)) return dbs.get(vkey)
 
 	const opened = new Promise((resolve, reject) => {
@@ -46,7 +43,14 @@ function openDB({ dbName, storeName, keyPath, autoIncrement, version }) {
 		}
 		request.onsuccess = () => {
 			const db = request.result
-			db.onversionchange = () => db.close() // 被升版本 → 主动关，别堵别人
+			db.onversionchange = () => {
+				dbs.delete(vkey) // 连接已作废，下一口操作自动重开
+				try {
+					db.close() // 被升版本 → 主动关，别堵别人
+				} catch {
+					// 已关，忽略
+				}
+			}
 			resolve(db)
 		}
 		request.onerror = () => reject(request.error)
@@ -160,8 +164,13 @@ async function closeDB(ctx) {
 	}
 }
 
-/** 给一张抽屉开句柄。dbName/storeName 绑定进闭包，之后调用一律零参。 */
+/** 给一张抽屉开句柄。构造即登记建仓蓝图，dbName/storeName 绑定进闭包，之后调用一律零参。 */
 export function openIDBStore({ dbName, storeName, keyPath = "time", version = 1, autoIncrement = false }) {
+	// 构造时就把这家店写进蓝图：同库多店在首次 open 前各自构造完毕，升级即可一次建齐
+	const vkey = `${dbName}|${version}`
+	if (!schemas.has(vkey)) schemas.set(vkey, new Map())
+	schemas.get(vkey).set(storeName, autoIncrement ? { autoIncrement: true } : { keyPath })
+
 	const ctx = { dbName, storeName, keyPath, version, autoIncrement }
 	return {
 		put: (entries) => put(ctx, entries),
