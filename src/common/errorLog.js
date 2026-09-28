@@ -10,7 +10,7 @@
 
 import { openIDBStore } from "./idb.js"
 
-// autoIncrement：主键自增，避免同毫秒多条错误撞 key 相互覆盖；读取仍按插入序倒排
+// autoIncrement：主键自增
 const logStore = openIDBStore({ dbName: "VA_error-log", storeName: "error-log", autoIncrement: true })
 
 const RING_LIMIT = 50 // 环形缓冲区上限：超过则丢最旧的，防止错误风暴拖垮内存
@@ -26,10 +26,8 @@ let flushTimer = null // 防抖定时器句柄：scheduleFlush 里判空避免�
  */
 export function setupErrorCapture(app, getRoute = () => "") {
 	// 一旦配置了 app.config.errorHandler，Vue 就把错误吞了，根本不冒泡到 window
-	app.config.errorHandler = (err, instance, info) => {
-		// instance/info 暂未使用：保留 Vue 错误上下文，等 SAFE_FIELDS 支持后在 payload 里启用
-		void instance
-		void info
+	// （需要 Vue 上下文时再扩展签名加 instance/info 参数）
+	app.config.errorHandler = (err) => {
 		collectErrorLog("vue", {
 			msg: err?.message || String(err),
 			// stack: err?.stack, // 暂不落盘：将来 SAFE_FIELDS 加字段后再启用
