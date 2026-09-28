@@ -1,6 +1,6 @@
 // src/common/errorLog.js —— 错误日志收集器（只收集，不弹列表）
 //
-// 全仓唯一认识 "error" 的文件。职责 = 布线 + 收 + 洗 + 环形缓冲 + 防抖落盘。
+// 全仓错误采集的收口。职责 = 布线 + 收 + 洗 + 环形缓冲 + 防抖落盘。
 // 布线：setupErrorCapture 在这里接 Vue errorHandler / window error / unhandledrejection。
 // 落盘走 idb.js 的通用工厂（本文件只负责给错误日志开一张抽屉）。
 // 三点纪律：
@@ -11,7 +11,7 @@
 import { openIDBStore } from "./idb.js"
 
 // autoIncrement：主键自增，避免同毫秒多条错误撞 key 相互覆盖；读取仍按插入序倒排
-const logStore = openIDBStore({ dbName: "VA_error-log2", storeName: "error-log", autoIncrement: true, version: 5 })
+const logStore = openIDBStore({ dbName: "VA_error-log", storeName: "error-log", autoIncrement: true })
 
 const RING_LIMIT = 50 // 环形缓冲区上限：超过则丢最旧的，防止错误风暴拖垮内存
 const FLUSH_DEBOUNCE_MS = 3000 // 防抖落盘间隔：最后一条错误后 3s 才批量写入
@@ -25,13 +25,24 @@ let flushTimer = null // 防抖定时器句柄：scheduleFlush 里判空避免�
  * 在 createApp 后、mount 前调一次；getRoute 返回当前路由路径（延迟求值，避免硬依赖 router）。
  */
 export function setupErrorCapture(app, getRoute = () => "") {
-	// 
 	// 一旦配置了 app.config.errorHandler，Vue 就把错误吞了，根本不冒泡到 window
 	app.config.errorHandler = (err, instance, info) => {
-		collectErrorLog("vue", { msg: err?.message || String(err), stack: err?.stack, info, route: getRoute() })
+		// instance/info 暂未使用：保留 Vue 错误上下文，等 SAFE_FIELDS 支持后在 payload 里启用
+		void instance
+		void info
+		collectErrorLog("vue", {
+			msg: err?.message || String(err),
+			// stack: err?.stack, // 暂不落盘：将来 SAFE_FIELDS 加字段后再启用
+			route: getRoute(),
+		})
 	}
 	window.addEventListener("error", (event) => {
-		collectErrorLog("window", { msg: event.message, url: event.filename, status: event.lineno, route: getRoute() })
+		collectErrorLog("window", {
+			msg: event.message,
+			url: event.filename,
+			// status: event.lineno, // 语义是行号，暂不落盘，避免误当 HTTP 状态码
+			route: getRoute(),
+		})
 	})
 	window.addEventListener("unhandledrejection", (event) => {
 		collectErrorLog("promise", { msg: String(event.reason?.message ?? event.reason), route: getRoute() })
