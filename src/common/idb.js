@@ -1,5 +1,3 @@
-// src/common/idb.js —— IndexedDB 极简封装
-//
 // 用法：给一张抽屉开个零参句柄，失败绝不 throw，回默认值（false / [] / 0）。
 //   const logStore = openIDBStore({ dbName: "VA_error-log", storeName: "error-log", autoIncrement: true })
 //   await logStore.put(entry | [entry, ...])   // 落一批
