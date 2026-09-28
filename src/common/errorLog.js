@@ -11,7 +11,7 @@
 import { openIDBStore } from "./idb.js"
 
 // autoIncrement：主键自增，避免同毫秒多条错误撞 key 相互覆盖；读取仍按插入序倒排
-const logStore = openIDBStore({ dbName: "VA_error-log", storeName: "error-log", autoIncrement: true })
+const logStore = openIDBStore({ dbName: "VA_error-log2", storeName: "error-log", autoIncrement: true, version: 5 })
 
 const RING_LIMIT = 50 // 环形缓冲区上限：超过则丢最旧的，防止错误风暴拖垮内存
 const FLUSH_DEBOUNCE_MS = 3000 // 防抖落盘间隔：最后一条错误后 3s 才批量写入

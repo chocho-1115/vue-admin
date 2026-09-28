@@ -29,12 +29,15 @@ export function setIDBLogger(logger) {
 function openDB({ dbName, storeName, keyPath, autoIncrement, version }) {
 	const vkey = `${dbName}|${version}`
 	if (!schemas.has(vkey)) schemas.set(vkey, new Map())
+	// 设置内层Map
 	schemas.get(vkey).set(storeName, autoIncrement ? { autoIncrement: true } : { keyPath })
+
 	if (dbs.has(vkey)) return dbs.get(vkey)
 
 	const opened = new Promise((resolve, reject) => {
 		const request = indexedDB.open(dbName, version)
 		request.onupgradeneeded = () => {
+			// 解构出内层Map的key和value
 			for (const [name, options] of schemas.get(vkey)) {
 				if (!request.result.objectStoreNames.contains(name)) {
 					request.result.createObjectStore(name, options)
