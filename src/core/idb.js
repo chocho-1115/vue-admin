@@ -16,15 +16,11 @@
 //   - 接正式日志系统：setIDBLogger(fn) 覆盖默认 console.error 打点
 //   - 要按记录删/改，主键必须自己生成（keyPath: "id"）；autoIncrement 拿不到 key，只能追加
 
+
 const dbs = new Map() // `${dbName}|${version}` → Promise<IDBDatabase>
 const schemas = new Map() // `${dbName}|${version}` → Map<storeName, {keyPath?|autoIncrement}>
 
-let report = console.error
-
-/** 覆盖错误打点（默认 console.error）。不改变「绝不 throw」纪律。 */
-export function setIDBLogger(logger) {
-	report = typeof logger === "function" ? logger : report
-}
+let report = console.error // 错误打点出口，默认 console.error，setIDBLogger 可换
 
 /** 打开/复用连接；upgrade 里按蓝图（schemas）把该版本注册过的 store 一次建齐。 */
 function openDB({ dbName, version }) {
@@ -188,6 +184,8 @@ async function closeDB(ctx) {
 	}
 }
 
+// ---------------- 对外接口 ----------------
+
 /** 给一张抽屉开句柄。构造即登记建仓蓝图，dbName/storeName 绑定进闭包，之后调用一律零参。 */
 export function openIDBStore({ dbName, storeName, keyPath = "time", version = 1, autoIncrement = false }) {
 	// 构造时就把这家店写进蓝图：同库多店在首次 open 前各自构造完毕，升级即可一次建齐
@@ -204,6 +202,11 @@ export function openIDBStore({ dbName, storeName, keyPath = "time", version = 1,
 		count: () => countStore(ctx),
 		close: () => closeDB(ctx),
 	}
+}
+
+/** 覆盖错误打点（默认 console.error）。改的是模块级全局单例，多个调用方会互相覆盖。 */
+export function setIDBLogger(logger) {
+	report = typeof logger === "function" ? logger : report
 }
 
 export default openIDBStore
