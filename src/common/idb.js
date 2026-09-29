@@ -1,5 +1,5 @@
 // 用法：给一张抽屉开个零参句柄，失败绝不 throw，回默认值（false / [] / 0）。
-//   const logStore = openIDBStore({ dbName: "VA_error-log", storeName: "recent", keyPath: "id" })
+//   const logStore = openIDBStore({ dbName: "my-db", storeName: "logs", keyPath: "id" })
 //   await logStore.put(entry | [entry, ...])   // 落一批
 //   await logStore.getAll(qty = 200, "prev" | "next") // 取一批，默认倒序（最新在前），"next" 为最旧在前
 //   await logStore.del(key | [key, ...])        // 删一批（需 keyPath 自持主键）
@@ -126,7 +126,7 @@ async function getAll(ctx, qty = 200, direction = "prev") {
 	}
 }
 
-/** 删一批：keys 支持数组或单个 key，任一失败 → 回滚整批，回 false。 */
+/** 删一批：keys 支持数组或单个 key，回 false。注意 delete 对不存在的 key 是幂等的（不报错），不会回滚整批。 */
 async function del(ctx, keys) {
 	let tx = null
 	try {
