@@ -43,7 +43,9 @@ export function initHttpSubscriber() {
 			msg: errorInfo?.message || errorInfo?.msg,
 			status: errorInfo?.status,
 		})
-		console.log("Unified error log reporting:", errorInfo)
+		if (import.meta.env.DEV) {
+			console.log("Unified error log reporting:", errorInfo)
+		}
 		ElMessage({
 			message: errorInfo.message || "Error",
 			type: "error",
