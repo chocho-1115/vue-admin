@@ -111,8 +111,8 @@ export function collectErrorLog(type, payload = {}) {
 }
 
 /**
- * 事件驱动重投：队列分块扫完，某块失败即停（每次事件最多 1 个请求，攒批在飞时也让位）。
- * 没有常驻定时器：后端不可用时压力为 0，代价是队列积压到上限后丢最旧的。
+ * 事件驱动重投：队列分块扫完，失败即停——打满时一次事件最多 PENDING_LIMIT / RETRY_BATCH 个请求，
+ * 首块失败就只打 1 个。攒批在飞时让位。没有常驻定时器：后端不可用时压力为 0，代价是积压超上限丢最旧。
  */
 export async function retryPending() {
 	if (retrying || flushing) return
