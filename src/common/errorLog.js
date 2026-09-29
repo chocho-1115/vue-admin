@@ -48,6 +48,7 @@ function pickSafeFields(payload) {
 	return Object.fromEntries(Object.entries(payload).filter(([k, v]) => SAFE_FIELDS.includes(k) && v !== undefined))
 }
 
+/** 攒批定时器到点：复位定时器 → 掏空 ring 成一整批 → 先过上报出口 → 写进 IndexedDB。 */
 async function flushNow() {
 	flushTimer = null
 	if (ring.length === 0) return
