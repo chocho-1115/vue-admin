@@ -1,7 +1,8 @@
 // 用法：给一张抽屉开个零参句柄，失败绝不 throw，回默认值（false / [] / 0）。
-//   const logStore = openIDBStore({ dbName: "VA_error-log", storeName: "error-log", autoIncrement: true })
+//   const logStore = openIDBStore({ dbName: "VA_error-log", storeName: "recent", keyPath: "id" })
 //   await logStore.put(entry | [entry, ...])   // 落一批
-//   await logStore.getAll(qty = 200)           // 按主键倒序取最近 qty 条
+//   await logStore.getAll(qty = 200, "prev" | "next") // 取一批，默认倒序（最新在前），"next" 为最旧在前
+//   await logStore.del(key | [key, ...])        // 删一批（需 keyPath 自持主键）
 //   await logStore.count()                     // 条数
 //   await logStore.clear()                     // 清空
 //   await logStore.close()                     // 关连接（可选）
@@ -13,6 +14,7 @@
 //     一次升级全建出；open 之后才构造的店不会自动建，请手动升 version
 //   - 别人升了版本：本页自动断连并清连接缓存，绝不阻塞对方；旧抽屉要继续用需按新版重建
 //   - 接正式日志系统：setIDBLogger(fn) 覆盖默认 console.error 打点
+//   - 要按记录删/改，主键必须自己生成（keyPath: "id"）；autoIncrement 拿不到 key，只能追加
 
 const dbs = new Map() // `${dbName}|${version}` → Promise<IDBDatabase>
 const schemas = new Map() // `${dbName}|${version}` → Map<storeName, {keyPath?|autoIncrement}>
@@ -96,13 +98,14 @@ async function put(ctx, entries) {
 	}
 }
 
-async function getAll(ctx, qty = 200) {
+/** 取一批：direction 默认 "prev" 倒序（最新在前），传 "next" 正序（最旧在前，便于裁剪）。 */
+async function getAll(ctx, qty = 200, direction = "prev") {
 	try {
 		const db = await openDB(ctx)
 		const tx = db.transaction(ctx.storeName, "readonly")
 		const store = tx.objectStore(ctx.storeName)
 		const out = []
-		const request = store.openCursor(null, "prev")
+		const request = store.openCursor(null, direction)
 		await new Promise((resolve, reject) => {
 			request.onsuccess = () => {
 				const cursor = request.result
@@ -120,6 +123,29 @@ async function getAll(ctx, qty = 200) {
 	} catch (err) {
 		report(err)
 		return []
+	}
+}
+
+/** 删一批：keys 支持数组或单个 key，任一失败 → 回滚整批，回 false。 */
+async function del(ctx, keys) {
+	let tx = null
+	try {
+		const db = await openDB(ctx)
+		tx = db.transaction(ctx.storeName, "readwrite")
+		const store = tx.objectStore(ctx.storeName)
+		for (const key of Array.isArray(keys) ? keys : [keys]) {
+			store.delete(key) // 非法 key 会在调用栈里同步抛
+		}
+		await txDone(tx)
+		return true
+	} catch (err) {
+		try {
+			tx?.abort()
+		} catch {
+			// 事务已终结，忽略
+		}
+		report(err)
+		return false
 	}
 }
 
@@ -172,7 +198,8 @@ export function openIDBStore({ dbName, storeName, keyPath = "time", version = 1,
 	const ctx = { dbName, storeName, keyPath, version, autoIncrement }
 	return {
 		put: (entries) => put(ctx, entries),
-		getAll: (qty = 200) => getAll(ctx, qty),
+		getAll: (qty = 200, direction = "prev") => getAll(ctx, qty, direction),
+		del: (keys) => del(ctx, keys),
 		clear: () => clearStore(ctx),
 		count: () => countStore(ctx),
 		close: () => closeDB(ctx),
