@@ -1,110 +1,68 @@
-// 全仓错误采集的收口（只收集，不弹列表）。职责 = 布线 + 收 + 洗 + 环形缓冲 + 防抖落盘。
-// 布线：setupErrorCapture 在这里接 Vue errorHandler / window error / unhandledrejection。
-// 落盘走 idb.js 的通用工厂（本文件只负责给错误日志开一张抽屉）。
+// 错误日志收集器：只收集，不弹列表。
+// 职责 = 布线（setupErrorCapture）→ 白名单清洗 → 环形缓冲 → 防抖批量落盘（走 idb.js 通用工厂）。
 // 三点纪律：
-//   - 入口即白名单清洗，config.headers(token) 在 httpSubscriber 入口就被撕掉
-//   - 环形缓冲 + 防抖批量，错误风暴时不拖垮主线程
-//   - 每口 try/catch 兜死，收集器自己绝不 throw 给业务代码
+//   - 入口即白名单清洗，token 等敏感字段在入队前要过滤掉
+//   - 环形缓冲 50 条上限 + 防抖，错误大量发生时不拖垮主线程
+//   - 收集器自己绝不 throw 给业务代码（idb.js 的 put/clear 永不抛错，只返回布尔值）
 
 import { openIDBStore } from "./idb.js"
 
 // autoIncrement：主键自增，避免同毫秒多条错误撞 key 相互覆盖；读取仍按插入序倒排
 const logStore = openIDBStore({ dbName: "VA_error-log", storeName: "error-log", autoIncrement: true })
 
-const RING_LIMIT = 50 // 环形缓冲区上限：超过则丢最旧的，防止错误风暴拖垮内存
-const FLUSH_DEBOUNCE_MS = 3000 // 防抖落盘间隔：最后一条错误后 3s 才批量写入
-const SAFE_FIELDS = ["type", "url", "msg", "status", "route", "time"] // 落盘白名单，只保留这些字段
+const RING_LIMIT = 50 // 超过就丢最旧的，防错误错误大量发生不拖垮内存
+const FLUSH_DEBOUNCE_MS = 3000 // 首条错误起 3s 攒一批再落盘
+const SAFE_FIELDS = ["type", "url", "msg", "status", "route", "time"] // 落盘白名单，其余字段（token 等）一律丢弃
 
-const ring = [] // 内存环形缓冲：待落盘的错误条目，防抖到点后 splice 清空
-let flushTimer = null // 防抖定时器句柄：scheduleFlush 里判空避免重复起定时器
+const ring = []
+let flushTimer = null
 
 /**
- * 全局兜底接线：Vue 组件错误 + window error + 未处理 Promise 拒绝，全部收进日志抽屉。
- * 在 createApp 后、mount 前调一次；getRoute 返回当前路由路径（延迟求值，避免硬依赖 router）。
+ * 全局兜底接线：Vue errorHandler + window error + unhandledrejection。
+ * createApp 后、mount 前调一次；getRoute 延迟求值，避免硬依赖 router。
  */
 export function setupErrorCapture(app, getRoute = () => "") {
-	// 一旦配置了 app.config.errorHandler，Vue 就把错误吞了，根本不冒泡到 window
-	// （需要 Vue 上下文时再扩展签名加 instance/info 参数）
+	// 配了 errorHandler，Vue 就把错误吞了，根本不冒泡到 window
 	app.config.errorHandler = (err) => {
-		collectErrorLog("vue", {
-			msg: err?.message || String(err),
-			// stack: err?.stack, // 暂不落盘：将来 SAFE_FIELDS 加字段后再启用
-			route: getRoute(),
-		})
+		// stack: err?.stack, // 暂不落盘：等 SAFE_FIELDS 加字段后再启用
+		collectErrorLog("vue", { msg: err?.message || String(err), route: getRoute() })
 	}
 	window.addEventListener("error", (event) => {
-		collectErrorLog("window", {
-			msg: event.message,
-			url: event.filename,
-			// status: event.lineno, // 语义是行号，暂不落盘，避免误当 HTTP 状态码
-			route: getRoute(),
-		})
+		// status: event.lineno, // 语义是行号，暂不落盘，避免误当 HTTP 状态码
+		collectErrorLog("window", { msg: event.message, url: event.filename, route: getRoute() })
 	})
 	window.addEventListener("unhandledrejection", (event) => {
 		collectErrorLog("promise", { msg: String(event.reason?.message ?? event.reason), route: getRoute() })
 	})
 }
 
-/** 主入口：收集一条错误。 */
+/** 主入口：收一条错误，清洗后入队，并保证有个攒批定时器在跑。 */
 export function collectErrorLog(type, payload = {}) {
-	const entry = { type, time: Date.now(), ...pickSafeFields(payload) }
-	ring.push(entry)
+	ring.push({ type, time: Date.now(), ...pickSafeFields(payload) })
 	if (ring.length > RING_LIMIT) ring.shift()
-	scheduleFlush()
+	flushTimer ??= setTimeout(flushNow, FLUSH_DEBOUNCE_MS)
 }
 
-/** 数据清洗：只留 SAFE_FIELDS 里 payload 真正带上的字段，撕掉 token、密码等敏感信息。 */
+/** 白名单清洗：撕掉 token、密码等不在 SAFE_FIELDS 里的字段。 */
 function pickSafeFields(payload) {
-	const clean = {}
-	for (const field of SAFE_FIELDS) {
-		if (field in payload && payload[field] !== undefined) {
-			clean[field] = payload[field]
-		}
-	}
-	return clean
-}
-
-function scheduleFlush() {
-	if (flushTimer) return
-	flushTimer = setTimeout(flushNow, FLUSH_DEBOUNCE_MS)
+	return Object.fromEntries(Object.entries(payload).filter(([k, v]) => SAFE_FIELDS.includes(k) && v !== undefined))
 }
 
 async function flushNow() {
 	flushTimer = null
 	if (ring.length === 0) return
 	const batch = ring.splice(0, ring.length)
-	reportErrorLog(batch) // 上报出口（默认空），先上报再落盘，本地写失败也不挡上传
-	try {
-		const ok = await logStore.put(batch)
-		if (!ok) {
-			console.error("[errorLog] 落盘失败，本批日志丢弃（底层原因见 idb 打点）")
-		}
-	} catch {
-		// put 自身已兜底不抛，这里是双保险
-		console.error("[errorLog] 落盘异常，理论上到不了这里")
-	}
+	reportErrorLog(batch) // 上报出口，默认空实现
+	if (!(await logStore.put(batch))) console.error("[errorLog] 落盘失败，本批丢弃（原因见 idb 打点）")
 }
 
 /** 清空已收集的日志（内存 + IndexedDB 一起）。 */
 export async function clearErrorLog() {
 	ring.length = 0
-	if (flushTimer) {
-		clearTimeout(flushTimer)
-		flushTimer = null
-	}
-	try {
-		await logStore.clear()
-	} catch {
-		// 同上：清空失败也不抛
-	}
+	clearTimeout(flushTimer)
+	flushTimer = null
+	if (!(await logStore.clear())) console.error("[errorLog] 清空失败")
 }
 
-/** 上报出口：flushNow 每批落盘前先调到这里。默认空实现（本地只留 IDB）；接 Sentry/自建后端时补上 batch 参数在此发送即可。 */
+/** 上报出口：flushNow 每批落盘前先调到这里；接 Sentry/自建后端时补上 batch 参数在此发送。 */
 export function reportErrorLog() {}
-
-export default {
-	collectErrorLog,
-	clearErrorLog,
-	reportErrorLog,
-	setupErrorCapture,
-}
