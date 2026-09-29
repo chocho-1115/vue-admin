@@ -1,4 +1,3 @@
-// 错误日志收集器：只收集，不弹列表。
 // 职责 = 布线（setupErrorCapture）→ 白名单清洗 → 环形缓冲 → 防抖批量投递 + 本地留档。
 // 两张表（同一个库）：
 //   - recent：本地留档，滚动保留最近 RECENT_LIMIT 条，纯给人看（将来做日志面板）
@@ -27,9 +26,41 @@ const ring = []
 let flushTimer = null
 let retryTimer = null // 重投定时器句柄：??= 避免重复 setup 挂出多个 interval
 let seq = 0
+let reporter = fakeReporter // 上报出口，全局单例，setReporter 可换
 
 /** 记录 id：毫秒时间戳 + 补零序号。补零是必须的——倒序游标按 key 字典序排，不补零同毫秒的 -2 会排到 -10 后面。 */
 const nextId = () => `${Date.now()}-${(++seq).toString().padStart(6, "0")}`
+
+/** 白名单清洗：撕掉 token、密码等不在 SAFE_FIELDS 里的字段。 */
+function pickSafeFields(payload) {
+	return Object.fromEntries(Object.entries(payload).filter(([k, v]) => SAFE_FIELDS.includes(k) && v !== undefined))
+}
+
+/** 攒批定时器到点：先写留档，再试投递；报成功的只留档，报失败的额外入队等重投。 */
+async function flushNow() {
+	flushTimer = null
+	if (ring.length === 0) return
+	const batch = ring.splice(0, ring.length)
+	await putCapped(recentStore, batch, RECENT_LIMIT)
+	if (await reportErrorLog(batch)) return // 投递成功，无需入队
+	await putCapped(pendingStore, batch, PENDING_LIMIT)
+}
+
+/** 写库并滚动裁剪：总数超 limit 就从最旧开始删。 */
+async function putCapped(store, batch, limit) {
+	if (!(await store.put(batch))) return
+	const overflow = (await store.count()) - limit
+	if (overflow <= 0) return
+	const oldest = await store.getAll(overflow, "next")
+	await store.del(oldest.map((e) => e.id))
+}
+
+/** 默认上报出口 = 假接口：50% 概率失败，延迟随批量放大模拟网络。没有后端时用它观察队列行为，接后端后删掉。 */
+function fakeReporter(batch) {
+	return new Promise((resolve) => setTimeout(() => resolve(Math.random() > 0.5), 200 + batch.length * 10))
+}
+
+// ---------------- 对外接口 ----------------
 
 /**
  * 全局兜底接线：Vue errorHandler + window error + unhandledrejection，并起定时重投。
@@ -61,21 +92,6 @@ export function collectErrorLog(type, payload = {}) {
 	flushTimer ??= setTimeout(flushNow, FLUSH_DEBOUNCE_MS)
 }
 
-/** 白名单清洗：撕掉 token、密码等不在 SAFE_FIELDS 里的字段。 */
-function pickSafeFields(payload) {
-	return Object.fromEntries(Object.entries(payload).filter(([k, v]) => SAFE_FIELDS.includes(k) && v !== undefined))
-}
-
-/** 攒批定时器到点：先写留档，再试投递；报成功的只留档，报失败的额外入队等重投。 */
-async function flushNow() {
-	flushTimer = null
-	if (ring.length === 0) return
-	const batch = ring.splice(0, ring.length)
-	await putCapped(recentStore, batch, RECENT_LIMIT)
-	if (await reportErrorLog(batch)) return // 投递成功，无需入队
-	await putCapped(pendingStore, batch, PENDING_LIMIT)
-}
-
 /** 定时重投：整队列分块扫完，每块独立试报、独立删除——某块失败不挡后面的块（否则队头会一直占位把后面的饿死）。 */
 export async function retryPending() {
 	const waiting = await pendingStore.getAll(PENDING_LIMIT, "next")
@@ -83,15 +99,6 @@ export async function retryPending() {
 		const chunk = waiting.slice(i, i + RETRY_BATCH)
 		if (await reportErrorLog(chunk)) await pendingStore.del(chunk.map((e) => e.id))
 	}
-}
-
-/** 写库并滚动裁剪：总数超 limit 就从最旧开始删。 */
-async function putCapped(store, batch, limit) {
-	if (!(await store.put(batch))) return
-	const overflow = (await store.count()) - limit
-	if (overflow <= 0) return
-	const oldest = await store.getAll(overflow, "next")
-	await store.del(oldest.map((e) => e.id))
 }
 
 /** 清空已收集的日志（内存 + 留档 + 投递队列一起）。 */
@@ -108,18 +115,6 @@ export const readRecent = (qty = 200) => recentStore.getAll(qty)
 /** 看投递队列：还在排队等上报的那些（最旧在前）。预留给将来的日志面板，当前无调用方。 */
 export const readPending = (qty = 200) => pendingStore.getAll(qty, "next")
 
-let reporter = fakeReporter
-
-/** 覆盖上报出口（默认是假接口）。改的是模块级全局单例，多个调用方会互相覆盖。 */
-export function setReporter(fn) {
-	if (typeof fn === "function") reporter = fn
-}
-
-/** 默认上报出口 = 假接口：50% 概率失败，延迟随批量放大模拟网络。没有后端时用它观察队列行为，接后端后删掉。 */
-function fakeReporter(batch) {
-	return new Promise((resolve) => setTimeout(() => resolve(Math.random() > 0.5), 200 + batch.length * 10))
-}
-
 /** 上报出口：返回是否送达。reporter 抛异常 / 返回非 true 都算失败，绝不把异常抛给调用方。 */
 export async function reportErrorLog(batch) {
 	try {
@@ -128,4 +123,9 @@ export async function reportErrorLog(batch) {
 		console.error("[errorLog] 上报异常", err)
 		return false
 	}
+}
+
+/** 覆盖上报出口（默认是假接口）。改的是模块级全局单例，多个调用方会互相覆盖。 */
+export function setReporter(fn) {
+	if (typeof fn === "function") reporter = fn
 }
