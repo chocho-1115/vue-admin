@@ -9,7 +9,7 @@
 //   - 三层上限各管一头：ring 50 防内存爆、recent 200 纯粹本地看、pending 200 防后端长挂吃光配额
 //   - 收集器自己绝不 throw 给业务代码（idb.js 的 put/del/clear 永不抛错，只返回布尔值）
 
-import { openIDBStore } from "./idb.js"
+import { openIDBStore } from "@/core/idb"
 
 const DB = { dbName: "VA_error-log", version: 2 } // version 2：schema 由单表 error-log 改为双表（老库残留的 error-log 表不影响读写）
 const recentStore = openIDBStore({ ...DB, storeName: "recent", keyPath: "id" })
