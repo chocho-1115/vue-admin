@@ -1,6 +1,4 @@
-// src/common/errorLog.js —— 错误日志收集器（只收集，不弹列表）
-//
-// 全仓错误采集的收口。职责 = 布线 + 收 + 洗 + 环形缓冲 + 防抖落盘。
+// 全仓错误采集的收口（只收集，不弹列表）。职责 = 布线 + 收 + 洗 + 环形缓冲 + 防抖落盘。
 // 布线：setupErrorCapture 在这里接 Vue errorHandler / window error / unhandledrejection。
 // 落盘走 idb.js 的通用工厂（本文件只负责给错误日志开一张抽屉）。
 // 三点纪律：
@@ -10,7 +8,7 @@
 
 import { openIDBStore } from "./idb.js"
 
-// autoIncrement：主键自增
+// autoIncrement：主键自增，避免同毫秒多条错误撞 key 相互覆盖；读取仍按插入序倒排
 const logStore = openIDBStore({ dbName: "VA_error-log", storeName: "error-log", autoIncrement: true })
 
 const RING_LIMIT = 50 // 环形缓冲区上限：超过则丢最旧的，防止错误风暴拖垮内存
@@ -75,10 +73,15 @@ async function flushNow() {
 	flushTimer = null
 	if (ring.length === 0) return
 	const batch = ring.splice(0, ring.length)
+	reportErrorLog(batch) // 上报出口（默认空），先上报再落盘，本地写失败也不挡上传
 	try {
-		await logStore.put(batch)
+		const ok = await logStore.put(batch)
+		if (!ok) {
+			console.error("[errorLog] 落盘失败，本批日志丢弃（底层原因见 idb 打点）")
+		}
 	} catch {
 		// put 自身已兜底不抛，这里是双保险
+		console.error("[errorLog] 落盘异常，理论上到不了这里")
 	}
 }
 
@@ -96,8 +99,8 @@ export async function clearErrorLog() {
 	}
 }
 
-/** 上报出口占位 —— 将来接 Sentry / 自建后端，只填这一个函数 */
-export function reportErrorLog(/* batch */) {}
+/** 上报出口：flushNow 每批落盘前先调到这里。默认空实现（本地只留 IDB）；接 Sentry/自建后端时补上 batch 参数在此发送即可。 */
+export function reportErrorLog() {}
 
 export default {
 	collectErrorLog,
