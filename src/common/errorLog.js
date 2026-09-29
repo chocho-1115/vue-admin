@@ -1,92 +1,99 @@
-// 职责 = 布线（setupErrorCapture）→ 白名单清洗 → 环形缓冲 → 防抖批量投递 + 本地留档。
-// 两张表（同一个库）：
-//   - recent：本地留档，滚动保留最近 RECENT_LIMIT 条，纯给人看（将来做日志面板）
-//   - pending：投递队列，只装还没上报成功的；上报成功后按 id 删掉
-//   「在不在 pending 里」本身就是状态位，不需要额外字段。
-// 重投是事件驱动（加载时 / 网络恢复 / 回到前台），没有常驻定时器：后端不可用时压力为 0，
-// 代价是队列会积压到 PENDING_LIMIT 后丢最旧的，等下一个事件再消化。
-// 三点纪律：
-//   - 入口即白名单清洗，token 等敏感字段在入队前要过滤掉
-//   - 三层上限各管一头：ring 50 防内存爆、recent 200 纯粹本地看、pending 200 防后端长挂吃光配额
-//   - 收集器自己绝不 throw 给业务代码（idb.js 的 put/del/clear 永不抛错，只返回布尔值）
+// 全局错误收集：布线 → 白名单清洗 → 环形缓冲 → 3s 攒批投递 + 本地留档 → 事件驱动重投。
+// 两张表同一个库：recent 是本地留档，pending 是投递队列，容量各自滚动裁剪。
+// 「在不在 pending 里」本身就是状态位，不需要额外字段。
+// 已知边界：3s 攒批窗口内刷新 / 关页面，内存里这批会丢。
 
 import { openIDBStore } from "@/core/idb"
 
-const DB = { dbName: "VA_error-log", version: 2 } // version 2：schema 由单表 error-log 改为双表（老库残留的 error-log 表不影响读写）
+const DB = { dbName: "VA_error-log", version: 2 } // 老库残留的单表 error-log 不影响读写
 const recentStore = openIDBStore({ ...DB, storeName: "recent", keyPath: "id" })
 const pendingStore = openIDBStore({ ...DB, storeName: "pending", keyPath: "id" })
 
-const RING_LIMIT = 50 // 内存缓冲上限：超过丢最旧的，防错误风暴拖垮内存
-const RECENT_LIMIT = 200 // 留档表上限：滚动裁剪，纯粹给本地看
-const PENDING_LIMIT = 200 // 投递队列上限：滚动丢最旧，防止后端长时间挂掉时无限吃配额
-const FLUSH_DEBOUNCE_MS = 3000 // 首条错误起 3s 攒一批再投递
-const RETRY_ONLOAD_DELAY_MS = 3000 // 加载后延迟这么久再消化遗留队列，打散"所有人同时刷新"的尖峰
-const RETRY_BATCH = 50 // 单次请求的批量大小（不是单轮覆盖量，队列会分块扫完）
-const SAFE_FIELDS = ["type", "url", "msg", "status", "route", "time"] // 只存这些字段进 db，其余字段（token 等）一律丢弃
+const RING_LIMIT = 50 // 防错误风暴拖垮内存
+const RECENT_LIMIT = 200 // 留档上限
+const PENDING_LIMIT = 200 // 队列上限，防后端长挂吃光配额
+const FLUSH_DEBOUNCE_MS = 3000 // 首条错误起算的攒批窗口
+const RETRY_ONLOAD_DELAY_MS = 3000 // 加载后消化遗留队列的延迟上限，打散同时刷新的尖峰
+const RETRY_BATCH = 50 // 单次请求批量
+const SAFE_FIELDS = ["type", "url", "msg", "status", "route", "time"] // 白名单，其余字段（token 等）一律丢弃
 
 const ring = []
 let flushTimer = null
-let retrying = false // 重投 in-flight 标志：事件驱动下多条路径会撞车，重叠就会把同一批打两遍
+let flushing = false // 攒批在飞：手里攥着内存数据，不让位
+let retrying = false // 重投在飞：多条事件路径会撞车，重叠就会把同一批打两遍
 let seq = 0
-let reporter = fakeReporter // 上报出口，全局单例，setReporter 可换
+let reporter = fakeReporter // 上报出口，setReporter 可换
 
-/** 记录 id：毫秒时间戳 + 补零序号。补零是必须的——倒序游标按 key 字典序排，不补零同毫秒的 -2 会排到 -10 后面。 */
-const nextId = () => `${Date.now()}-${(++seq).toString().padStart(6, "0")}`
+/**
+ * id = `<时间戳>-<序号>-<随机段>`：时间戳定字典序（倒序游标取最新在前），序号补零到 6 位
+ * 否则同毫秒的 -2 排到 -10 后面；随机段防跨标签页撞号——各页 seq 各自从 1 起，同毫秒会
+ * 生成同一个 id，而 put 是 upsert，撞号等于无声覆盖。
+ */
+const nextId = () => `${Date.now()}-${(++seq).toString().padStart(6, "0")}-${Math.random().toString(36).slice(2, 8)}`
 
-/** 白名单清洗：撕掉 token、密码等不在 SAFE_FIELDS 里的字段。 */
+/** 白名单清洗：撕掉 token、密码等字段。 */
 function pickSafeFields(payload) {
 	return Object.fromEntries(Object.entries(payload).filter(([k, v]) => SAFE_FIELDS.includes(k) && v !== undefined))
 }
 
-/** 攒批定时器到点：先写留档，再试投递；报成功的只留档，报失败的额外入队等重投。 */
+/** 攒批到点：先留档再投递，投递失败的入队等重投。 */
 async function flushNow() {
 	flushTimer = null
 	if (ring.length === 0) return
-	const batch = ring.splice(0, ring.length)
-	await putCapped(recentStore, batch, RECENT_LIMIT)
-	if (await reportErrorLog(batch)) return // 投递成功，无需入队
-	await putCapped(pendingStore, batch, PENDING_LIMIT)
+	flushing = true
+	try {
+		const batch = ring.splice(0, ring.length)
+		await putCapped(recentStore, batch, RECENT_LIMIT) // 留档失败不阻断投递，内存这批才是最后的底
+		if (await reportErrorLog(batch)) return
+		if (!(await putCapped(pendingStore, batch, PENDING_LIMIT))) {
+			// 入队也失败 = 这批彻底没了，塞回 ring 等下个窗口。不重排定时器，否则 IDB 一直坏着会每 3s 空写一轮
+			ring.unshift(...batch)
+			if (ring.length > RING_LIMIT) ring.length = RING_LIMIT
+		}
+	} finally {
+		flushing = false
+	}
 }
 
-/** 写库并滚动裁剪：总数超 limit 就从最旧开始删。 */
+/** 写库并滚动裁剪：超 limit 就从最旧开始删。任一步失败回 false。 */
 async function putCapped(store, batch, limit) {
-	if (!(await store.put(batch))) return
+	if (!(await store.put(batch))) return false
 	const overflow = (await store.count()) - limit
-	if (overflow <= 0) return
+	if (overflow <= 0) return true
 	const oldest = await store.getAll(overflow, "next")
-	await store.del(oldest.map((e) => e.id))
+	return await store.del(oldest.map((e) => e.id))
 }
 
-/** 默认上报出口 = 假接口：50% 概率失败，延迟随批量放大模拟网络。没有后端时用它观察队列行为，接后端后删掉。 */
+/** 假接口：50% 概率失败，延迟随批量放大。只用于本地观察队列，接后端用 setReporter 换掉（别删，删了失败原因会被吞掉）。 */
 function fakeReporter(batch) {
 	return new Promise((resolve) => setTimeout(() => resolve(Math.random() > 0.5), 200 + batch.length * 10))
 }
 
-/** 挂上重投触发点：加载时 / 网络恢复 / 回到前台。只在"真有东西该投"的时刻才发请求。 */
+/** 重投触发点：加载时 / 网络恢复 / 回到前台，都无条件调，队列空时只读一次 IDB。 */
 function installRetryTriggers() {
-	// 加载后随机延迟一小会儿，消化上次遗留的队列。不加延迟的话，后端刚发布时所有客户端
-	// 同时刷新会撞在一起形成尖峰
-	setTimeout(retryPending, Math.random() * RETRY_ONLOAD_DELAY_MS)
-	window.addEventListener("online", retryPending) // 网卡恢复，此刻命中率最高（但网卡一直是通的就不会触发）
+	setTimeout(retryPending, Math.random() * RETRY_ONLOAD_DELAY_MS) // 随机延迟打散同时刷新的尖峰
+	// online 不可靠：只有系统认为网络真断过才触发，后端 500 这类根本不会动网卡
+	window.addEventListener("online", retryPending)
 	document.addEventListener("visibilitychange", () => {
-		if (document.visibilityState === "visible") retryPending() // 用户切回前台，后台管理系统里这个事件不稀
+		if (document.visibilityState === "visible") retryPending() // 回到前台，最可靠的一环
 	})
 }
 
 // ---------------- 对外接口 ----------------
 
 /**
- * 全局兜底接线：Vue errorHandler + window error + unhandledrejection，并挂上重投触发点。
- * createApp 后、mount 前调一次；getRoute 延迟求值，避免硬依赖 router。
+ * 全局兜底接线：Vue errorHandler + window error + unhandledrejection。
+ * createApp 后、mount 前调一次（监听没去重，重复调用会叠加）。
  */
 export function setupErrorCapture(app, getRoute = () => "") {
-	// 配了 errorHandler，Vue 就把错误吞了，根本不冒泡到 window
+	// 配了 errorHandler，Vue 就不打 console 也不往外抛，所以这行 console.error 得自己补
 	app.config.errorHandler = (err) => {
-		// stack: err?.stack, // 暂不存进 db：等 SAFE_FIELDS 加字段后再启用
+		console.error(err)
+		// stack: err?.stack, // 采集端待支持；加进 SAFE_FIELDS 只会让用户能伪造它
 		collectErrorLog("vue", { msg: err?.message || String(err), route: getRoute() })
 	}
 	window.addEventListener("error", (event) => {
-		// status: event.lineno, // 语义是行号，暂不存进 db，避免误当 HTTP 状态码
+		// event.lineno / colno 是行列号，和 HTTP status 冲突，暂不入库
 		collectErrorLog("window", { msg: event.message, url: event.filename, route: getRoute() })
 	})
 	window.addEventListener("unhandledrejection", (event) => {
@@ -95,34 +102,38 @@ export function setupErrorCapture(app, getRoute = () => "") {
 	installRetryTriggers()
 }
 
-/** 主入口：收一条错误，清洗后入队，并保证有个攒批定时器在跑。 */
+/** 主入口：收一条错误，清洗后入队并起攒批窗口。 */
 export function collectErrorLog(type, payload = {}) {
-	// id 在白名单清洗之后注入，用户 payload 里的同名字段已被撕掉
+	// id 在清洗之后注入，payload 里的同名字段已被撕掉
 	ring.push({ id: nextId(), type, time: Date.now(), ...pickSafeFields(payload) })
 	if (ring.length > RING_LIMIT) ring.shift()
 	flushTimer ??= setTimeout(flushNow, FLUSH_DEBOUNCE_MS)
 }
 
 /**
- * 事件驱动重投：整队列分块扫完，某块失败即停（每次事件最多打 1 个请求）。
- * 不再有常驻定时器——后端不可用时压力为 0，代价是队列会积压到 PENDING_LIMIT 后丢最旧的。
+ * 事件驱动重投：队列分块扫完，某块失败即停（每次事件最多 1 个请求，攒批在飞时也让位）。
+ * 没有常驻定时器：后端不可用时压力为 0，代价是队列积压到上限后丢最旧的。
  */
 export async function retryPending() {
-	if (retrying) return // 上一轮还在飞，等它打完
+	if (retrying || flushing) return
 	retrying = true
 	try {
 		const waiting = await pendingStore.getAll(PENDING_LIMIT, "next")
 		for (let i = 0; i < waiting.length; i += RETRY_BATCH) {
 			const chunk = waiting.slice(i, i + RETRY_BATCH)
-			if (!(await reportErrorLog(chunk))) break // 网络不通就别继续打了，下个事件再来
-			await pendingStore.del(chunk.map((e) => e.id))
+			if (!(await reportErrorLog(chunk))) break // 网络不通就别继续打，下个事件再来
+			if (!(await pendingStore.del(chunk.map((e) => e.id)))) {
+				// 投出去了但删不掉，这块会被重投，后端需按 id 幂等去重；再打下去只会堆更多重复
+				console.error("[errorLog] 投递成功但队列删除失败，将重复上报，后端需按 id 去重")
+				break
+			}
 		}
 	} finally {
 		retrying = false
 	}
 }
 
-/** 清空已收集的日志（内存 + 留档 + 投递队列一起）。 */
+/** 清空内存 + 留档 + 队列（不打断在飞的任务，之后可能仍有旧数据落库）。 */
 export async function clearErrorLog() {
 	ring.length = 0
 	clearTimeout(flushTimer)
@@ -131,12 +142,12 @@ export async function clearErrorLog() {
 	await pendingStore.clear()
 }
 
-/** 看本地留档（最新在前）。预留给将来的日志面板，当前无调用方。 */
+/** 看本地留档（最新在前），预留给日志面板。 */
 export const readRecent = (qty = 200) => recentStore.getAll(qty)
-/** 看投递队列：还在排队等上报的那些（最旧在前）。预留给将来的日志面板，当前无调用方。 */
+/** 看投递队列（最旧在前），预留给日志面板。 */
 export const readPending = (qty = 200) => pendingStore.getAll(qty, "next")
 
-/** 上报出口：返回是否送达。reporter 抛异常 / 返回非 true 都算失败，绝不把异常抛给调用方。 */
+/** 上报出口：返回是否送达。抛异常或返回非 true 都算失败，不往外抛。 */
 export async function reportErrorLog(batch) {
 	try {
 		return (await reporter(batch)) === true
@@ -146,7 +157,7 @@ export async function reportErrorLog(batch) {
 	}
 }
 
-/** 覆盖上报出口（默认是假接口）。改的是模块级全局单例，多个调用方会互相覆盖。 */
+/** 覆盖上报出口。改的是模块级全局单例，多个调用方会互相覆盖。 */
 export function setReporter(fn) {
 	if (typeof fn === "function") reporter = fn
 }
