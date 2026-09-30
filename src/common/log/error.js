@@ -1,5 +1,5 @@
 // 全局错误收集。三段结构，按因果顺序从上往下读：
-//   存 → 存到哪、本地留档 archive、投递队列 outbox、上限怎么裁
+//   存 → 存到哪、本地最近记录 recent、待投递队列 pending、上限怎么裁
 //   投 → 唯一的出站口 send，和它背后可替换的 reporter
 //   编排 → 内存暂存 ring、攒批定时器、flushNow / retryPending 什么时候调存和投
 // 已知边界：3s 攒批窗口内刷新 / 关页面，ring 里这批会丢。
@@ -7,29 +7,26 @@
 import { openIDBStore } from "@/core/idb"
 
 // ==================== 存 ====================
-
 const DB = { dbName: "VA_error-log", version: 3 }
-// 主键交给存储层 autoIncrement，本模块不再生成 id。代价是表结构换了：keyPath 建表即固化、改不了，
-// v2 的 recent / pending 只能作废另起新名。v1 的单表 error-log 和 v2 那两张一并成为死表，不影响读写。
-const archiveStore = openIDBStore({ ...DB, storeName: "archive", autoIncrement: true })
-const outboxStore = openIDBStore({ ...DB, storeName: "outbox", autoIncrement: true })
+const recentStore = openIDBStore({ ...DB, storeName: `v${DB.version}_recent`, autoIncrement: true })
+const pendingStore = openIDBStore({ ...DB, storeName: `v${DB.version}_pending`, autoIncrement: true })
 
-const ARCHIVE_LIMIT = 200 // 留档上限
-const OUTBOX_LIMIT = 200 // 队列上限，防后端长挂吃光配额
+const RECENT_LIMIT = 200 // 最近记录条数上限，超了整表清
+const PENDING_LIMIT = 200 // 队列上限，防后端长挂吃光配额
 
-/** 存·写一张表：超上限就整表清空，不做逐条裁剪。留档只给日志面板看，没人翻页，粗粒度够了。任一步失败回 false。 */
+/** 存·写一张表：超上限就整表清空，不做逐条裁剪。只给日志面板看，没人翻页，粗粒度够了。任一步失败回 false。 */
 async function putCapped(store, batch, limit) {
 	if (!(await store.put(batch))) return false
 	if ((await store.count()) <= limit) return true
 	return await store.clear()
 }
 
-/** 存·写本地留档。投递成败与它无关，留档先落。 */
-const archive = (batch) => putCapped(archiveStore, batch, ARCHIVE_LIMIT)
+/** 存·写本地最近记录。投递成败与它无关，先记下来。 */
+const save = (batch) => putCapped(recentStore, batch, RECENT_LIMIT)
 
-/** 存·投递失败时落 outbox 等重投。写不进去就退回内存 ring，不静默丢。 */
+/** 存·投递失败时落 pending 等重投。写不进去就退回内存 ring，不静默丢。 */
 async function enqueue(batch) {
-	if (await putCapped(outboxStore, batch, OUTBOX_LIMIT)) return true
+	if (await putCapped(pendingStore, batch, PENDING_LIMIT)) return true
 	// 入队也失败 = 这批彻底没了，塞回 ring 等下个窗口。不重排定时器，否则 IDB 一直坏着会每 3s 空写一轮
 	ring.unshift(...batch)
 	if (ring.length > RING_LIMIT) ring.length = RING_LIMIT
@@ -37,24 +34,24 @@ async function enqueue(batch) {
 }
 
 /** 存·取整个投递队列（最旧在前）。qty 默认整个队列上限。 */
-const dequeue = (qty = OUTBOX_LIMIT) => outboxStore.getAll(qty, "next")
+const dequeue = (qty = PENDING_LIMIT) => pendingStore.getAll(qty, "next")
 
 /** 存·队列已确认送达，清空。 */
-const dropQueue = () => outboxStore.clear()
+const clearPending = () => pendingStore.clear()
 
-/** 看本地留档（最新在前），预留给日志面板。 */
-export const readRecent = (qty = 200) => archiveStore.getAll(qty)
+/** 看本地最近记录（最新在前），预留给日志面板。 */
+export const readRecent = (qty = 200) => recentStore.getAll(qty)
 
 /** 看投递队列（最旧在前），预留给日志面板。 */
 export const readPending = (qty) => dequeue(qty)
 
-/** 清空内存 + 留档 + 队列（不打断在飞的任务，之后可能仍有旧数据落库）。 */
+/** 清空内存 + 最近记录 + 待投递队列（不打断在飞的任务，之后可能仍有旧数据落库）。 */
 export async function clearErrorLog() {
 	ring.length = 0
 	clearTimeout(flushTimer)
 	flushTimer = null
-	await archiveStore.clear()
-	await outboxStore.clear()
+	await recentStore.clear()
+	await pendingStore.clear()
 }
 
 // ==================== 投 ====================
@@ -108,14 +105,14 @@ export function collectErrorLog(type, payload = {}) {
 	flushTimer ??= setTimeout(flushNow, FLUSH_DEBOUNCE_MS)
 }
 
-/** 攒批到点：先存留档，再投；投不出去就存进 outbox 等重投。 */
+/** 攒批到点：先记到 recent，再投；投不出去就存进 pending 等重投。 */
 async function flushNow() {
 	flushTimer = null
 	if (ring.length === 0) return
 	flushing = true
 	try {
 		const batch = ring.splice(0, ring.length)
-		await archive(batch) // 存。留档失败不阻断投递，内存这批才是最后的底
+		await save(batch) // 存。记不下来不阻断投递，内存这批才是最后的底
 		if (await send(batch)) return
 		await enqueue(batch) // 存。等下个事件重投
 	} finally {
@@ -124,7 +121,7 @@ async function flushNow() {
 }
 
 /**
- * 事件驱动重投：取整个 outbox 一次投出去，投成功就清空、失败原样留着等下个事件。
+ * 事件驱动重投：取整个 pending 一次投出去，投成功就清空、失败原样留着等下个事件。
  * 攒批在飞时让位。没有常驻定时器：后端不可用时压力为 0，代价是积压超上限丢最旧。
  */
 export async function retryPending() {
@@ -133,7 +130,7 @@ export async function retryPending() {
 	try {
 		const batch = await dequeue()
 		if (!batch.length) return
-		if (await send(batch)) await dropQueue()
+		if (await send(batch)) await clearPending()
 		// 投成功但 clear 失败 = 这批会被重投。后端手上没有稳定 id 能去重（主键是本地库自增的、
 		// 且不外发），真要精确幂等得在采集侧补一个客户端生成的 traceId，等上报接口契约定了再加
 	} finally {
