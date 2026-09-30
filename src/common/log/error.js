@@ -68,11 +68,7 @@ function fakeReporter(batch) {
 	return new Promise((resolve) => setTimeout(() => resolve(Math.random() > 0.5), 200 + batch.length * 10))
 }
 
-
-
 // ---------------- 对外接口 ----------------
-
-
 
 /** 主入口：收一条错误，清洗后入队并起攒批窗口。 */
 export function collectErrorLog(type, payload = {}) {
