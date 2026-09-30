@@ -2,7 +2,7 @@ import { dispatch, session } from "@/store"
 import { isWhitePage, goLogin } from "@/router/helpers"
 
 import { EventBus } from "@/core/eventBus"
-import { collectErrorLog } from "./errorLog.js"
+import { collectErrorLog } from "./log/error.js"
 
 // to re-login
 // ElMessageBox.confirm(

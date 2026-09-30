@@ -11,7 +11,7 @@ import App from "./App.vue"
 import router from "./router"
 import { ctx } from "./store"
 import { dispatch } from "@/store"
-import { setupErrorCapture } from "./common/errorLog.js"
+import { setupErrorCapture } from "./common/log"
 
 // global components
 import SvgIcon from "./components/SvgIcon.vue"
@@ -52,8 +52,8 @@ enableMocking().then(async () => {
 	const app = createApp(App)
 	app.use(router) // It must be after the enablemock function
 
-	// 全局兜底接线（Vue errorHandler + window error + unhandledrejection）在 errorLog.js 里
-	setupErrorCapture(app, () => router.currentRoute.value?.fullPath)
+	// Error Capture
+	setupErrorCapture(app)
 
 	app.provide("context", ctx)
 	app.component("svg-icon", SvgIcon)
