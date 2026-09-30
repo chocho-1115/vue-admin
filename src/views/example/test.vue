@@ -46,6 +46,7 @@
 </template>
 
 <script setup>
+import { inject, reactive } from "vue"
 import { useRouter } from "vue-router"
 // import { ctx as context } from '@/store'
 import { testError } from "@/api/test"
