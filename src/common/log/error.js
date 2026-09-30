@@ -11,14 +11,15 @@ const DB = { dbName: "VA_error-log", version: 3 }
 const recentStore = openIDBStore({ ...DB, storeName: `v${DB.version}_recent`, autoIncrement: true })
 const pendingStore = openIDBStore({ ...DB, storeName: `v${DB.version}_pending`, autoIncrement: true })
 
-const RECENT_LIMIT = 200 // 最近记录条数上限，超了整表清
+const RECENT_LIMIT = 200 // 最近记录条数上限，超出就删最旧的几条，始终精确保留最新 200 条
 const PENDING_LIMIT = 200 // 队列上限，防后端长挂吃光配额
 
-/** 存·写一张表：超上限就整表清空，不做逐条裁剪。只给日志面板看，没人翻页，粗粒度够了。任一步失败回 false。 */
+/** 存·写一张表并裁到上限：超出的最旧几条按主键删掉，不整表清。任一步失败回 false。 */
 async function putCapped(store, batch, limit) {
 	if (!(await store.put(batch))) return false
-	if ((await store.count()) <= limit) return true
-	return await store.clear()
+	const overflow = (await store.count()) - limit
+	if (overflow <= 0) return true
+	return await store.del(await store.getKeys(overflow, "next"))
 }
 
 /** 存·写本地最近记录。投递成败与它无关，先记下来。 */

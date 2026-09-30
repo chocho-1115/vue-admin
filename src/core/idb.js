@@ -5,7 +5,8 @@
 //   - 同库多抽屉共用一个 version，必须在首次 open 前各自构造完（构造即登记蓝图），一次升级全建出来；
 //     open 之后才构造的不会自动建，得手动升 version
 //   - 别人升版本时本页自动断连重开，不阻塞对方
-//   - 要按记录删/改，主键必须自持（keyPath: "id"）；autoIncrement 拿不到 key，只能追加
+//   - 要按记录删/改，主键必须自持（keyPath: "id"）；autoIncrement 的主键不落在记录里，
+//     按记录删时先 getKeys 把主键捞出来
 
 const dbs = new Map() // `${dbName}|${version}` → Promise<IDBDatabase>
 const schemas = new Map() // `${dbName}|${version}` → Map<storeName, {keyPath?|autoIncrement}>
@@ -80,6 +81,24 @@ function readCursor(store, qty, direction) {
 	})
 }
 
+/** 游标取一批主键，不取记录内容。autoIncrement 的主键不在记录里，只能这么拿。 */
+function readKeys(store, qty, direction) {
+	return new Promise((resolve, reject) => {
+		const out = []
+		const request = store.openKeyCursor(null, direction)
+		request.onsuccess = () => {
+			const cursor = request.result
+			if (!cursor || out.length >= qty) {
+				resolve(out)
+				return
+			}
+			out.push(cursor.primaryKey)
+			cursor.continue()
+		}
+		request.onerror = () => reject(request.error)
+	})
+}
+
 /** 事务统一壳：开连接 → 开事务 → work 干活 → 等落地。work 返回值即成功结果，出错则回滚 + 打点 + 回 fallback。 */
 async function runOp(ctx, mode, fallback, work) {
 	let tx = null
@@ -113,6 +132,11 @@ function put(ctx, entries) {
 /** 取一批：默认倒序（最新在前），传 "next" 为最旧在前。 */
 function getAll(ctx, qty, direction) {
 	return runOp(ctx, "readonly", [], (store) => readCursor(store, qty, direction))
+}
+
+/** 只取主键，给 del 用。默认倒序（最新在前），传 "next" 为最旧在前。 */
+function getKeys(ctx, qty, direction) {
+	return runOp(ctx, "readonly", [], (store) => readKeys(store, qty, direction))
 }
 
 /** 删一批：keys 支持数组或单个 key。delete 对不存在的 key 幂等，不会回滚整批。 */
@@ -159,6 +183,7 @@ export function openIDBStore({ dbName, storeName, keyPath = "time", version = 1,
 	return {
 		put: (entries) => put(ctx, entries),
 		getAll: (qty = 200, direction = "prev") => getAll(ctx, qty, direction),
+		getKeys: (qty = 200, direction = "prev") => getKeys(ctx, qty, direction),
 		del: (keys) => del(ctx, keys),
 		clear: () => clearStore(ctx),
 		count: () => countStore(ctx),
