@@ -38,16 +38,18 @@ export function initHttpSubscriber() {
 	})
 
 	EventBus.on("request:error", (errorInfo) => {
+		// 业务码分支发的是 {url, res}，文案在 res.msg；传输层分支发的是 {url, message, ...}
+		const msg = errorInfo?.message || errorInfo?.res?.msg
 		collectErrorLog("http", {
 			url: errorInfo?.url,
-			msg: errorInfo?.message || errorInfo?.msg,
+			msg,
 			status: errorInfo?.status,
 		})
 		if (import.meta.env.DEV) {
 			console.log("Unified error log reporting:", errorInfo)
 		}
 		ElMessage({
-			message: errorInfo.message || "Error",
+			message: msg || "Error",
 			type: "error",
 			duration: 5 * 1000,
 		})
