@@ -14,7 +14,6 @@ const pendingStore = openIDBStore({ ...DB, storeName: `v${DB.version}_pending`, 
 const RECENT_LIMIT = 200 // 最近记录条数上限，超出就删最旧的几条，始终精确保留最新 200 条
 const PENDING_LIMIT = 200 // 队列上限，防后端长挂吃光配额
 
-/** 存·写一张表并裁到上限：超出的最旧几条按主键删掉，不整表清。任一步失败回 false。 */
 async function putCapped(store, batch, limit) {
 	if (!(await store.put(batch))) return false
 	const overflow = (await store.count()) - limit
@@ -34,16 +33,12 @@ async function enqueue(batch) {
 	return false
 }
 
-/** 存·取整个投递队列（最旧在前）。qty 默认整个队列上限。 */
 const dequeue = (qty = PENDING_LIMIT) => pendingStore.getAll(qty, "next")
 
-/** 存·队列已确认送达，清空。 */
 const clearPending = () => pendingStore.clear()
 
-/** 看本地最近记录（最新在前），预留给日志面板。 */
 export const readRecent = (qty = 200) => recentStore.getAll(qty)
 
-/** 看投递队列（最旧在前），预留给日志面板。 */
 export const readPending = (qty) => dequeue(qty)
 
 /** 清空内存 + 最近记录 + 待投递队列（不打断在飞的任务，之后可能仍有旧数据落库）。 */
@@ -57,9 +52,8 @@ export async function clearErrorLog() {
 
 // ==================== 投 ====================
 
-let reporter = fakeReporter // 出站口，setReporter 可换
+let reporter = fakeReporter
 
-/** 投·唯一的出站口。返回是否送达：抛异常或返回非 true 都算失败，不往外抛。 */
 export async function send(batch) {
 	try {
 		return (await reporter(batch)) === true
@@ -91,12 +85,10 @@ let flushTimer = null
 let flushing = false // 攒批在飞：手里攥着内存数据，不让位
 let retrying = false // 重投在飞：多条事件路径会撞车，重叠就会把同一批打两遍
 
-/** 白名单清洗：撕掉 token、密码等字段。 */
 function pickSafeFields(payload) {
 	return Object.fromEntries(Object.entries(payload).filter(([k, v]) => SAFE_FIELDS.includes(k) && v !== undefined))
 }
 
-/** 主入口：收一条错误，清洗后入队并起攒批窗口。 */
 export function collectErrorLog(type, payload = {}) {
 	// 路由以当前地址兜底：query 留着（能区分同页不同 tab），hash 丢掉（对本项目没信息量）
 	const route = window.location.pathname + window.location.search
@@ -106,16 +98,15 @@ export function collectErrorLog(type, payload = {}) {
 	flushTimer ??= setTimeout(flushNow, FLUSH_DEBOUNCE_MS)
 }
 
-/** 攒批到点：先记到 recent，再投；投不出去就存进 pending 等重投。 */
 async function flushNow() {
 	flushTimer = null
 	if (ring.length === 0) return
 	flushing = true
 	try {
 		const batch = ring.splice(0, ring.length)
-		await save(batch) // 存。记不下来不阻断投递，内存这批才是最后的底
+		await save(batch)
 		if (await send(batch)) return
-		await enqueue(batch) // 存。等下个事件重投
+		await enqueue(batch)
 	} finally {
 		flushing = false
 	}
@@ -123,7 +114,7 @@ async function flushNow() {
 
 /**
  * 事件驱动重投：取整个 pending 一次投出去，投成功就清空、失败原样留着等下个事件。
- * 攒批在飞时让位。没有常驻定时器：后端不可用时压力为 0，代价是积压超上限丢最旧。
+ * 攒批在飞时让位。代价是积压超上限丢最旧。
  */
 export async function retryPending() {
 	if (retrying || flushing) return

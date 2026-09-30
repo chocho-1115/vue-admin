@@ -55,7 +55,6 @@ function txDone(tx) {
 	})
 }
 
-/** 把 IDBRequest 变成 Promise。 */
 function resultOf(request) {
 	return new Promise((resolve, reject) => {
 		request.onsuccess = () => resolve(request.result)
@@ -63,7 +62,6 @@ function resultOf(request) {
 	})
 }
 
-/** 游标取一批：取满 qty 或到头就停。 */
 function readCursor(store, qty, direction) {
 	return new Promise((resolve, reject) => {
 		const out = []
@@ -99,7 +97,6 @@ function readKeys(store, qty, direction) {
 	})
 }
 
-/** 事务统一壳：开连接 → 开事务 → work 干活 → 等落地。work 返回值即成功结果，出错则回滚 + 打点 + 回 fallback。 */
 async function runOp(ctx, mode, fallback, work) {
 	let tx = null
 	try {
@@ -119,7 +116,6 @@ async function runOp(ctx, mode, fallback, work) {
 	}
 }
 
-/** 写一批。任一写入失败 → 回滚整批（all-or-nothing），回 false。 */
 function put(ctx, entries) {
 	return runOp(ctx, "readwrite", false, (store) => {
 		for (const entry of (Array.isArray(entries) ? entries : [entries])) {
@@ -173,7 +169,6 @@ async function closeDB(ctx) {
 
 // ---------------- 对外接口 ----------------
 
-/** 给一张抽屉开句柄。构造即登记蓝图，dbName/storeName 绑进闭包，之后零参调用。 */
 export function openIDBStore({ dbName, storeName, keyPath = "time", version = 1, autoIncrement = false }) {
 	const vkey = `${dbName}|${version}`
 	if (!schemas.has(vkey)) schemas.set(vkey, new Map())
