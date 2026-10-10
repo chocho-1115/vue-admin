@@ -36,12 +36,14 @@ async function enableMocking() {
 		},
 		// Decide how to react to unhandled requests (i.e. those that do not have a matching request handler).
 		// filter warnings
-		onUnhandledRequest(request, print) {
-			const url = new URL(request.url)
-			if (url.pathname.includes("/dev-api")) {
-				print.warning()
+		onUnhandledFrame({ frame, defaults }) {
+			if (frame.protocol === 'http') {
+				const url = new URL(frame.data.request.url)
+				if (url.pathname.includes('/dev-api')) {
+					defaults.warn()
+				}
 			}
-			return
+			// return
 		},
 	})
 }
