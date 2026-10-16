@@ -88,7 +88,8 @@ const subMenu = useTemplateRef("subMenu")
 const alwaysShow = props.info.meta?.alwaysShow
 
 /** 显示的子菜单 */
-const showingChildren = props.info.children?.filter((child) => !child.meta?.hidden && hasRole(child.meta?.roles)) ?? []
+const showingChildren =
+	props.info.children?.filter((child) => !child.meta?.hidden && hasRole(child.meta?.roles)) ?? []
 
 /** 唯一的子菜单项 */
 const theOnlyOneChild = (function () {

@@ -9,9 +9,13 @@
 			</div>
 			<div class="checks">
 				<el-tag :type="isAdmin() ? 'success' : 'info'">isAdmin() = {{ isAdmin() }}</el-tag>
-				<el-tag :type="hasRole(['admin', 'editor']) ? 'success' : 'info'">hasRole(['admin','editor']) = {{ hasRole(['admin', 'editor']) }}</el-tag>
+				<el-tag :type="hasRole(['admin', 'editor']) ? 'success' : 'info'"
+					>hasRole(['admin','editor']) = {{ hasRole(["admin", "editor"]) }}</el-tag
+				>
 			</div>
-			<p class="tips">角色来自 <code>/permission</code>；本页 admin / editor 均可访问，用于对比按钮级差异。</p>
+			<p class="tips">
+				角色来自 <code>/permission</code>；本页 admin / editor 均可访问，用于对比按钮级差异。
+			</p>
 		</div>
 
 		<!-- 按钮权限点演示 -->
@@ -30,24 +34,35 @@
 		<div class="block">
 			<div class="block-title">hasPerm 数组聚合（any / all）</div>
 			<div class="checks">
-				<el-tag :type="hasPerm(['example:create', 'example:view'], { mode: 'any' }) ? 'success' : 'info'">
+				<el-tag
+					:type="hasPerm(['example:create', 'example:view'], { mode: 'any' }) ? 'success' : 'info'"
+				>
 					any(['example:create','example:view'])
 				</el-tag>
-				<el-tag :type="hasPerm(['example:create', 'example:delete'], { mode: 'all' }) ? 'success' : 'info'">
+				<el-tag
+					:type="
+						hasPerm(['example:create', 'example:delete'], { mode: 'all' }) ? 'success' : 'info'
+					"
+				>
 					all(['example:create','example:delete'])
 				</el-tag>
 			</div>
-			<p class="tips">any 任一命中即通过；all 需全部命中（本例 admin 为 true、editor 为 false）。</p>
+			<p class="tips">
+				any 任一命中即通过；all 需全部命中（本例 admin 为 true、editor 为 false）。
+			</p>
 		</div>
 
 		<!-- 路由级守卫演示 -->
 		<div class="block">
 			<div class="block-title">路由级守卫 meta.roles（新窗格演示）</div>
 			<div class="btn-list">
-				<el-button type="warning" @click="onOpenTest">前往 Test 演示页（目标路由仅 admin 可访问）</el-button>
+				<el-button type="warning" @click="onOpenTest"
+					>前往 Test 演示页（目标路由仅 admin 可访问）</el-button
+				>
 			</div>
 			<p class="tips">
-				test 路由配置 meta.roles: ['admin']，且已从 editor 的菜单过滤。admin 点击可正常进入；editor 点击后由权限守卫重定向到 /error/403。
+				test 路由配置 meta.roles: ['admin']，且已从 editor 的菜单过滤。admin 点击可正常进入；editor
+				点击后由权限守卫重定向到 /error/403。
 			</p>
 		</div>
 
@@ -55,7 +70,9 @@
 		<div class="block">
 			<div class="block-title">store/session/permission 原始数据</div>
 			<pre class="raw">{{ JSON.stringify(session.permission.get(), null, 2) }}</pre>
-			<p class="tips">roles 驱动路由级权限与菜单过滤，permissions 驱动按钮级显隐，routes 为动态路由预留字段。</p>
+			<p class="tips">
+				roles 驱动路由级权限与菜单过滤，permissions 驱动按钮级显隐，routes 为动态路由预留字段。
+			</p>
 		</div>
 	</div>
 </template>

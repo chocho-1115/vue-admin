@@ -8,8 +8,8 @@
 					<el-icon :size="28"><UserFilled /></el-icon>
 				</el-avatar>
 				<div>
-					<h3 class="welcome-title">{{ greeting }}, {{ ctx.userInfo.name || 'Guest' }}</h3>
-					<p class="welcome-sub">{{ ctx.userInfo.introduction || 'Welcome back' }}</p>
+					<h3 class="welcome-title">{{ greeting }}, {{ ctx.userInfo.name || "Guest" }}</h3>
+					<p class="welcome-sub">{{ ctx.userInfo.introduction || "Welcome back" }}</p>
 				</div>
 			</div>
 		</el-card>
@@ -19,7 +19,11 @@
 			<el-col v-for="item in stats" :key="item.label" :span="6" :xs="12">
 				<el-card shadow="hover">
 					<div class="stat">
-						<el-icon :size="28" class="stat-icon" :style="{ color: `var(--el-color-${item.color})` }">
+						<el-icon
+							:size="28"
+							class="stat-icon"
+							:style="{ color: `var(--el-color-${item.color})` }"
+						>
 							<component :is="item.icon" />
 						</el-icon>
 						<div>
@@ -39,7 +43,9 @@
 			<div class="perm-row" v-for="group in permGroups" :key="group.label">
 				<span class="perm-label">{{ group.label }}</span>
 				<div class="perm-tags">
-					<el-tag v-for="item in group.items" :key="item" :type="group.type" :plain="group.plain">{{ item }}</el-tag>
+					<el-tag v-for="item in group.items" :key="item" :type="group.type" :plain="group.plain">{{
+						item
+					}}</el-tag>
 					<el-tag v-if="!group.items.length" type="info">none</el-tag>
 				</div>
 			</div>
@@ -104,7 +110,12 @@ const stats = computed(() => [
 	{ label: "My Roles", value: roles.length, icon: UserFilled, color: "primary" },
 	{ label: "My Perms", value: permissions.length, icon: Key, color: "success" },
 	{ label: "Tags", value: ctx.tagsView.length, icon: Tickets, color: "warning" },
-	{ label: "Device", value: ctx.device === "mobile" ? "Mobile" : "Desktop", icon: Monitor, color: "info" },
+	{
+		label: "Device",
+		value: ctx.device === "mobile" ? "Mobile" : "Desktop",
+		icon: Monitor,
+		color: "info",
+	},
 ])
 
 const quickLinks = [
