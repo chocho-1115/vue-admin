@@ -15,7 +15,7 @@ const whiteList = ["/account/login", "/error/*"]
  * Route `meta` options:
  * - title:      menu and page title
  * - icon:       menu icon (SVG icon name or an Element Plus icon component)
- * - hidden:     hide from the sidebar when true. 
+ * - hidden:     hide from the sidebar when true.
  * - affix:      pin to the tags view when true
  * - alwaysShow: show the parent menu group when it has only one visible child.
  *               When false / unset, the route is "flattened" to show that child.

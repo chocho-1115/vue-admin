@@ -10,7 +10,9 @@ export function hasPerm(code, { mode = "any" } = {}) {
 	if (!code) return true
 	const list = Array.isArray(code) ? code : [code]
 	const permissions = session.permission.get().permissions
-	return mode === "all" ? list.every((p) => permissions.includes(p)) : list.some((p) => permissions.includes(p))
+	return mode === "all"
+		? list.every((p) => permissions.includes(p))
+		: list.some((p) => permissions.includes(p))
 }
 
 /**

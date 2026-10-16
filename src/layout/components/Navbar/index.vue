@@ -126,7 +126,6 @@ const toggleSidebar = () => {
 const toggleTheme = () => {
 	dispatch.theme.toggle()
 }
-
 </script>
 
 <style lang="scss" scoped>
