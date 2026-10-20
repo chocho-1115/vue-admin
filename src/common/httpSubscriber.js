@@ -37,9 +37,12 @@ export function initHttpSubscriber() {
 	})
 
 	EventBus.on("request:error", (errorInfo) => {
-		console.log("Unified error log reporting:", errorInfo)
+		if (import.meta.env.DEV) {
+			console.log("Unified error log reporting:", errorInfo)
+		}
+		const msg = errorInfo?.message || errorInfo?.res?.msg
 		ElMessage({
-			message: errorInfo.message || "Error",
+			message: msg || "Error",
 			type: "error",
 			duration: 5 * 1000,
 		})
