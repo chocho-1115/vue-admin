@@ -35,7 +35,7 @@
 import { inject } from "vue"
 import { useRouter } from "vue-router"
 
-import { logout } from "@/common/logout"
+import { logout as localLogout } from "@/common/logout"
 import { logout as apiLogout } from "@/api/login"
 
 const router = useRouter()
@@ -50,8 +50,8 @@ defineProps({
 const ctx = inject("context")
 
 const onLogout = async () => {
-	apiLogout().finally(() => {
-		logout()
+	apiLogout().then(() => {
+		localLogout()
 	})
 }
 
