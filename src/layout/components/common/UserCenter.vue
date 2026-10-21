@@ -33,13 +33,12 @@
 
 <script setup>
 import { inject } from "vue"
-import { useRouter, useRoute } from "vue-router"
+import { useRouter } from "vue-router"
 
-import { logout } from "@/api/login"
-import { dispatch, session } from "@/store"
+import { logout } from "@/common/logout"
+import { logout as apiLogout } from "@/api/login"
 
 const router = useRouter()
-const route = useRoute()
 
 defineProps({
 	size: {
@@ -49,15 +48,10 @@ defineProps({
 })
 
 const ctx = inject("context")
-const redirect = route.fullPath || "/"
 
 const onLogout = async () => {
-	logout().then(() => {
-		session.token.clear()
-		session.token.removeStorage()
-		session.permission.clear()
-		dispatch.user.removeInfo()
-		router.push(`/account/login?redirect=${redirect}`)
+	apiLogout().then(() => {
+		logout()
 	})
 }
 
