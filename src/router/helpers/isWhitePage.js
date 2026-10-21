@@ -23,8 +23,8 @@ const whitePageRegs = whiteList.map(globToRegExp)
 
 const isWhitePage = (path) => {
 	const router = getRouter()
-	const route = router.currentRoute.value.path
-	return whitePageRegs.some((re) => re.test(normalizePath(path || route.path)))
+	const currentPath = router.currentRoute.value.path
+	return whitePageRegs.some((re) => re.test(normalizePath(path || currentPath)))
 }
 
 // console.log(isWhitePage('/test/404'))
