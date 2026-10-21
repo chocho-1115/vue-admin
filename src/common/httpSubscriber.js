@@ -1,6 +1,4 @@
-import { dispatch, session } from "@/store"
-import { isWhitePage, goLogin } from "@/router/helpers"
-
+import { logout } from "@/common/logout"
 import { EventBus } from "@/core/eventBus"
 
 // to re-login
@@ -17,23 +15,11 @@ import { EventBus } from "@/core/eventBus"
 export function initHttpSubscriber() {
 	// unauthorized (no token / invalid token)
 	EventBus.on("auth:unauthorized", () => {
-		session.token.clear()
-		session.token.removeStorage()
-		session.permission.clear()
-		dispatch.user.removeInfo()
-		if (!isWhitePage()) {
-			goLogin()
-		}
+		logout()
 	})
 	// expired
 	EventBus.on("auth:expired", () => {
-		session.token.clear()
-		session.token.removeStorage()
-		session.permission.clear()
-		dispatch.user.removeInfo()
-		if (!isWhitePage()) {
-			goLogin()
-		}
+		logout()
 	})
 
 	EventBus.on("request:error", (errorInfo) => {
