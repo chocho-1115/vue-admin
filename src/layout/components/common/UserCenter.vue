@@ -50,7 +50,7 @@ defineProps({
 const ctx = inject("context")
 
 const onLogout = async () => {
-	apiLogout().then(() => {
+	apiLogout().finally(() => {
 		logout()
 	})
 }
