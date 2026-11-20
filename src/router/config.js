@@ -1,6 +1,6 @@
 import {
-	createWebHistory,
-	// createWebHashHistory
+	// createWebHistory,
+	createWebHashHistory
 } from "vue-router"
 import { Brush, Discount } from "@element-plus/icons-vue"
 
@@ -25,7 +25,7 @@ const whiteList = ["/account/login", "/error/*"]
  */
 
 const config = {
-	history: createWebHistory(import.meta.env.VITE_BASE_URL),
+	history: createWebHashHistory(import.meta.env.VITE_BASE_URL),
 	routes: [
 		{
 			path: "/account/login",
