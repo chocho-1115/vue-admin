@@ -4,19 +4,8 @@ import {
 	removeToken as removeStorage,
 } from "../storage"
 
-let token = ""
-
 export default {
 	getStorage,
 	setStorage,
 	removeStorage,
-	get() {
-		return token
-	},
-	set(value) {
-		token = value
-	},
-	clear() {
-		token = ""
-	},
 }

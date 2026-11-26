@@ -8,6 +8,7 @@ import theme from "./theme"
 
 export default reactive({
 	device: getDevice(),
+	loggedIn: false,
 	userInfo,
 	sidebar,
 	tagsView,
