@@ -1,8 +1,8 @@
-import { dispatch, session } from "@/store"
+import { ctx, dispatch, session } from "@/store"
 import { isWhitePage, goLogin } from "@/router/helpers"
 
 export const logout = () => {
-	session.token.clear()
+	ctx.loggedIn = false
 	session.token.removeStorage()
 	session.permission.clear()
 	dispatch.user.removeInfo()
